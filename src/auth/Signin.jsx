@@ -30,3 +30,38 @@ function SignIn() {
             setErrors(err.response?.data || {});
         }
     };
+
+    return (
+        <div>
+            <h1>Sign into your account</h1>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="username">
+                    <Form.Label>Username:</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter your username"
+                        name="username"
+                        value={signInData.username}
+                        onChange={handleChange}
+                    />
+                </Form.Group>
+                <Form.Group controlId="password">
+                    <Form.Label>Password:</Form.Label>
+                    <Form.Control
+                        type="password"
+                        placeholder="Password"
+                        name="password"
+                        value={signInData.password}
+                        onChange={handleChange}
+                    />
+                </Form.Group>
+
+                <Button type="submit">
+                    SignIn
+                </Button>
+            </Form>
+        </div>
+    );
+}
+
+export default SignIn;
