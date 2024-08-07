@@ -55,6 +55,7 @@ function SignIn() {
                         onChange={handleChange}
                     />
                 </Form.Group>
+                </Form>
 
                 <Button type="submit">
                     SignIn

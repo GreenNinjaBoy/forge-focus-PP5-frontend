@@ -12,6 +12,22 @@ const Signup = () => {
         password1: '',
         password2:""
     });
+
+const { username, email, password1, password2 } = signUpData;
+
+const navigate = useNavigate();
+
+const {errors, setErrors} = useState({});
+
+const handleChange = (event) => {
+    setSignUpData({
+        ...signUpData,
+        [event.target.name]: event.target.value,
+    });
+};
+
+
 }
+
 
 
