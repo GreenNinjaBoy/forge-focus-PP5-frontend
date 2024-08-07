@@ -26,6 +26,16 @@ const handleChange = (event) => {
     });
 };
 
+const handleSubmit = async (event) =>  {
+    event.preventDefault();
+    try {
+        await axios.post('/dj-rest-auth/registration/', signupData);
+        navigate.push('/signin');
+    } catch(err){
+        setErrors(err.response?data || {});
+    }
+}
+
 
 }
 
