@@ -1,11 +1,29 @@
-import React from "react";
+import React { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useCurrentUser, useSetCurrentUser } from '../pages/contexts/CurrentUserContext';
 import axios from "axios";
 import { removeTokenTimestamp } from "../pages/utils/Utils";
 import { Navbar, Nav, Container, NavDropdown,Form, Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
 
 const MainNavbar = () => {
+
+    const UserNavLink = () => {
+        
+        const [user, setUser] = useState(null);
+
+        useEffect(() => {
+            const fetchUserData = async () => {
+                try {
+                    const response = await axios.get(`/user/`);
+                    setUser(response.data);
+                } catch (error) {
+                    console.error('Error fetching user data:', error)
+                }
+            };
+            fetchUserData();
+        }, []);
+    }
 
     // const currentUser = useCurrentUser();
     // const setCurrentUser = useSetCurrentUser();
@@ -27,7 +45,7 @@ const MainNavbar = () => {
     // );
 
     return (
-        <Navbar expand="lg" className="bg-body-tertiary">
+        <Navbar expand="lg" fixed="top" className="bg-body-tertiary">
           <Container fluid>
             <Navbar.Brand href="#">Forge Focus</Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarScroll" />
@@ -37,7 +55,7 @@ const MainNavbar = () => {
                 style={{ maxHeight: '100px' }}
                 navbarScroll
               >
-                <Nav.Link href="#action1">Home</Nav.Link>
+                <Nav.Link href="#action1">{user ? `Welcome, ${user.name}` : 'Home'}</Nav.Link>
                 <Nav.Link href="#action2">Link</Nav.Link>
                 <NavDropdown title="Link" id="navbarScrollingDropdown">
                   <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
