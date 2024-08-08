@@ -1,14 +1,11 @@
-import React { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useCurrentUser, useSetCurrentUser } from '../pages/contexts/CurrentUserContext';
 import axios from "axios";
 import { removeTokenTimestamp } from "../pages/utils/Utils";
-import { Navbar, Nav, Container, NavDropdown,Form, Button } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { Navbar, Nav, Container, Form, Button } from "react-bootstrap";
 
 const MainNavbar = () => {
-
-    const UserNavLink = () => {
         
         const [user, setUser] = useState(null);
 
@@ -23,26 +20,42 @@ const MainNavbar = () => {
             };
             fetchUserData();
         }, []);
+
+    const currentUser = useCurrentUser();
+    const setCurrentUser = useSetCurrentUser();
+
+    const handleSignout = async () => {
+        try {
+            await axios.post(`dj-rest-auth/logout/`);
+            setCurrentUser(null);
+            removeTokenTimestamp();
+        } catch(err) {
+            console.log(err)
+        }
     }
 
-    // const currentUser = useCurrentUser();
-    // const setCurrentUser = useSetCurrentUser();
+    const loggedOutLinks = (
+        <>
+        <NavLink to="/Signup">SignUp</NavLink>
+        <NavLink to="/Signin">SignIn</NavLink>
+        </>
+    );
 
-    // const handleSignout = async () => {
-    //     try {
-    //         await axios.post(`dj-rest-auth/logout/`);
-    //         removeTokenTimestamp();
-    //     } catch(err) {
-    //         consolr.log(err)
-    //     }
-    // }
-
-    // const loggedOutLinks = (
-    //     <>
-    //     <NavLink to="/Signup">SignUp</NavLink>
-    //     <NavLink to="/Signin">SignIn</NavLink>
-    //     </>
-    // );
+    const LoggedInLinks = (
+        <>
+        <Nav.Link href="#action1">{user ? `Welcome, ${user.name}` : 'Home'}</Nav.Link>
+        <Nav.Link onClick={handleSignout} to="/">Sign Out</Nav.Link>
+        <Form className="d-flex">
+                <Form.Control
+                  type="search"
+                  placeholder="Search Goals"
+                  className="me-2"
+                  aria-label="Search"
+                />
+                <Button variant="outline-success">Search</Button>
+              </Form>
+        </>
+    )
 
     return (
         <Navbar expand="lg" fixed="top" className="bg-body-tertiary">
@@ -55,31 +68,8 @@ const MainNavbar = () => {
                 style={{ maxHeight: '100px' }}
                 navbarScroll
               >
-                <Nav.Link href="#action1">{user ? `Welcome, ${user.name}` : 'Home'}</Nav.Link>
-                <Nav.Link href="#action2">Link</Nav.Link>
-                <NavDropdown title="Link" id="navbarScrollingDropdown">
-                  <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action4">
-                    Another action
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action5">
-                    Something else here
-                  </NavDropdown.Item>
-                </NavDropdown>
-                <Nav.Link href="#" disabled>
-                  Link
-                </Nav.Link>
+                {currentUser ? (LoggedInLinks) : (loggedOutLinks)}
               </Nav>
-              <Form className="d-flex">
-                <Form.Control
-                  type="search"
-                  placeholder="Search"
-                  className="me-2"
-                  aria-label="Search"
-                />
-                <Button variant="outline-success">Search</Button>
-              </Form>
             </Navbar.Collapse>
           </Container>
         </Navbar>
