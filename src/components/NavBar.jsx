@@ -19,5 +19,12 @@ const Navbar = () => {
         }
     }
 
+    const loggedOutLinks = (
+        <>
+        <NavLink to="/Signup">SignUp</NavLink>
+        <NavLink to="/Signin">SignIn</NavLink>
+        </>
+    );
+
     
 }
