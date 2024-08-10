@@ -30,7 +30,23 @@ export const GoalsArea = ( {id} ) => {
 
   return (
     <div>
-        {}
+        {hasLoaded ? (
+            Array.isArray(goalsData) ? (
+                goalsData.map((goal) => (
+                    <div key={goal.id}>
+                        <h1>{goal.name}</h1>
+                        <p>{goal.reason}</p>
+                        <img src={goal.image} alt={goal.name}/>
+                    </div> 
+                ))
+            ) : (
+                <p>No Goals data Available</p>
+            )
+        ) : (
+            <p>Loading Goals Data....</p>
+        )}
     </div>
-  )
+  );
 }
+
+export default GoalsArea
