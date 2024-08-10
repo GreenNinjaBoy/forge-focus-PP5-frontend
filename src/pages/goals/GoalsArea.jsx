@@ -1,52 +1,47 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
 
-
-export const GoalsArea = ( {id} ) => {
-
+const GoalsArea = ({ id }) => {
     const [goalsData, setGoalsData] = useState({
-        name:"",
-        reason:"",
-        image:"",
+        name: "",
+        reason: "",
+        image: "",
     });
 
     const [hasLoaded, setHasLoaded] = useState(false);
 
-    useEffect(()  => {
+    useEffect(() => {
         const fetchGoals = async () => {
             try {
-                const { data } = await axiosReq.get(`/goals`);
-                const { name, reason, image } = data;
-                setGoalsData({ name, reason, image });
+                const { data } = await axiosReq.get(`/goals/`);
+                console.log("Fetched data successfully:", data); // Debugging line
+                if (data.results && data.results.length > 0) {
+                    const { name, reason, image } = data.results[0];
+                    setGoalsData({ name, reason, image });
+                }
                 setHasLoaded(true);
             } catch (error) {
-                console.log("failed to fetch user goals", error);
+                console.error("Failed to fetch goals", error);
+                // Handle the error appropriately
             }
         };
 
         fetchGoals();
-    }, [id])
+    }, [id]);
 
-
-  return (
-    <div>
-        {hasLoaded ? (
-            Array.isArray(goalsData) ? (
-                goalsData.map((goal) => (
-                    <div key={goal.id}>
-                        <h1>{goal.name}</h1>
-                        <p>{goal.reason}</p>
-                        <img src={goal.image} alt={goal.name}/>
-                    </div> 
-                ))
+    return (
+        <div>
+            {hasLoaded ? (
+                <div>
+                    <h1>{goalsData.name}</h1>
+                    <p>{goalsData.reason}</p>
+                    <img src={goalsData.image} alt={goalsData.name} />
+                </div>
             ) : (
-                <p>No Goals data Available</p>
-            )
-        ) : (
-            <p>Loading Goals Data....</p>
-        )}
-    </div>
-  );
-}
+                <p>Loading Goals Data....</p>
+            )}
+        </div>
+    );
+};
 
-export default GoalsArea
+export default GoalsArea;
