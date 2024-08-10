@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
 
 const GoalsArea = ({ id }) => {
-    const [goalsData, setGoalsData] = useState({
-        name: "",
-        reason: "",
-        image: "",
-    });
-
+    const [goalsData, setGoalsData] = useState([]);
     const [hasLoaded, setHasLoaded] = useState(false);
 
     useEffect(() => {
@@ -16,8 +11,7 @@ const GoalsArea = ({ id }) => {
                 const { data } = await axiosReq.get(`/goals/`);
                 console.log("Fetched data successfully:", data); // Debugging line
                 if (data.results && data.results.length > 0) {
-                    const { name, reason, image } = data.results[0];
-                    setGoalsData({ name, reason, image });
+                    setGoalsData(data.results);
                 }
                 setHasLoaded(true);
             } catch (error) {
@@ -32,11 +26,13 @@ const GoalsArea = ({ id }) => {
     return (
         <div>
             {hasLoaded ? (
-                <div>
-                    <h1>{goalsData.name}</h1>
-                    <p>{goalsData.reason}</p>
-                    <img src={goalsData.image} alt={goalsData.name} />
-                </div>
+                goalsData.map((goal) => (
+                    <div key={goal.id}>
+                        <h1>{goal.name}</h1>
+                        <p>{goal.reason}</p>
+                        <img src={goal.image} alt={goal.name} />
+                    </div>
+                ))
             ) : (
                 <p>Loading Goals Data....</p>
             )}
