@@ -1,12 +1,12 @@
 import './App.css';
-import About from './pages/About';
+import GoalsArea from './pages/goals/GoalsArea';
 import MainNavBar from './components/NavBar';
 
 function App() {
   return (
     <div className="App">
       <MainNavBar />
-     <About />
+     <GoalsArea />
     </div>
   );
 }
