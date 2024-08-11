@@ -23,7 +23,13 @@ function SignIn() {
         try {
             const { data } = await axios.post(`/dj-rest-auth/login/`, signInData);
             setCurrentUser(data.user);
-            setTokenTimestamp(data);
+            const accessToken = data.access_token; // Extract access token
+            if (accessToken) {
+                localStorage.setItem('accessToken', accessToken);
+                setTokenTimestamp(accessToken); // Pass the token to setTokenTimestamp
+            } else {
+                console.error('Access token is missing in the response');
+            }
             navigate('/goals'); // Corrected navigation
         } catch (err) {
             console.log(err);

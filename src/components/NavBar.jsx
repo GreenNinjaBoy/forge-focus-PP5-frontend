@@ -59,7 +59,7 @@ const MainNavbar = () => {
   return (
     <Navbar expand="lg" fixed="top" className="bg-body-tertiary">
       <Container fluid>
-        <Navbar.Brand href="#">Forge Focus</Navbar.Brand>
+        <Navbar.Brand href="/">Forge Focus</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
