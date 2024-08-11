@@ -11,6 +11,12 @@ import GoalsArea from './pages/goals/GoalsArea';
 import MainNavBar from './components/NavBar';
 
 function App() {
+
+  const currentUser = useCurrentUser();
+  const [authenticatedUser, setAuthenticatedUser] = useState(false);
+  const [tokensChecked, setTokensChecked] = useState(false);
+
+  
   return (
     <div className="App">
       <MainNavBar />
