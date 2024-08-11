@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Signup = () => {
+const SignUp = () => {
     const [signupData, setSignUpData] = useState({
         username: '',
         email: '',
@@ -90,4 +90,4 @@ const Signup = () => {
     );
 };
 
-export default Signup;
+export default SignUp;

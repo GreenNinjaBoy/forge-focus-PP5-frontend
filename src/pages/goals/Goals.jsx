@@ -10,7 +10,7 @@ const Goals = () => {
         <div>
             {currentUser ? (
                 <>
-                <div>{currentUser.username}'s Goals</div>
+                <div>{currentUser.username} Goals</div>
                 </>
             ) : (
                 <div>

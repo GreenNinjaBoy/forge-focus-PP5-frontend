@@ -13,3 +13,5 @@ const Home = () => {
         Ready To Forge?</Link></>
     )
 }
+
+export default Home

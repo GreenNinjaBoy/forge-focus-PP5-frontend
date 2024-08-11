@@ -1,15 +1,15 @@
-import React, {useState} from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {Form, Button} from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import axios from "axios";
-import { useSetCurrentUser } from "../contexts/CurrentUserContext"
+import { useSetCurrentUser } from "../contexts/CurrentUserContext";
 import { setTokenTimestamp } from "../utils/Utils";
 
 function SignIn() {
     const navigate = useNavigate();
     const setCurrentUser = useSetCurrentUser();
     const [signInData, setSignInData] = useState({ username: '', password: '' });
-    const [errors,setErrors] = useState({});
+    const [error, setErrors] = useState({});
 
     const handleChange = (event) => {
         setSignInData({
@@ -24,7 +24,7 @@ function SignIn() {
             const { data } = await axios.post(`/dj-rest-auth/login/`, signInData);
             setCurrentUser(data.user);
             setTokenTimestamp(data);
-            navigate.push('/goals');
+            navigate('/goals'); // Corrected navigation
         } catch (err) {
             console.log(err);
             setErrors(err.response?.data || {});
@@ -55,8 +55,6 @@ function SignIn() {
                         onChange={handleChange}
                     />
                 </Form.Group>
-                </Form>
-
                 <Button type="submit">
                     SignIn
                 </Button>

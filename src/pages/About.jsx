@@ -8,8 +8,8 @@ const About = () => {
     return (
         <div>
             <h1>WELCOME TO FORGE FOCUS</h1>
-            <Button onClick={() => navigate('/auth/Signin')}>Sign In</Button>
-            <Button onClick={() => navigate('/auth/Signup')}>Sign Up</Button>
+            <Button onClick={() => navigate('/Signin')}>Sign In</Button>
+            <Button onClick={() => navigate('/Signup')}>Sign Up</Button>
         </div>
     );
 }
