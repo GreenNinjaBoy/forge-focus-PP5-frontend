@@ -16,6 +16,19 @@ function App() {
   const [authenticatedUser, setAuthenticatedUser] = useState(false);
   const [tokensChecked, setTokensChecked] = useState(false);
 
+  useEffect(() => {
+    const checkTokens = () => {
+      const refreshTokenTimeStamp = localStorage.getItem('refreshTokenTimeStamp');
+      if (refreshTokenTimeStamp) {
+        setAuthenticatedUser(true);
+      } else {
+        setAuthenticatedUser(false);
+      }
+      setTokensChecked(true);
+    };
+    checkTokens();
+  }, [currentUser]);
+
   
   return (
     <div className="App">
