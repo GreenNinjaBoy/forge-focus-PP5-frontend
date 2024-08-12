@@ -1,12 +1,9 @@
-/* this code snippit was copied from the
-'Moments' walkthroguh project */
-
+// The code in this file was copied from the 'Moments' walkthrough project.
 import { jwtDecode } from "jwt-decode";
 
 export const setTokenTimestamp = (data) => {
-    const refreshTokenTimeStamp = jwtDecode(data?.refresh_token).exp;
-    console.log("Refresh token timestamp: ", refreshTokenTimeStamp);
-    localStorage.setItem("refreshTokenTimestamp", refreshTokenTimeStamp)
+    const refreshTokenTimestamp = jwtDecode(data?.refresh_token).exp
+    localStorage.setItem("refreshTokenTimestamp", refreshTokenTimestamp)
 };
 
 export const shouldRefreshToken = () => {
@@ -14,5 +11,5 @@ export const shouldRefreshToken = () => {
 };
 
 export const removeTokenTimestamp = () => {
-    localStorage.removeItem('refreshTokenTimeStamp')
+    localStorage.removeItem('refreshTokenTimestamp')
 };

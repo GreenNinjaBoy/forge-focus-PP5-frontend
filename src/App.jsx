@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate, BrowserRouter } from 'react-router-dom';
 import './api/axiosDefaults';
 import Home from './pages/Home';
 import About from './pages/About';
 import SignUp from './pages/auth/Signup';
-import SignIn from './pages/auth/Signin'
+import SignIn from './pages/auth/Signin';
 import { useCurrentUser } from './pages/contexts/CurrentUserContext';
 import './App.css';
 import GoalsArea from './pages/goals/GoalsArea';
@@ -33,6 +33,7 @@ function App() {
       <MainNavBar />
       <div>
         {tokensChecked ? (
+          <BrowserRouter>
           <Routes>
             <Route path="/" element={<About />} />
             <Route path="/signup" element={<SignUp />} />
@@ -41,6 +42,7 @@ function App() {
             <Route path="/goals" element={authenticatedUser ? <GoalsArea /> : <Navigate to="/signin" />} />
             {/* <Route path="*" element={<NotFound />} /> */}
           </Routes>
+          </BrowserRouter>
         ) : (
           <div>
             Just checking authentication status ....
