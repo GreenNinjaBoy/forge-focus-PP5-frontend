@@ -7,3 +7,11 @@
 Forge Focus is a task management application that allows users to creatre, manage and orgasnise goals that they wish to acieve.
 These goals can be everyday goals, or more spesific to a certain apect of the users live.
 
+## Contents
+
+- [Design](#Design)
+    - [The Strategy Plane](#The-Strategy-Plane)
+    - [The Scope Plane](#The-Scope-Plane)
+    - [The Skeleton Plane](#The-Design-Plane)
+    - [The Surface Plane](#The-Surface-Plane)
+    - [Agile Methodology](#Agile-Methodology)
