@@ -84,6 +84,57 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
 
 # Bugs/fixes
 
+The bugs below were identified during the development of The Forge Focus application.
+For ease of reading I have attempted to split the bugs into their associated features.
+
+### HomePage
+<details>
+<summary>Click Arrow to see bugs related to HomePage</summary>
+| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
+</details>
+
+### NavBar
+<details>
+<summary>Click Arrow to see bugs related to NavBar</summary>
+| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
+</details>
+
+### User Authentication
+<details>
+<summary>Click Arrow to see bugs related to User Authentication</summary>
+| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
+</details>
+
+### Signup Page
+<details>
+<summary>Click Arrow to see bugs related to SignUp Page</summary>
+| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
+</details>
+
+### Signin Page
+<summary>Click Arrow to see bugs related to SignIn Page</summary>
+| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
+
+### Goals
+<summary>Click Arrow to see bugs related to Goals</summary>
+| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
+
+### Steps
+<summary>Click Arrow to see bugs related to Steps</summary>
+| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
+
+### User Messages
+<summary>Click Arrow to see bugs related to User Messages</summary>
+| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
+
+### Search Goals
+<summary>Click Arrow to see bugs related to Search Goals</summary>
+| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
+
+### Contact Form
+<summary>Click Arrow to see bugs related to Contact Form</summary>
+| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
+
 # Creating/Deployment
 ## Create Repository
 ## Cloning Repository
