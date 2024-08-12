@@ -2,5 +2,8 @@
 ## Created By Jamie Connell 
 ## Student of CodeInstitute 2024
 
+### Insert Responsivie image when ready
 
-This is a task management app designed to aid users is setrtign goals and achieving these goals.
+Forge Focus is a task management application that allows users to creatre, manage and orgasnise goals that they wish to acieve.
+These goals can be everyday goals, or more spesific to a certain apect of the users live.
+
