@@ -22,3 +22,12 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
     - [Signup](#Signup)
     - [Login](#Login)
     - [Logout](#Logout)
+    - [Goals](#Goals)
+    - [Steps](#Steps)
+    - [Contact Form](#Contact-Form)
+    - [Search Goals](#Search-Goals)
+- [Future Features](#Future-Features)
+    - [Edit/Delete User Profiles](#Edit/Delete-User-Profiles)
+    - [Improved Navigation](#Improved-Navigation)
+    - [Rank Goals](#Rank-Goals)
+
