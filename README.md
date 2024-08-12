@@ -24,6 +24,7 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
     - [Logout](#Logout)
     - [Goals](#Goals)
     - [Steps](#Steps)
+    - [User Messages](#User-Messages)
     - [Contact Form](#Contact-Form)
     - [Search Goals](#Search-Goals)
 - [Future Features](#Future-Features)
@@ -61,4 +62,28 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
 ## The Surface Plane
 
 ## Agile Methodology
+
+
+# Features
+
+## HomePage
+
+## NavBar
+
+## User Authentication
+
+## Signup Page
+
+## Signin Page
+
+## Goals
+
+## Steps
+
+## User Messages
+
+## Search Goals
+
+## Contact Form
+
 
