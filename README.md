@@ -48,6 +48,17 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
     - [Code](#Code)
 - [Acknowledgements](#Acknowledgements)
 
+# Design
 
+## The Strategy Plane
 
+## The Scope Plane
+
+## The Structure Plane
+
+## The Skeleton Plane
+
+## The Surface Plane
+
+## Agile Methodology
 
