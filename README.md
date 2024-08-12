@@ -50,40 +50,51 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
 - [Acknowledgements](#Acknowledgements)
 
 # Design
-
 ## The Strategy Plane
-
 ## The Scope Plane
-
 ## The Structure Plane
-
 ## The Skeleton Plane
-
 ## The Surface Plane
-
 ## Agile Methodology
 
-
 # Features
-
 ## HomePage
-
 ## NavBar
-
 ## User Authentication
-
 ## Signup Page
-
 ## Signin Page
-
 ## Goals
-
 ## Steps
-
 ## User Messages
-
 ## Search Goals
-
 ## Contact Form
 
+# Future Features
+## Edit/Delete User Profiles
+## Improved Navigation
+## Rank Goals
 
+# Languages Used
+
+# FrameWorks and Libraries Used
+
+# Technologies and Tools Used
+
+# Validation and Testing
+
+# Bugs/fixes
+
+# Creating/Deployment
+## Create Repository
+## Cloning Repository
+## Forking Repository
+## Connecting to backend API
+## CodeInstitute SQL
+## Deploying Using Heroku
+## Creating Django backend API
+
+# Credits
+## Content
+## Code
+
+# Acknowledgements
