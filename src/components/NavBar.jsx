@@ -7,6 +7,8 @@ import { Navbar, Nav, Container, Form, Button } from "react-bootstrap";
 
 const MainNavbar = () => {
   const [user, setUser] = useState(null);
+  const currentUser = useCurrentUser();
+  const setCurrentUser = useSetCurrentUser();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -17,11 +19,11 @@ const MainNavbar = () => {
         console.error('Error fetching user data:', error);
       }
     };
-    fetchUserData();
-  }, []);
 
-  const currentUser = useCurrentUser();
-  const setCurrentUser = useSetCurrentUser();
+    if (currentUser) {
+      fetchUserData();
+    }
+  }, [currentUser]);
 
   const handleSignout = async () => {
     try {

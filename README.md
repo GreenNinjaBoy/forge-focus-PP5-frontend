@@ -97,6 +97,7 @@ For ease of reading I have attempted to split the bugs into their associated fea
 <details>
 <summary>Click Arrow to see bugs related to NavBar</summary>
 | Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
+| NavBar attempting to fetch user data without usersigned in | current error code displayed on developer console - GET 403 (Forbidden) | I was able to fix the issue as i noticed that i did not make sure that the "FetchUserData" function was only called when the "currentUser" was not null. By making this change the error/bug was resolved | bug now fixed |
 </details>
 
 ### User Authentication
@@ -109,11 +110,14 @@ For ease of reading I have attempted to split the bugs into their associated fea
 <details>
 <summary>Click Arrow to see bugs related to SignUp Page</summary>
 | Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
+|--|--|--|--|
+| When attempting to signup as a user, a 500 internal error would display in the console but when API Checked within backend the user has been created. | 500 (Internal Server Error) handleSubmit@ Signup.jsx:30  |  currently Still Working on the bug | Bug is not Fixed
 </details>
 
 ### Signin Page
 <summary>Click Arrow to see bugs related to SignIn Page</summary>
 | Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
+| When attempting to sign in, the developer console displayed an error and the page did not redirect as intended, however when refreshed showed user as logged in | Access token is missing in the response | Still attempting to fix | bug not fixed |
 
 ### Goals
 <summary>Click Arrow to see bugs related to Goals</summary>

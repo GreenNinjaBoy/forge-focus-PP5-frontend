@@ -1,7 +1,6 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { axiosReq, axiosRes } from "../../api/axiosDefaults"
-//import { useHistory } from "react-router-dom";
+import { axiosReq, axiosRes } from "../../api/axiosDefaults";
 import { removeTokenTimestamp, shouldRefreshToken } from "../utils/Utils";
 
 export const CurrentUserContext = createContext();
@@ -12,14 +11,15 @@ export const useSetCurrentUser = () => useContext(SetCurrentUserContext);
 
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  //const history = useHistory();
 
   const handleMount = async () => {
-    try {
-      const { data } = await axiosRes.get("dj-rest-auth/user/");
-      setCurrentUser(data);
-    } catch (err) {
-      // console.log(err);
+    if (shouldRefreshToken()) {
+      try {
+        const { data } = await axiosRes.get("dj-rest-auth/user/");
+        setCurrentUser(data);
+      } catch (err) {
+        console.error('Error fetching user data on mount:', err);
+      }
     }
   };
 
@@ -36,7 +36,7 @@ export const CurrentUserProvider = ({ children }) => {
           } catch (err) {
             setCurrentUser((prevCurrentUser) => {
               if (prevCurrentUser) {
-                //history.push("/login");
+                // history.push("/login");
               }
               return null;
             });
@@ -60,7 +60,7 @@ export const CurrentUserProvider = ({ children }) => {
           } catch (err) {
             setCurrentUser((prevCurrentUser) => {
               if (prevCurrentUser) {
-                //history.push("/login");
+                // history.push("/login");
               }
               return null;
             });
@@ -71,7 +71,7 @@ export const CurrentUserProvider = ({ children }) => {
         return Promise.reject(err);
       }
     );
-  },);
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
