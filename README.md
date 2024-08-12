@@ -30,4 +30,24 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
     - [Edit/Delete User Profiles](#Edit/Delete-User-Profiles)
     - [Improved Navigation](#Improved-Navigation)
     - [Rank Goals](#Rank-Goals)
+- [Languages Used](#Languages-Used)
+- [FrameWorks and Libraries Used](#Frameworks-and-Libraries-Used)
+- [Technologies and Tools Used](#Technologies-and-tools-used)
+- [Validation and Testing](#Validation-and-Testing)
+- [Bugs/fixes](#Bugs/fixes)
+- [Creating/Deployment](#Creating/Deployment)
+    - [Create Repository](#Create-Repository)
+    - [Cloning Repository](#Cloning-Repository)
+    - [Forking Repository](#Forking-Repositiry)
+    - [Connecting to backend API](#Connecting-to-backend-API)
+    - [CodeInstitute SQL](#CodeInstitute-SQL)
+    - [Deploying Using Heroku](#Deploying-Using-Heroku)
+    - [Creating Django backend API](#Creating-Django-Backend-API)
+- [Credits](#Credits)
+    - [Content](#Content)
+    - [Code](#Code)
+- [Acknowledgements](#Acknowledgements)
+
+
+
 
