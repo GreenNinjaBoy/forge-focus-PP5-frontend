@@ -7,7 +7,7 @@ import { axiosReq } from "../../api/axiosDefaults";
 
 const GoalsCreate = () => {
 
-    const [goalsData, setGoalData] = useState ({
+    const [goalsData, setGoalsData] = useState ({
         name:'',
         reason:'',
         image:'',
@@ -24,6 +24,13 @@ const GoalsCreate = () => {
     const {name, reason, image} = goalsData;
 
     const imageInput = useRef(null);
+
+    const handleChange = (event) => {
+        setGoalsData({
+            ...goalsData,
+            [event.target.name]: event.target.value,
+        });
+    };
 
     
 
