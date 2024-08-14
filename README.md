@@ -122,6 +122,7 @@ For ease of reading I have attempted to split the bugs into their associated fea
 ### Goals
 <summary>Click Arrow to see bugs related to Goals</summary>
 | Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
+| When creating new goals console retunrs CORS Error | has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. | Will have to do a bit more research into CORS to try resolve the issue | Bug to be fixed |
 
 ### Steps
 <summary>Click Arrow to see bugs related to Steps</summary>
