@@ -32,6 +32,16 @@ const GoalsCreate = () => {
         });
     };
 
+    const handleChangeImage = (event) => {
+        if (event.target.files.length > 0){
+            URL.revokeObjectURL(image);
+            setGoalsData({
+                ...goalsData,
+                image: URL.createObjectURL(event.target.files[0])
+            });
+        }
+    };
+
     
 
 
