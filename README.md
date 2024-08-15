@@ -98,6 +98,7 @@ For ease of reading I have attempted to split the bugs into their associated fea
 <summary>Click Arrow to see bugs related to NavBar</summary>
 | Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
 | NavBar attempting to fetch user data without usersigned in | current error code displayed on developer console - GET 403 (Forbidden) | I was able to fix the issue as i noticed that i did not make sure that the "FetchUserData" function was only called when the "currentUser" was not null. By making this change the error/bug was resolved | bug now fixed |
+|when user is signed in nav bar items do not change| nav items not change | to fill in| error to be fixed|
 </details>
 
 ### User Authentication
