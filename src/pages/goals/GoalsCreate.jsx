@@ -39,7 +39,7 @@ const GoalsCreate = () => {
     }
 
     try {
-      const { data } = await axiosReq.post('https://8000-greenninjab-forgefocusb-pqzs5ywqc6f.ws.codeinstitute-ide.net/goals/', formData);
+      const { data } = await axiosReq.post('/goals/', formData);
       navigate(`/goals/${data.id}`);
     } catch (err) {
       if (err.response?.status !== 401) {
