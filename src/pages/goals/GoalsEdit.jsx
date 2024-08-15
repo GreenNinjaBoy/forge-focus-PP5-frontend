@@ -42,7 +42,29 @@ const GoalsEdit = (props) => {
         }
     };
 
-    
+     const handleSubmit = async (event) => {
+        event.preventDefault();
+        const formData = new formData();
+        formData.append('name', newName)
+        formData.append('reason', newReason)
+        if (imageInput.current.files.lenght > 0) {
+            formData.append('image', imageInput.current.files [0]);
+        }
+        try {
+            const {data} = await axiosReq.put(`goals/${id}`, formData);
+            setGoalData(data);
+            setGoalState('view');
+        } catch(err){
+            if (err.response?.status !== 401){
+                setErrors(err.response?.data)
+            }
+        }
+     };
+
+     const handleCancel = () => {
+        setGoalState('view');
+     };
+     
   return (
     <div>GoalsEdit</div>
   )
