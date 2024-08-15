@@ -4,7 +4,16 @@ import { Button, Form, Image} from "react-bootstrap";
 
 
 
-const GoalsEdit = () => {
+const GoalsEdit = (props) => {
+    const {
+        id,
+        name,
+        reason,
+        setGoalState,
+        setGoalData,
+    } = props;
+
+    
   return (
     <div>GoalsEdit</div>
   )
