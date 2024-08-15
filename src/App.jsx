@@ -8,9 +8,10 @@ import './api/axiosDefaults';
 // import { useCurrentUser } from './pages/contexts/CurrentUserContext';
 import './App.css';
 // import GoalsArea from './pages/goals/GoalsArea';
-import GoalsDelete from './pages/goals/GoalsDelete';
+//import GoalsDelete from './pages/goals/GoalsDelete';
 import MainNavBar from './components/NavBar';
-import GoalsCreate from './pages/goals/GoalsCreate';
+// import GoalsCreate from './pages/goals/GoalsCreate';
+import GoalsEdit from './pages/goals/GoalsEdit';
 
 function App() {
   // const currentUser = useCurrentUser();
@@ -34,7 +35,8 @@ function App() {
     <div>
       <MainNavBar />
       {/* <GoalsCreate /> */}
-      <GoalsDelete />
+      {/* <GoalsDelete /> */}
+      <GoalsEdit />
     </div>
   );
 }

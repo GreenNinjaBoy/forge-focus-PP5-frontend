@@ -9,14 +9,15 @@ const GoalsEdit = (props) => {
         id,
         name,
         reason,
+        image,
         setGoalState,
         setGoalData,
     } = props;
 
     const [newData, setNewData] = useState({
-        newName: name;
-        newReason: reason;
-        newImage: image;     
+        newName: name,
+        newReason: reason,
+        newImage: image,     
     });
     
     const { newName, newReason, newImage} = newData;
@@ -64,10 +65,74 @@ const GoalsEdit = (props) => {
      const handleCancel = () => {
         setGoalState('view');
      };
-     
+
   return (
-    <div>GoalsEdit</div>
+    <Form onSubmit={handleSubmit}>
+      <div>
+
+        <Form.Group controlId="refine-new-image">
+          <Image src={newImage}  alt='refinement'/>
+          <Form.File
+            id="image-upload"
+            accept="image/*"
+            onChange={handleChangeImage}
+            ref={imageInput}
+            aria-label='Click to change goal image'
+          />
+        </Form.Group>
+        <div>
+          <div>
+
+            <div>
+              <div>
+              </div>
+              <Form.Group controlId="goal-new-name">
+                <Form.Label>Goal:</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Rename your Goal"
+                  name="newName"
+                  value={newName}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+            </div>
+
+            <div>
+              <div>
+              </div>
+              <Form.Group controlId="goal-new-reason">
+                <Form.Label> Reason:</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Why is this goal importantr to you"
+                  name="newWhy"
+                  value={newReason}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+            </div>
+          </div>
+      
+          <div>
+            <div>
+            </div>
+            <div>
+              <Button onClick={handleCancel}>
+                <div>
+                  Cancel
+                </div>
+              </Button>
+              <Button type="submit">
+                Save changes
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Form>
   )
 }
+
 
 export default GoalsEdit
