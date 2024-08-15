@@ -8,6 +8,7 @@ import './api/axiosDefaults';
 // import { useCurrentUser } from './pages/contexts/CurrentUserContext';
 import './App.css';
 // import GoalsArea from './pages/goals/GoalsArea';
+import GoalsDelete from './pages/goals/GoalsDelete';
 import MainNavBar from './components/NavBar';
 import GoalsCreate from './pages/goals/GoalsCreate';
 
@@ -32,7 +33,8 @@ function App() {
   return (
     <div>
       <MainNavBar />
-      <GoalsCreate />
+      {/* <GoalsCreate /> */}
+      <GoalsDelete />
     </div>
   );
 }
