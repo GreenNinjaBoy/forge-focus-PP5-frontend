@@ -6,13 +6,18 @@ import { useSetCurrentUser } from "../contexts/CurrentUserContext";
 import { setTokenTimestamp } from "../utils/Utils";
 
 function SignIn() {
+
   const setCurrentUser = useSetCurrentUser();
+
   const [signInData, setSignInData] = useState({
     username: '',
     password: ''
   });
 
+  const { username, password } = signInData;
+
   const navigate = useNavigate();
+
   const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
@@ -24,14 +29,16 @@ function SignIn() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log('Form submitted'); // Log form submission
     try {
       const { data } = await axios.post('/dj-rest-auth/login/', signInData);
-      console.log('Login response data:', data); // Log the data object
+      console.log('Login successful', data); // Log successful login
       setCurrentUser(data.user);
-      setTokenTimestamp(data.key); // Ensure the correct token is passed
+      setTokenTimestamp(data); // Ensure the correct token is passed
+      console.log('Navigating to /home');
       navigate('/home'); // Corrected navigation method
     } catch (err) {
-      console.error('Sign-in error:', err); // Log the error
+      console.log('Login error', err); // Log any errors
       setErrors(err.response?.data);
     }
   };
@@ -39,14 +46,14 @@ function SignIn() {
   return (
     <div>
       <h1>Sign into your account</h1>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} >
         <Form.Group controlId="username">
           <Form.Label>Username:</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter your username"
             name="username"
-            value={signInData.username}
+            value={username}
             onChange={handleChange}
           />
         </Form.Group>
@@ -56,15 +63,14 @@ function SignIn() {
             type="password"
             placeholder="Password"
             name="password"
-            value={signInData.password}
+            value={password}
             onChange={handleChange}
           />
         </Form.Group>
-        <Button type="submit">
+          <Button type="submit" onSubmit={handleSubmit}>
           SignIn
         </Button>
       </Form>
-      {errors && <div className="error">{JSON.stringify(errors)}</div>}
     </div>
   );
 }

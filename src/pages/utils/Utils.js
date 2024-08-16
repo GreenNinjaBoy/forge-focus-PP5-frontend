@@ -1,5 +1,5 @@
 // The code in this file was copied from the 'Moments' walkthrough project.
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 export const setTokenTimestamp = (data) => {
     const refreshTokenTimestamp = jwtDecode(data?.refresh_token).exp
