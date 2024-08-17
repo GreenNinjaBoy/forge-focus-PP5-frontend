@@ -45,7 +45,7 @@ const About = () => {
                     </Carousel.Item>
                 </Carousel>
                 <div>
-                    <h3>If you wish to be a member and start forging a path to achieve your goals please click the "Signup" button below</h3>
+                    <h3>If you wish to be a member and start forging a path to achieve your goals please click the 'Signup button below</h3>
                     <Button onClick={() => navigate('/Signup')}>Sign Up</Button>
                 </div>
             </div>
