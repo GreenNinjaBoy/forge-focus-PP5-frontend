@@ -16,6 +16,7 @@ export const CurrentUserProvider = ({ children }) => {
     if (shouldRefreshToken()) {
       try {
         const { data } = await axiosRes.get("dj-rest-auth/user/");
+        console.log("Fetched User Data:", data); // Debugging log
         setCurrentUser(data);
       } catch (err) {
         console.error('Error fetching user data on mount:', err);

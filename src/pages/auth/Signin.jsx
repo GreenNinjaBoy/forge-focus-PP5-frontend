@@ -34,7 +34,7 @@ function SignIn() {
       const { data } = await axios.post('/dj-rest-auth/login/', signInData);
       console.log('Login successful', data); // Log successful login
       setCurrentUser(data.user);
-      setTokenTimestamp(data); // Ensure the correct token is passed
+      setTokenTimestamp(data.key); // Ensure the correct token is passed
       console.log('Navigating to /home');
       navigate('/home'); // Corrected navigation method
     } catch (err) {

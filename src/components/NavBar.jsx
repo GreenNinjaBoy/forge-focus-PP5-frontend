@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useCurrentUser, useSetCurrentUser } from '../pages/contexts/CurrentUserContext';
 import { axiosReq } from "../api/axiosDefaults";
 import { removeTokenTimestamp } from "../pages/utils/Utils";
 import { Navbar, Nav, Container, Form, Button } from "react-bootstrap";
+import styles from '../styles/MainNavBar.module.css';
 
 const MainNavbar = () => {
-  const [user, setUser] = useState(null);
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
 
@@ -14,7 +14,7 @@ const MainNavbar = () => {
     const fetchUserData = async () => {
       try {
         const response = await axiosReq.get(`/dj-rest-auth/user/`);
-        setUser(response.data);
+        setCurrentUser(response.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -23,7 +23,7 @@ const MainNavbar = () => {
     if (currentUser) {
       fetchUserData();
     }
-  }, [currentUser]);
+  }, [currentUser, setCurrentUser]);
 
   const handleSignout = async () => {
     try {
@@ -35,17 +35,19 @@ const MainNavbar = () => {
     }
   };
 
+  console.log("Current User:", currentUser);
+
   const loggedOutLinks = (
-    <>
-      <NavLink to="/signup">Sign Up</NavLink>
-      <NavLink to="/signin">Sign In</NavLink>
-    </>
+    <div className="d-flex justify-content-between w-100">
+      <NavLink className={styles.Link} to="/signup">Sign Up</NavLink>
+      <NavLink className={styles.Link} to="/signin">Sign In</NavLink>
+    </div>
   );
 
   const loggedInLinks = (
-    <>
-      <Nav.Link href="#action1">{user ? `Welcome, ${user.username}` : 'Home'}</Nav.Link>
-      <Nav.Link onClick={handleSignout} to="/">Sign Out</Nav.Link>
+    <div className="d-flex justify-content-between w-100">
+      <Nav.Link className={styles.Link} href="#action1">{currentUser ? `Welcome, ${currentUser.username}` : 'Home'}</Nav.Link>
+      <Nav.Link className={styles.Link} onClick={handleSignout} to="/">Sign Out</Nav.Link>
       <Form className="d-flex">
         <Form.Control
           type="search"
@@ -55,17 +57,17 @@ const MainNavbar = () => {
         />
         <Button variant="outline-success">Search</Button>
       </Form>
-    </>
+    </div>
   );
 
   return (
-    <Navbar expand="lg" fixed="top" className="bg-body-tertiary">
+    <Navbar expand="lg" fixed="top" className={styles.Header}>
       <Container fluid>
-        <Navbar.Brand href="/">Forge Focus</Navbar.Brand>
+        <Navbar.Brand href="/" className={styles.LogoName}>Forge Focus</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
-            className="me-auto my-2 my-lg-0"
+            className={`${styles.NavLinks} me-auto my-2 my-lg-0`}
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
