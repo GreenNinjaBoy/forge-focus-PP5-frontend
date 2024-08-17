@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { axiosReq, axiosRes } from "../../api/axiosDefaults";
+import { useNavigate } from "react-router";
 import { removeTokenTimestamp, shouldRefreshToken } from "../utils/Utils";
 
 export const CurrentUserContext = createContext();
@@ -11,16 +12,14 @@ export const useSetCurrentUser = () => useContext(SetCurrentUserContext);
 
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const navigate = useNavigate();
 
   const handleMount = async () => {
-    if (shouldRefreshToken()) {
-      try {
-        const { data } = await axiosRes.get("dj-rest-auth/user/");
-        console.log("Fetched User Data:", data); // Debugging log
-        setCurrentUser(data);
-      } catch (err) {
-        console.error('Error fetching user data on mount:', err);
-      }
+    try {
+      const { data } = await axiosRes.get("dj-rest-auth/user/");
+      setCurrentUser(data);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -37,7 +36,7 @@ export const CurrentUserProvider = ({ children }) => {
           } catch (err) {
             setCurrentUser((prevCurrentUser) => {
               if (prevCurrentUser) {
-                // history.push("/login");
+                navigate("/signin");
               }
               return null;
             });
@@ -61,7 +60,7 @@ export const CurrentUserProvider = ({ children }) => {
           } catch (err) {
             setCurrentUser((prevCurrentUser) => {
               if (prevCurrentUser) {
-                // history.push("/login");
+                navigate("/signin");
               }
               return null;
             });
@@ -72,7 +71,7 @@ export const CurrentUserProvider = ({ children }) => {
         return Promise.reject(err);
       }
     );
-  }, []);
+  }, [history]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

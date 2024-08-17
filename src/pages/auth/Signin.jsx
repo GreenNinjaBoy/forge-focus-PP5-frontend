@@ -4,43 +4,39 @@ import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useSetCurrentUser } from "../contexts/CurrentUserContext";
 import { setTokenTimestamp } from "../utils/Utils";
+import { useRedirect } from "../../hooks/useRedirect";
 
 function SignIn() {
-
   const setCurrentUser = useSetCurrentUser();
+  useRedirect("loggedIn");
 
   const [signInData, setSignInData] = useState({
-    username: '',
-    password: ''
+    username: "",
+    password: "",
   });
-
   const { username, password } = signInData;
 
-  const navigate = useNavigate();
-
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const { data } = await axios.post("/dj-rest-auth/login/", signInData);
+      setCurrentUser(data.user);
+      setTokenTimestamp(data);
+      navigate('/home');
+    } catch (err) {
+      setErrors(err.response?.data);
+    }
+  };
 
   const handleChange = (event) => {
     setSignInData({
       ...signInData,
       [event.target.name]: event.target.value,
     });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log('Form submitted'); // Log form submission
-    try {
-      const { data } = await axios.post('/dj-rest-auth/login/', signInData);
-      console.log('Login successful', data); // Log successful login
-      setCurrentUser(data.user);
-      setTokenTimestamp(data.key); // Ensure the correct token is passed
-      console.log('Navigating to /home');
-      navigate('/home'); // Corrected navigation method
-    } catch (err) {
-      console.log('Login error', err); // Log any errors
-      setErrors(err.response?.data);
-    }
   };
 
   return (

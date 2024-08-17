@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useCurrentUser, useSetCurrentUser } from '../pages/contexts/CurrentUserContext';
 import { axiosReq } from "../api/axiosDefaults";
 import { removeTokenTimestamp } from "../pages/utils/Utils";
-import { Navbar, Nav, Container, Form, Button } from "react-bootstrap";
+import { Navbar, Nav, Container,} from "react-bootstrap";
 import styles from '../styles/MainNavBar.module.css';
 
 const MainNavbar = () => {
@@ -35,8 +35,6 @@ const MainNavbar = () => {
     }
   };
 
-  console.log("Current User:", currentUser);
-
   const loggedOutLinks = (
     <div className="d-flex justify-content-between w-100">
       <NavLink className={styles.Link} to="/signup">Sign Up</NavLink>
@@ -46,17 +44,10 @@ const MainNavbar = () => {
 
   const loggedInLinks = (
     <div className="d-flex justify-content-between w-100">
-      <Nav.Link className={styles.Link} href="#action1">{currentUser ? `Welcome, ${currentUser.username}` : 'Home'}</Nav.Link>
+      <Nav.Link className={styles.Link} href="/home">{currentUser ? `Welcome, ${currentUser.username}` : 'Home'}</Nav.Link>
+      <Nav.Link className={styles.Link} href="/goalsarea">Goals</Nav.Link>
       <Nav.Link className={styles.Link} onClick={handleSignout} to="/">Sign Out</Nav.Link>
-      <Form className="d-flex">
-        <Form.Control
-          type="search"
-          placeholder="Search Goals"
-          className="me-2"
-          aria-label="Search"
-        />
-        <Button variant="outline-success">Search</Button>
-      </Form>
+      
     </div>
   );
 
