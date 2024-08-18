@@ -26,7 +26,7 @@ function SignIn() {
       const { data } = await axios.post("/dj-rest-auth/login/", signInData);
       setCurrentUser(data.user);
       setTokenTimestamp(data);
-      navigate('/home');
+      navigate('/goalsarea');
     } catch (err) {
       setErrors(err.response?.data);
     }
@@ -63,7 +63,7 @@ function SignIn() {
             onChange={handleChange}
           />
         </Form.Group>
-          <Button type="submit" onSubmit={handleSubmit}>
+          <Button type="submit">
           SignIn
         </Button>
       </Form>

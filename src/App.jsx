@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes,} from 'react-router-dom';
 import './api/axiosDefaults';
-import Home from './pages/Home';
 import About from './pages/About';
 import SignUp from './pages/auth/Signup';
 import SignIn from './pages/auth/Signin';
@@ -39,9 +38,8 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={authenticatedUser ? <Home /> : <About />}
+          element={authenticatedUser ? <GoalsArea /> : <About />}
         />
-        <Route path='/home' element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />

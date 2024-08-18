@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useCurrentUser, useSetCurrentUser } from '../pages/contexts/CurrentUserContext';
 import { axiosReq } from "../api/axiosDefaults";
 import { removeTokenTimestamp } from "../pages/utils/Utils";
-import { Navbar, Nav, Container,} from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
 import styles from '../styles/MainNavBar.module.css';
 
 const MainNavbar = () => {
@@ -20,10 +20,10 @@ const MainNavbar = () => {
       }
     };
 
-    if (currentUser) {
+    if (!currentUser) {
       fetchUserData();
     }
-  }, [currentUser, setCurrentUser]);
+  },);
 
   const handleSignout = async () => {
     try {
@@ -44,10 +44,9 @@ const MainNavbar = () => {
 
   const loggedInLinks = (
     <div className="d-flex justify-content-between w-100">
-      <Nav.Link className={styles.Link} href="/home">{currentUser ? `Welcome, ${currentUser.username}` : 'Home'}</Nav.Link>
+      <Nav.Link className={styles.Link} href="/goalsarea">{currentUser ? `Welcome, ${currentUser.username}` : 'goalsarea'}</Nav.Link>
       <Nav.Link className={styles.Link} href="/goalsarea">Goals</Nav.Link>
       <Nav.Link className={styles.Link} onClick={handleSignout} to="/">Sign Out</Nav.Link>
-      
     </div>
   );
 
