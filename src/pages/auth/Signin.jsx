@@ -10,11 +10,11 @@ function SignIn() {
   const setCurrentUser = useSetCurrentUser();
   useRedirect("loggedIn");
 
-  const [signInData, setSignInData] = useState({
+  const [logInData, setLogInData] = useState({
     username: "",
     password: "",
   });
-  const { username, password } = signInData;
+  const { username, password } = logInData;
 
   const [errors, setErrors] = useState({});
 
@@ -23,7 +23,7 @@ function SignIn() {
     event.preventDefault();
 
     try {
-      const { data } = await axios.post("/dj-rest-auth/login/", signInData);
+      const { data } = await axios.post("/dj-rest-auth/login/", logInData);
       setCurrentUser(data.user);
       setTokenTimestamp(data);
       navigate('/goalsarea');
@@ -33,8 +33,8 @@ function SignIn() {
   };
 
   const handleChange = (event) => {
-    setSignInData({
-      ...signInData,
+    setLogInData({
+      ...logInData,
       [event.target.name]: event.target.value,
     });
   };
