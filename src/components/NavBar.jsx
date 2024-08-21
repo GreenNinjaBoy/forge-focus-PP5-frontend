@@ -39,7 +39,7 @@ const MainNavbar = () => {
       await axiosReq.post(`/dj-rest-auth/logout/`);
       setCurrentUser(null);
       removeTokenTimestamp();
-      navigate("/about");
+      navigate("about");
     } catch (err) {
       console.log(err);
     }
