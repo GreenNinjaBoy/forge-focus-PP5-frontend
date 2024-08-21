@@ -25,8 +25,14 @@ function SignIn() {
     try {
       const { data } = await axios.post("/dj-rest-auth/login/", logInData);
       setCurrentUser(data.user);
-      setTokenTimestamp(data);
-      navigate('/goalsarea');
+      console.log("user data recieved",data.user);
+      if (data && data.access_token) {
+        setTokenTimestamp(data);
+        console.log("Token timestamp set with data:", data);
+      } else {
+        console.warn("Data does not contain access_token:", data);
+      }
+      navigate('/home');
     } catch (err) {
       setErrors(err.response?.data);
     }
