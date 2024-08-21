@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { useCurrentUser, useSetCurrentUser } from '../pages/contexts/CurrentUserContext';
 import { axiosReq } from "../api/axiosDefaults";
 import { removeTokenTimestamp } from "../pages/utils/Utils";
@@ -9,6 +9,15 @@ import styles from '../styles/MainNavBar.module.css';
 const MainNavbar = () => {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    if (currentUser) {
+      navigate("/home");
+    } else {
+      navigate("about");
+    }
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -30,6 +39,7 @@ const MainNavbar = () => {
       await axiosReq.post(`/dj-rest-auth/logout/`);
       setCurrentUser(null);
       removeTokenTimestamp();
+      navigate("/about");
     } catch (err) {
       console.log(err);
     }
@@ -53,7 +63,7 @@ const MainNavbar = () => {
   return (
     <Navbar expand="lg" fixed="top" className={styles.Header}>
       <Container fluid>
-        <Navbar.Brand href="/" className={styles.LogoName}>Forge Focus</Navbar.Brand>
+        <Navbar.Brand onClick={handleLogoClick} className={styles.LogoName}>Forge Focus</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
