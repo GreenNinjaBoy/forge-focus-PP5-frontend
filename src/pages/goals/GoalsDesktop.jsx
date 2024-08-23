@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GoalsArea from "./GoalsArea";
@@ -28,7 +29,11 @@ const GoalsDesktop = ({id}) => {
             <p>Tasks will go here</p>
         </div>
     </div>
-    )
+    );
+};
+
+GoalsDesktop.propTypes  = {
+    id: PropTypes.number.isRequired,
 }
 
 export default GoalsDesktop
