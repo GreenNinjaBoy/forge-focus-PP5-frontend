@@ -1,0 +1,12 @@
+/* General styling */
+
+.GoalsContainer {
+    border-color: #007926;
+    border-bottom: solid;
+    border-width: 1px;
+    width: 100%;
+    padding: 5px;
+    padding-right: 28px;
+    overflow: auto;
+    box-sizing: border-box;
+}
