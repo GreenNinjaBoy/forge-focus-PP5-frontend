@@ -6,3 +6,12 @@ import { Accordion,
 import { useNavigate } from "react-router-dom";
 import GoalsArea from "./GoalsArea";
 
+const GoalsMobile = () => {
+
+    
+  return (
+    <div>GoalsMobile</div>
+  )
+}
+
+export default GoalsMobile
