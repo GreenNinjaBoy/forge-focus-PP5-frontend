@@ -1,5 +1,6 @@
 import { useCurrentUser } from '../contexts/CurrentUserContext';
 import { useParams } from 'react-router-dom';
+import GoalsDesktop from './GoalsDesktop';
 
 const Goals = () => {
     
