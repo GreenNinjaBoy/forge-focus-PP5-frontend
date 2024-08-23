@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
 import GoalsView from "./GoalsView";
@@ -67,5 +68,10 @@ const GoalsArea = ({ id }) => {
         </div>
     );
 };
+
+GoalsArea.propTypes = {
+    id: PropTypes.number.isRequired,
+}
+
 
 export default GoalsArea;
