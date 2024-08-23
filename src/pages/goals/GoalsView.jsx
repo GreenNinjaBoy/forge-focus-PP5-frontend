@@ -1,7 +1,5 @@
 import PropTypes from "prop-types";
 
-
-
 const GoalsView = (props) => {
     const {
         name,
@@ -14,22 +12,22 @@ const GoalsView = (props) => {
         setGoalState('edit');
     }
 
-    const handleDelete = ()  => {
+    const handleDelete = () => {
         setGoalState('delete');
     }
 
     return (
         <div>
-            <img src={image} alt='goal'/>
+            <img src={image} alt='goal' />
             <h2>{name}</h2>
             <p>{reason}</p>
             <div>
                 <button onClick={handleEdit}>
                     Edit Goal
-                    </button>
+                </button>
                 <button onClick={handleDelete}>
                     Delete Goal
-                    </button>
+                </button>
             </div>
         </div>
     );
@@ -39,7 +37,7 @@ GoalsView.propTypes = {
     name: PropTypes.string.isRequired,
     reason: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
-    setGoalState: PropTypes.string.isRequired,
+    setGoalState: PropTypes.func.isRequired,
 }
 
-export default GoalsView
+export default GoalsView;

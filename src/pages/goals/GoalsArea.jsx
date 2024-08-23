@@ -8,13 +8,9 @@ import { useNavigate } from "react-router-dom";
 import styles from "../../styles/GoalsView.module.css";
 
 const GoalsArea = ({ id }) => {
-
     const [goalsData, setGoalsData] = useState([]);
-
-    const [goalsState, setGoalsSate] = useState("view");
-
+    const [goalsState, setGoalsState] = useState("view");
     const [hasLoaded, setHasLoaded] = useState(false);
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,9 +25,7 @@ const GoalsArea = ({ id }) => {
             } catch (err) {
                 if (err.response?.status === 401) {
                     navigate('/signin');
-                } else if (err.response?. status === 403) {
-                    navigate('/home');
-                } else if (err.response?.status == 404) {
+                } else if (err.response?.status === 403 || err.response?.status === 404) {
                     navigate('/home');
                 }
                 console.log("Failed to fetch goals", err);
@@ -39,29 +33,30 @@ const GoalsArea = ({ id }) => {
         };
 
         fetchGoals();
-    }, [navigate, id])
+    }, [navigate, id]);
 
     function GoalsContext() {
-        if (goalsState==='view') {
-            return <GoalsView {...goalsData} setGoalsData={setGoalsData} setGoalsState={setGoalsSate} />
-        } else if (goalsState==='edit') {
-            return <GoalsEdit {...goalsData} id={id} setGoalsData={setGoalsData} setGoalsSate={setGoalsSate} />
-        } else if (goalsState==='delete') {
-            return <GoalsDelete {...goalsData} id={id} setGoalsSate={setGoalsSate} />
+        if (goalsState === 'view') {
+            return goalsData.map(goal => (
+                <GoalsView
+                    key={goal.id}
+                    name={goal.name}
+                    reason={goal.reason}
+                    image={goal.image}
+                    setGoalState={setGoalsState}
+                />
+            ));
+        } else if (goalsState === 'edit') {
+            return <GoalsEdit goalsData={goalsData} id={id} setGoalsData={setGoalsData} setGoalsState={setGoalsState} />;
+        } else if (goalsState === 'delete') {
+            return <GoalsDelete goalsData={goalsData} id={id} setGoalsState={setGoalsState} />;
         }
-    };
+    }
 
     return (
         <div className={styles.GoalsContainer}>
             {hasLoaded ? (
                 <GoalsContext />
-                // goalsData.map((goal) => (
-                //     <div key={goal.id}>
-                //         <h1>{goal.name}</h1>
-                //         <p>{goal.reason}</p>
-                //         <img src={goal.image} alt={goal.name} />
-                    // </div>
-                // ))
             ) : (
                 <p>Loading Goals Data....</p>
             )}
@@ -71,7 +66,6 @@ const GoalsArea = ({ id }) => {
 
 GoalsArea.propTypes = {
     id: PropTypes.number.isRequired,
-}
-
+};
 
 export default GoalsArea;
