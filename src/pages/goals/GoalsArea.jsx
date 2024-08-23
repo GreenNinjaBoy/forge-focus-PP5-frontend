@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
+import GoalsEdit from "./GoalsEdit";
+import GoalsDelete from "./GoalsDelete";
+import { useNavigate } from "react-router-dom";
 
 const GoalsArea = ({ id }) => {
+
     const [goalsData, setGoalsData] = useState([]);
+
     const [hasLoaded, setHasLoaded] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchGoals = async () => {
@@ -14,9 +21,15 @@ const GoalsArea = ({ id }) => {
                     setGoalsData(data.results);
                 }
                 setHasLoaded(true);
-            } catch (error) {
-                console.error("Failed to fetch goals", error);
-                // Handle the error appropriately
+            } catch (err) {
+                if (err.response?.status === 401) {
+                    navigate('/signin');
+                } else if (err.response?. status === 403) {
+                    navigate('/home');
+                } else if (err.response?.status == 404) {
+                    navigate('/home');
+                }
+                console.log("Failed to fetch goals", err);
             }
         };
 
