@@ -11,7 +11,12 @@ const Goals = () => {
         <div>
             {currentUser ? (
                 <>
-                <div>{currentUser.username} Goals</div>
+                <div>
+                    <h1>{currentUser.username} Goals </h1>
+                </div>
+                <div>
+                    <GoalsDesktop id={id} />
+                </div>
                 </>
             ) : (
                 <div>

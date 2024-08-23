@@ -54,8 +54,8 @@ const MainNavbar = () => {
 
   const loggedInLinks = (
     <div className="d-flex justify-content-between w-100">
-      <Nav.Link className={styles.Link} href="/goalsarea">{currentUser ? `Welcome, ${currentUser.username}` : 'goalsarea'}</Nav.Link>
-      <Nav.Link className={styles.Link} href="/goalsarea">Goals</Nav.Link>
+      <Nav.Link className={styles.Link} href="/home">{currentUser ? `Welcome, ${currentUser.username}` : '/home'}</Nav.Link>
+      <Nav.Link className={styles.Link} href="/goals">Goals</Nav.Link>
       <Nav.Link className={styles.Link} onClick={handleSignout} to="/">Sign Out</Nav.Link>
     </div>
   );
