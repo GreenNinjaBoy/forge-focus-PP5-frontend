@@ -1,3 +1,7 @@
+import PropTypes from "prop-types";
+
+
+
 const GoalsView = (props) => {
     const {
         name,
@@ -28,7 +32,14 @@ const GoalsView = (props) => {
                     </button>
             </div>
         </div>
-    )
+    );
+};
+
+GoalsView.propTypes = {
+    name: PropTypes.string.isRequired,
+    reason: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    setGoalState: PropTypes.string.isRequired,
 }
 
 export default GoalsView
