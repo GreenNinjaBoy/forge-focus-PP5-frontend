@@ -5,71 +5,70 @@ import PropTypes from "prop-types";
 
 
 const GoalsEdit = (props) => {
-    const {
-        id,
-        name,
-        reason,
-        image,
-        setGoalState,
-        setGoalData,
-    } = props;
+  const {
+    id,
+    name,
+    reason,
+    image,
+    setGoalState,
+    setGoalData,
+  } = props;
 
-    const [newData, setNewData] = useState({
-        newName: name,
-        newReason: reason,
-        newImage: image,     
-    });
+  const [newData, setNewData] = useState({
+      newName: name,
+      newReason: reason,
+      newImage: image,     
+  });
     
-    const { newName, newReason, newImage} = newData;
+  const { newName, newReason, newImage} = newData;
 
-    const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
-    const imageInput = useRef(null);
+  const imageInput = useRef(null);
 
-    const handleChange = (event) => {
-        setNewData({
-            ...newData,
-            [event.target.name]: event.target.value,
-        });
-    };
+  const handleChange = (event) => {
+      setNewData({
+          ...newData,
+          [event.target.name]: event.target.value,
+      });
+  };
 
-    const handleChangeImage = (event) => {
-        if (event.target.files.length > 0){
-            URL.revokeObjectURL(image);
-            setNewData({
-                ...newData,
-                newImage: URL.createObjectURL(event.target.files[0])
-            });
-        }
-    };
+  const handleChangeImage = (event) => {
+      if (event.target.files.length > 0){
+          URL.revokeObjectURL(image);
+          setNewData({
+              ...newData,
+              newImage: URL.createObjectURL(event.target.files[0])
+          });
+      }
+  };
 
-     const handleSubmit = async (event) => {
-        event.preventDefault();
-        const formData = new formData();
-        formData.append('name', newName)
-        formData.append('reason', newReason)
-        if (imageInput.current.files.lenght > 0) {
-            formData.append('image', imageInput.current.files [0]);
-        }
-        try {
-            const {data} = await axiosReq.put(`goals/${id}`, formData);
-            setGoalData(data);
-            setGoalState('view');
-        } catch(err){
-            if (err.response?.status !== 401){
-                setErrors(err.response?.data)
-            }
-        }
-     };
-
-     const handleCancel = () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new formData();
+    formData.append('name', newName)
+    formData.append('reason', newReason)
+    if (imageInput.current.files.lenght > 0) {
+        formData.append('image', imageInput.current.files [0]);
+    }
+    try {
+        const {data} = await axiosReq.put(`goals/${id}`, formData);
+        setGoalData(data);
         setGoalState('view');
-     };
+    } catch(err){
+        if (err.response?.status !== 401){
+              setErrors(err.response?.data)
+          }
+      }
+  };
+
+  const handleCancel = () => {
+      setGoalState('view');
+  };
 
   return (
     <Form onSubmit={handleSubmit}>
       <div>
-
         <Form.Group controlId="refine-new-image">
           <Image src={newImage}  alt='refinement'/>
           <Form.File
@@ -82,7 +81,6 @@ const GoalsEdit = (props) => {
         </Form.Group>
         <div>
           <div>
-
             <div>
               <div>
               </div>
@@ -113,7 +111,7 @@ const GoalsEdit = (props) => {
               </Form.Group>
             </div>
           </div>
-      
+        
           <div>
             <div>
             </div>

@@ -17,7 +17,7 @@ const GoalsArea = ({ id }) => {
         const fetchGoals = async () => {
             try {
                 const { data } = await axiosReq.get(`/goals/`);
-                console.log("Fetched data successfully:", data); // Debugging line
+                console.log("Fetched data successfully:", data);
                 if (data.results && data.results.length > 0) {
                     setGoalsData(data.results);
                 }
@@ -47,7 +47,10 @@ const GoalsArea = ({ id }) => {
                 />
             ));
         } else if (goalsState === 'edit') {
-            return <GoalsEdit goalsData={goalsData} id={id} setGoalsData={setGoalsData} setGoalsState={setGoalsState} />;
+            const goal = goalsData.find(goal => goal.id === id);
+            if (goal) {
+                return <GoalsEdit {...goal} setGoalData={setGoalsData} setGoalState={setGoalsState} />;
+            }
         } else if (goalsState === 'delete') {
             return goalsData.map(goal => (
                 <GoalsDelete
