@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
 import { Button, Form, Image} from "react-bootstrap";
-
+import PropTypes from "prop-types";
 
 
 const GoalsEdit = (props) => {
@@ -132,6 +132,15 @@ const GoalsEdit = (props) => {
       </div>
     </Form>
   )
+}
+
+GoalsEdit.propTypes = {
+  name: PropTypes.string.isRequired,
+  reason: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  setGoalData: PropTypes.string.isRequired,
+  setGoalState: PropTypes.string.isRequired,
 }
 
 
