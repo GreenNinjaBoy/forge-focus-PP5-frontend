@@ -15,7 +15,7 @@ const MainNavbar = () => {
     if (currentUser) {
       navigate("/home");
     } else {
-      navigate("about");
+      navigate("/about");
     }
   };
 
@@ -63,7 +63,7 @@ const MainNavbar = () => {
   return (
     <Navbar expand="lg" fixed="top" className={styles.Header}>
       <Container fluid>
-        <Navbar.Brand onClick={handleLogoClick} className={styles.LogoName}>Forge Focus</Navbar.Brand>
+        <Nav.Link onClick={handleLogoClick} className={styles.LogoName}>Forge Focus</Nav.Link>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav

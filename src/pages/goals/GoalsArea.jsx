@@ -49,7 +49,14 @@ const GoalsArea = ({ id }) => {
         } else if (goalsState === 'edit') {
             return <GoalsEdit goalsData={goalsData} id={id} setGoalsData={setGoalsData} setGoalsState={setGoalsState} />;
         } else if (goalsState === 'delete') {
-            return <GoalsDelete goalsData={goalsData} id={id} setGoalsState={setGoalsState} />;
+            return goalsData.map(goal => (
+                <GoalsDelete
+                    key={goal.id}
+                    id={goal.id}
+                    name={goal.name}
+                    setGoalsState={setGoalsState}
+                />
+            ));
         }
     }
 

@@ -1,54 +1,44 @@
 import { Button } from "react-bootstrap";
-import { axiosRes } from "../../api/axiosDefaults";
+import { axiosReq } from "../../api/axiosDefaults";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
+const GoalsDelete = ({ id, name, setGoalsState }) => {
+  const navigate = useNavigate();
 
-const GoalsDelete = (props) => {
-    const {
-        id,
-        name,
-        image,
-        setGoalsSate,
-    } = props;
+  const handleDelete = async () => {
+    try {
+      await axiosReq.delete(`/goals/${id}/`);
+      navigate('/home'); // Redirect after successful deletion
+    } catch (err) {
+      console.error("Error deleting goal:", err);
+    }
+  };
 
-    const navigate = useNavigate();
-
-    const handleCancel = () => {
-        setGoalsSate('view');
-    };
-
-    const handleDelete = async () => {
-        try {
-            await axiosRes.delete(`/goal/${id}`);
-            navigate('/GoalsArea')
-        } catch(err) {
-            console.log(err)
-        }
-    };
-
-
+  const handleCancel = () => {
+    setGoalsState("view");
+  };
 
   return (
     <div>
-        <div>
-      <img src={image} alt='Goal Image'/>
+      <p>Are you sure you wish to delete your {name} goal?</p>
+      <p>Warning! all associated tasks will also be deleted</p>
       <div>
-        <p>Are you sure you wish to delete your {name} goal?</p>
-        <p>Deleting it will also result in all tasks within this goal being deleted!</p>
-        <div>
-          <Button onClick={handleCancel}>
-            <div>
-              Cancel
-            </div>
-          </Button>
-          <Button onClick={handleDelete}>
-            Delete
-          </Button>
-        </div>
+        <Button onClick={handleCancel}>
+          <div>Cancel</div>
+        </Button>
+        <Button onClick={handleDelete}>
+          Delete
+        </Button>
       </div>
     </div>
-    </div>
-  )
-}
+  );
+};
 
-export default GoalsDelete
+GoalsDelete.propTypes = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  setGoalsState: PropTypes.func.isRequired,
+};
+
+export default GoalsDelete;
