@@ -17,9 +17,11 @@
 }
 
 .Link {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     color: black;
     font-size: 1.2rem;
+    background-color: #78e79e;
+    
 
 }
 .NavLinks {

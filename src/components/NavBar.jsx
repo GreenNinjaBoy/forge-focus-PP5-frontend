@@ -3,7 +3,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { useCurrentUser, useSetCurrentUser } from '../pages/contexts/CurrentUserContext';
 import { axiosReq } from "../api/axiosDefaults";
 import { removeTokenTimestamp } from "../pages/utils/Utils";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
 import styles from '../styles/MainNavBar.module.css';
 
 const MainNavbar = () => {
@@ -32,14 +32,14 @@ const MainNavbar = () => {
     if (!currentUser) {
       fetchUserData();
     }
-  },);
+  }, [currentUser, setCurrentUser]);
 
   const handleSignout = async () => {
     try {
       await axiosReq.post(`/dj-rest-auth/logout/`);
       setCurrentUser(null);
       removeTokenTimestamp();
-      navigate("about");
+      navigate("/about");
     } catch (err) {
       console.log(err);
     }
@@ -53,11 +53,17 @@ const MainNavbar = () => {
   );
 
   const loggedInLinks = (
-    <div className="d-flex justify-content-between w-100">
-      <Nav.Link className={styles.Link} href="/home">{currentUser ? `Welcome, ${currentUser.username}` : '/home'}</Nav.Link>
-      <Nav.Link className={styles.Link} href="/goals">Goals</Nav.Link>
-      <Nav.Link className={styles.Link} onClick={handleSignout} to="/">Sign Out</Nav.Link>
-    </div>
+    <Dropdown>
+      <Dropdown.Toggle variant="success" id="dropdown-basic" className={styles.Link}>
+        {currentUser ? `${currentUser.username}` : 'User'}
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu className={styles.Link}>
+        <Dropdown.Item as={NavLink} to="/home">Home</Dropdown.Item>
+        <Dropdown.Item as={NavLink} to="/goalsarea">Goals</Dropdown.Item>
+        <Dropdown.Item onClick={handleSignout}>Sign Out</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
   );
 
   return (
