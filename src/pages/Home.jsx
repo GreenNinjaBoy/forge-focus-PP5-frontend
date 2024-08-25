@@ -50,7 +50,9 @@ const Home = () => {
         </div>
         <div>
           <Button onClick={() => navigate('/goalscreate')}>Create New Goal</Button>
+          <Button onClick={() => navigate('/GoalsArea')}>View Goals</Button>
         </div>
+
         </>
       ) : (
         <div>
