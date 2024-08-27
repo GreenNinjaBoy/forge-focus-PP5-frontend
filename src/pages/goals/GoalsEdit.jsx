@@ -1,145 +1,130 @@
-import { useRef, useState } from "react";
-import { axiosReq } from "../../api/axiosDefaults";
-import { Button, Form, Image} from "react-bootstrap";
+import { useState, useEffect, useRef } from "react";
+import { Button, Form, Image } from "react-bootstrap";
 import PropTypes from "prop-types";
+import { axiosReq } from "../../api/axiosDefaults";
+import { useNavigate } from "react-router-dom";
 
-
-const GoalsEdit = (props) => {
-  const {
-    id,
-    name,
-    reason,
-    image,
-    setGoalState,
-    setGoalData,
-  } = props;
-
-  const [newData, setNewData] = useState({
-      newName: name,
-      newReason: reason,
-      newImage: image,     
+const GoalsEdit = ({ id, setGoalData, setGoalState }) => {
+  const [goalData, setGoalDataState] = useState({
+    name: '',
+    reason: '',
+    image: null,
   });
-    
-  const { newName, newReason, newImage} = newData;
-
   const [errors, setErrors] = useState({});
-
   const imageInput = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchGoal = async () => {
+      try {
+        const { data } = await axiosReq.get(`/goals/${id}`);
+        setGoalDataState({
+          name: data.name,
+          reason: data.reason,
+          image: data.image,
+        });
+      } catch (err) {
+        if (err.response?.status === 401) {
+          navigate('/signin');
+        } else if (err.response?.status === 403 || err.response?.status === 404) {
+          navigate('/home');
+        }
+        console.error("Failed to fetch goal", err);
+      }
+    };
+
+    fetchGoal();
+  }, [id, navigate]);
 
   const handleChange = (event) => {
-      setNewData({
-          ...newData,
-          [event.target.name]: event.target.value,
-      });
+    setGoalDataState({
+      ...goalData,
+      [event.target.name]: event.target.value,
+    });
   };
 
   const handleChangeImage = (event) => {
-      if (event.target.files.length > 0){
-          URL.revokeObjectURL(image);
-          setNewData({
-              ...newData,
-              newImage: URL.createObjectURL(event.target.files[0])
-          });
-      }
+    if (event.target.files.length > 0) {
+      URL.revokeObjectURL(goalData.image);
+      setGoalDataState({
+        ...goalData,
+        image: URL.createObjectURL(event.target.files[0]),
+      });
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new formData();
-    formData.append('name', newName)
-    formData.append('reason', newReason)
-    if (imageInput.current.files.lenght > 0) {
-        formData.append('image', imageInput.current.files [0]);
+    const formData = new FormData();
+    formData.append('name', goalData.name);
+    formData.append('reason', goalData.reason);
+    if (imageInput.current.files.length > 0) {
+      formData.append('image', imageInput.current.files[0]);
     }
+
     try {
-        const {data} = await axiosReq.put(`goals/${id}`, formData);
-        setGoalData(data);
-        setGoalState('view');
-    } catch(err){
-        if (err.response?.status !== 401){
-              setErrors(err.response?.data)
-          }
+      const { data } = await axiosReq.put(`/goals/${id}`, formData);
+      setGoalData(data);
+      setGoalState('view');
+    } catch (err) {
+      if (err.response?.status !== 401) {
+        setErrors(err.response?.data);
       }
+    }
   };
 
   const handleCancel = () => {
-      setGoalState('view');
+    setGoalState('view');
   };
 
   return (
     <Form onSubmit={handleSubmit}>
+      <Form.Group controlId="goal-name">
+        <Form.Label>Name</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Enter goal name"
+          name="name"
+          value={goalData.name}
+          onChange={handleChange}
+        />
+      </Form.Group>
+      <Form.Group controlId="goal-reason">
+        <Form.Label>Reason</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Why is this goal important to you?"
+          name="reason"
+          value={goalData.reason}
+          onChange={handleChange}
+        />
+      </Form.Group>
+      <Form.Group controlId="goal-image">
+        <Form.Label>Image</Form.Label>
+        <Form.Control
+          type="file"
+          name="image"
+          ref={imageInput}
+          onChange={handleChangeImage}
+        />
+      </Form.Group>
       <div>
-        <Form.Group controlId="refine-new-image">
-          <Image src={newImage}  alt='refinement'/>
-          <Form.File
-            id="image-upload"
-            accept="image/*"
-            onChange={handleChangeImage}
-            ref={imageInput}
-            aria-label='Click to change goal image'
-          />
-        </Form.Group>
-        <div>
-          <div>
-            <div>
-              <div>
-              </div>
-              <Form.Group controlId="goal-new-name">
-                <Form.Label>Goal:</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Rename your Goal"
-                  name="newName"
-                  value={newName}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </div>
-
-            <div>
-              <div>
-              </div>
-              <Form.Group controlId="goal-new-reason">
-                <Form.Label> Reason:</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Why is this goal importantr to you"
-                  name="newWhy"
-                  value={newReason}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </div>
-          </div>
-        
-          <div>
-            <div>
-            </div>
-            <div>
-              <Button onClick={handleCancel}>
-                <div>
-                  Cancel
-                </div>
-              </Button>
-              <Button type="submit">
-                Save changes
-              </Button>
-            </div>
-          </div>
-        </div>
+        <Image src={goalData.image} alt="Goal" style={{ width: '100px', height: '100px' }} />
       </div>
+      <Button variant="secondary" onClick={handleCancel}>
+        Cancel
+      </Button>
+      <Button type="submit">
+        Save changes
+      </Button>
     </Form>
-  )
-}
+  );
+};
 
 GoalsEdit.propTypes = {
-  name: PropTypes.string.isRequired,
-  reason: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
-  setGoalData: PropTypes.string.isRequired,
-  setGoalState: PropTypes.string.isRequired,
-}
+  setGoalData: PropTypes.func.isRequired,
+  setGoalState: PropTypes.func.isRequired,
+};
 
-
-export default GoalsEdit
+export default GoalsEdit;

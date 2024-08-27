@@ -11,6 +11,7 @@ const GoalsArea = ({ id }) => {
     const [goalsData, setGoalsData] = useState([]);
     const [goalsState, setGoalsState] = useState("view");
     const [hasLoaded, setHasLoaded] = useState(false);
+    const [goalId, setGoalId] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -40,17 +41,16 @@ const GoalsArea = ({ id }) => {
             return goalsData.map(goal => (
                 <GoalsView
                     key={goal.id}
+                    id={goal.id}
                     name={goal.name}
                     reason={goal.reason}
                     image={goal.image}
                     setGoalState={setGoalsState}
+                    setGoalId={setGoalId}
                 />
             ));
         } else if (goalsState === 'edit') {
-            const goal = goalsData.find(goal => goal.id === id);
-            if (goal) {
-                return <GoalsEdit {...goal} setGoalData={setGoalsData} setGoalState={setGoalsState} />;
-            }
+                return <GoalsEdit id={goalId} setGoalData={setGoalsData} setGoalState={setGoalsState} />;
         } else if (goalsState === 'delete') {
             return goalsData.map(goal => (
                 <GoalsDelete

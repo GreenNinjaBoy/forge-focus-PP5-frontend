@@ -2,13 +2,16 @@ import PropTypes from "prop-types";
 
 const GoalsView = (props) => {
     const {
+        id,
         name,
         reason,
         image,
-        setGoalState
+        setGoalState,
+        setGoalId
     } = props;
 
     const handleEdit = () => {
+        setGoalId(id);
         setGoalState('edit');
     }
 
@@ -34,10 +37,12 @@ const GoalsView = (props) => {
 };
 
 GoalsView.propTypes = {
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     reason: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     setGoalState: PropTypes.func.isRequired,
+    setGoalId: PropTypes.func.isRequired,
 }
 
 export default GoalsView;

@@ -13,6 +13,8 @@ import Goals from './pages/goals/Goals';
 import GoalsArea from './pages/goals/GoalsArea';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotAuthorized from './pages/NotAuthorized';
+import GoalsEdit from './pages/goals/GoalsEdit';
+console.log(GoalsEdit);
 
 function App() {
   const currentUser = useCurrentUser();
@@ -50,6 +52,7 @@ function App() {
         <Route path="/goals" element={<ProtectedRoute><Goals /></ProtectedRoute>} />
         <Route path="/goalsarea" element={<ProtectedRoute><GoalsArea /></ProtectedRoute>} />
         <Route path="/goalscreate" element={<ProtectedRoute><GoalsCreate /></ProtectedRoute>} />
+        <Route path="/goalsedit" element={<ProtectedRoute><GoalsEdit /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to={authenticatedUser ? "/home" : "/about"} state={{ from: location }} />} />
       </Routes>
     </div>

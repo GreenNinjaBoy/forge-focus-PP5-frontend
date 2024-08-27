@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { axiosReq } from '../../api/axiosDefaults';
 
 const GoalsCreate = () => {
-  const defaultImage = 'path/to/default/image.jpg'; // Replace with your default image path
+  const defaultImage = 'path/to/default/image.jpg';
   const [goalData, setGoalData] = useState({
     name: '',
     reason: '',
