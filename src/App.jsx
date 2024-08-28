@@ -14,6 +14,7 @@ import GoalsArea from './pages/goals/GoalsArea';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotAuthorized from './pages/NotAuthorized';
 import GoalsEdit from './pages/goals/GoalsEdit';
+import Footer from './components/Footer';
 console.log(GoalsEdit);
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
         <Route path="/goalsedit" element={<ProtectedRoute><GoalsEdit /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to={authenticatedUser ? "/home" : "/about"} state={{ from: location }} />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
