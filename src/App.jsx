@@ -6,7 +6,7 @@ import About from './pages/About';
 import SignUp from './pages/auth/Signup';
 import SignIn from './pages/auth/Signin';
 import GoalsCreate from './pages/goals/GoalsCreate';
-import { useCurrentUser } from './pages/contexts/CurrentUserContext';
+import { useCurrentUser } from './contexts/CurrentUserContext';
 import './App.css';
 import MainNavBar from './components/NavBar';
 import Goals from './pages/goals/Goals';

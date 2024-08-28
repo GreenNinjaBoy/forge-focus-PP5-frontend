@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { axiosReq } from '../api/axiosDefaults';
-import { useCurrentUser, useSetCurrentUser } from '../pages/contexts/CurrentUserContext';
+import { useCurrentUser, useSetCurrentUser } from '../contexts/CurrentUserContext';
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
-import { useCurrentUser, useSetCurrentUser } from '../pages/contexts/CurrentUserContext';
+import { useCurrentUser, useSetCurrentUser } from '../contexts/CurrentUserContext';
 import { axiosReq } from "../api/axiosDefaults";
 import { removeTokenTimestamp } from "../pages/utils/Utils";
 import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
