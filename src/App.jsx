@@ -15,7 +15,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import NotAuthorized from './pages/NotAuthorized';
 import GoalsEdit from './pages/goals/GoalsEdit';
 import Footer from './components/Footer';
-console.log(GoalsEdit);
+import SuccessMessage from './components/SuccessMessage';
+
 
 function App() {
   const currentUser = useCurrentUser();
@@ -43,6 +44,7 @@ function App() {
   return (
     <div>
       <MainNavBar />
+      <SuccessMessage />
       <Routes>
         <Route path="/" element={authenticatedUser ? <Navigate to="/home" /> : <Navigate to="/about" />} />
         <Route path="/about" element={<About />} />
