@@ -19,8 +19,10 @@ const GoalsArea = ({ id }) => {
             try {
                 const { data } = await axiosReq.get(`/goals/`);
                 console.log("Fetched data successfully:", data);
-                if (data.results && data.results.length > 0) {
+                if (data.results && Array.isArray(data.results)) {
                     setGoalsData(data.results);
+                } else {
+                    setGoalsData([]); // Ensure goalsData is an array
                 }
                 setHasLoaded(true);
             } catch (err) {
@@ -38,7 +40,7 @@ const GoalsArea = ({ id }) => {
 
     function GoalsContext() {
         if (goalsState === 'view') {
-            return goalsData.map(goal => (
+            return Array.isArray(goalsData) && goalsData.map(goal => (
                 <GoalsView
                     key={goal.id}
                     id={goal.id}
@@ -50,9 +52,9 @@ const GoalsArea = ({ id }) => {
                 />
             ));
         } else if (goalsState === 'edit') {
-                return <GoalsEdit id={goalId} setGoalData={setGoalsData} setGoalState={setGoalsState} />;
+            return <GoalsEdit id={goalId} setGoalData={setGoalsData} setGoalState={setGoalsState} />;
         } else if (goalsState === 'delete') {
-            return goalsData.map(goal => (
+            return Array.isArray(goalsData) && goalsData.map(goal => (
                 <GoalsDelete
                     key={goal.id}
                     id={goal.id}
@@ -75,7 +77,7 @@ const GoalsArea = ({ id }) => {
 };
 
 GoalsArea.propTypes = {
-    id: PropTypes.number.isRequired,
+    id: PropTypes.number, 
 };
 
 export default GoalsArea;
