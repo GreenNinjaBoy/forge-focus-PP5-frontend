@@ -5,9 +5,13 @@ import axios from "axios";
 import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
 import { setTokenTimestamp } from "../utils/Utils";
 import { useRedirect } from "../../hooks/useRedirect";
+import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../contexts/GlobalMessageContext";
 
 function SignIn() {
   const setCurrentUser = useSetCurrentUser();
+
+  const setShowGlobalSuccess = useSetShowGlobalSuccess();
+  const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
   useRedirect("loggedIn");
 
   const [logInData, setLogInData] = useState({
@@ -19,15 +23,17 @@ function SignIn() {
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
       const { data } = await axios.post("/dj-rest-auth/login/", logInData);
       setCurrentUser(data.user);
       console.log("user data recieved",data.user);
       if (data && data.access_token) {
         setTokenTimestamp(data);
+        setGlobalSuccessMessage("You are now signed in.");
+        setShowGlobalSuccess(true);
         console.log("Token timestamp set with data:", data);
       } else {
         console.warn("Data does not contain access_token:", data);
