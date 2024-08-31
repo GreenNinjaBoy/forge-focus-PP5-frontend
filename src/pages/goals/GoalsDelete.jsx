@@ -2,14 +2,21 @@ import { Button } from "react-bootstrap";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
 const GoalsDelete = ({ id, name, setGoalsState }) => {
+
+  const setShowGlobalSuccess = useSetShowGlobalSuccess();
+  const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
+
   const navigate = useNavigate();
 
   const handleDelete = async () => {
     try {
       await axiosReq.delete(`/goals/${id}/`);
-      navigate('/home'); // Redirect after successful deletion
+      setGlobalSuccessMessage("You have deleted your goal");
+      setShowGlobalSuccess(true);
+      navigate('/home'); 
     } catch (err) {
       console.error("Error deleting goal:", err);
     }
