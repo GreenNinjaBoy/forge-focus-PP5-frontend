@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
 import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
 import { setTokenTimestamp } from "../utils/Utils";
 import { useRedirect } from "../../hooks/useRedirect";
-import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../contexts/GlobalMessageContext";
+import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
 function SignIn() {
   const setCurrentUser = useSetCurrentUser();
@@ -36,6 +36,8 @@ function SignIn() {
         setShowGlobalSuccess(true);
         console.log("Token timestamp set with data:", data);
       } else {
+        setGlobalSuccessMessage("You are now signed in.");
+        setShowGlobalSuccess(true);
         console.warn("Data does not contain access_token:", data);
       }
       navigate('/home');
@@ -54,17 +56,24 @@ function SignIn() {
   return (
     <div>
       <h1>Sign into your account</h1>
-      <Form onSubmit={handleSubmit} >
+      <Form onSubmit={handleSubmit}>
         <Form.Group controlId="username">
           <Form.Label>Username:</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter your username"
+            placeholder="Enter username"
             name="username"
             value={username}
             onChange={handleChange}
           />
         </Form.Group>
+
+        {errors.password?.map((message, idx) => (
+          <Alert key={idx}>
+            {message}
+          </Alert>
+        ))}
+
         <Form.Group controlId="password">
           <Form.Label>Password:</Form.Label>
           <Form.Control
@@ -75,12 +84,12 @@ function SignIn() {
             onChange={handleChange}
           />
         </Form.Group>
-          <Button type="submit">
-          SignIn
+        <Button type="submit">
+          Sign In
         </Button>
       </Form>
     </div>
   );
-}
+};
 
 export default SignIn;
