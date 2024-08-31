@@ -2,8 +2,13 @@ import { useState, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { axiosReq } from '../../api/axiosDefaults';
+import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from '../../hooks/useGlobalSuccess';
 
 const GoalsCreate = () => {
+
+  const setShowGlobalSuccess = useSetShowGlobalSuccess();
+  const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
+
   const defaultImage = 'path/to/default/image.jpg';
   const [goalData, setGoalData] = useState({
     name: '',
@@ -40,6 +45,8 @@ const GoalsCreate = () => {
 
     try {
       const { data } = await axiosReq.post('/goals/', formData);
+      setGlobalSuccessMessage("You have created a new goal!")
+      setShowGlobalSuccess(true);
       navigate(`/goals/${data.id}`);
     } catch (err) {
       if (err.response?.status !== 401) {

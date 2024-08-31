@@ -38,7 +38,7 @@ function SignIn() {
       } else {
         setGlobalSuccessMessage("You are now signed in.");
         setShowGlobalSuccess(true);
-        console.warn("Data does not contain access_token:", data);
+        //console.warn("Data does not contain access_token:", data);
       }
       navigate('/home');
     } catch (err) {

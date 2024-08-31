@@ -1,9 +1,14 @@
 import { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Alert, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
 const SignUp = () => {
+
+    const setShowGlobalSuccess = useSetShowGlobalSuccess();
+    const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
+
     const [signupData, setSignUpData] = useState({
         username: '',
         email: '',
@@ -28,6 +33,8 @@ const SignUp = () => {
         event.preventDefault();
         try {
             await axios.post('/dj-rest-auth/registration/', signupData);
+            setGlobalSuccessMessage("You have Signed up Succesfully, you can now sign in!");
+            setShowGlobalSuccess(true);
             navigate('/signin');
         } catch (err) {
             console.error("Error response:", err.response);
@@ -42,6 +49,16 @@ const SignUp = () => {
             </div>
             <div>
                 <Form onSubmit={handleSubmit}>
+                    {errors.non_field_errors?.map((message, idx) => (
+                        <Alert key={idx}>
+                            {message}
+                        </Alert>
+                    ))}
+                    {errors.username?.map((message, idx) => (
+                        <Alert key={idx}>
+                            {message}
+                        </Alert>
+                    ))}
                     <Form.Group controlId="username">
                         <Form.Label>Username:</Form.Label>
                         <Form.Control
@@ -52,6 +69,13 @@ const SignUp = () => {
                             onChange={handleChange}
                         />
                     </Form.Group>
+
+                    {errors.email?.map((message, idx) => (
+                        <Alert key={idx}>
+                            {message}
+                        </Alert>
+                    ))}
+
                     <Form.Group controlId="email">
                         <Form.Label>Email:</Form.Label>
                         <Form.Control
@@ -62,6 +86,13 @@ const SignUp = () => {
                             onChange={handleChange}
                         />
                     </Form.Group>
+
+                    {errors.password1.map((message, idx) => (
+                        <Alert key={idx}>
+                            {message}
+                        </Alert>
+                    ))}
+
                     <Form.Group controlId="password1">
                         <Form.Label>Password:</Form.Label>
                         <Form.Control
@@ -72,6 +103,13 @@ const SignUp = () => {
                             onChange={handleChange}
                         />
                     </Form.Group>
+
+                    {errors.password2.map((message, idx) => (
+                        <Alert key={idx}>
+                            {message}
+                        </Alert>
+                    ))}
+
                     <Form.Group controlId="password2">
                         <Form.Label>Confirm password:</Form.Label>
                         <Form.Control
