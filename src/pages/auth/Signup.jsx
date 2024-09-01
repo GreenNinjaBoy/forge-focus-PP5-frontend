@@ -33,12 +33,16 @@ const SignUp = () => {
         event.preventDefault();
         try {
             await axios.post('/dj-rest-auth/registration/', signupData);
-            setGlobalSuccessMessage("You have Signed up Succesfully, you can now sign in!");
+            setGlobalSuccessMessage("You have Signed up Successfully, you can now sign in!");
             setShowGlobalSuccess(true);
             navigate('/signin');
         } catch (err) {
             console.error("Error response:", err.response);
-            setErrors(err.response ? err.response.data || {} : {});
+            if (err.response && err.response.data) {
+                setErrors(err.response.data);
+            } else {
+                setErrors({ non_field_errors: ["An unexpected error occurred. Please try again."] });
+            }
         }
     };
 
@@ -50,12 +54,12 @@ const SignUp = () => {
             <div>
                 <Form onSubmit={handleSubmit}>
                     {errors.non_field_errors?.map((message, idx) => (
-                        <Alert key={idx}>
+                        <Alert key={idx} variant="danger">
                             {message}
                         </Alert>
                     ))}
                     {errors.username?.map((message, idx) => (
-                        <Alert key={idx}>
+                        <Alert key={idx} variant="danger">
                             {message}
                         </Alert>
                     ))}
@@ -71,7 +75,7 @@ const SignUp = () => {
                     </Form.Group>
 
                     {errors.email?.map((message, idx) => (
-                        <Alert key={idx}>
+                        <Alert key={idx} variant="danger">
                             {message}
                         </Alert>
                     ))}
@@ -87,8 +91,8 @@ const SignUp = () => {
                         />
                     </Form.Group>
 
-                    {errors.password1.map((message, idx) => (
-                        <Alert key={idx}>
+                    {errors.password1?.map((message, idx) => (
+                        <Alert key={idx} variant="danger">
                             {message}
                         </Alert>
                     ))}
@@ -104,8 +108,8 @@ const SignUp = () => {
                         />
                     </Form.Group>
 
-                    {errors.password2.map((message, idx) => (
-                        <Alert key={idx}>
+                    {errors.password2?.map((message, idx) => (
+                        <Alert key={idx} variant="danger">
                             {message}
                         </Alert>
                     ))}

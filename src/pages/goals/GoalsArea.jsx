@@ -9,9 +9,11 @@ import styles from "../../styles/GoalsView.module.css";
 
 const GoalsArea = ({ id }) => {
     const [goalsData, setGoalsData] = useState([]);
+    const [filteredGoals, setFilteredGoals] = useState([]);
     const [goalsState, setGoalsState] = useState("view");
     const [hasLoaded, setHasLoaded] = useState(false);
     const [goalId, setGoalId] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,8 +23,10 @@ const GoalsArea = ({ id }) => {
                 console.log("Fetched data successfully:", data);
                 if (data.results && Array.isArray(data.results)) {
                     setGoalsData(data.results);
+                    setFilteredGoals(data.results);
                 } else {
                     setGoalsData([]); // Ensure goalsData is an array
+                    setFilteredGoals([]);
                 }
                 setHasLoaded(true);
             } catch (err) {
@@ -38,23 +42,34 @@ const GoalsArea = ({ id }) => {
         fetchGoals();
     }, [navigate, id]);
 
+    useEffect(() => {
+        const results = goalsData.filter(goal =>
+            goal.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredGoals(results);
+    }, [searchTerm, goalsData]);
+
     function GoalsContext() {
         if (goalsState === 'view') {
-            return Array.isArray(goalsData) && goalsData.map(goal => (
-                <GoalsView
-                    key={goal.id}
-                    id={goal.id}
-                    name={goal.name}
-                    reason={goal.reason}
-                    image={goal.image}
-                    setGoalState={setGoalsState}
-                    setGoalId={setGoalId}
-                />
-            ));
+            return Array.isArray(filteredGoals) && filteredGoals.length > 0 ? (
+                filteredGoals.map(goal => (
+                    <GoalsView
+                        key={goal.id}
+                        id={goal.id}
+                        name={goal.name}
+                        reason={goal.reason}
+                        image={goal.image}
+                        setGoalState={setGoalsState}
+                        setGoalId={setGoalId}
+                    />
+                ))
+            ) : (
+                <p>No goals match your search criteria.</p>
+            );
         } else if (goalsState === 'edit') {
             return <GoalsEdit id={goalId} setGoalData={setGoalsData} setGoalState={setGoalsState} />;
         } else if (goalsState === 'delete') {
-            return Array.isArray(goalsData) && goalsData.map(goal => (
+            return Array.isArray(filteredGoals) && filteredGoals.map(goal => (
                 <GoalsDelete
                     key={goal.id}
                     id={goal.id}
@@ -65,13 +80,31 @@ const GoalsArea = ({ id }) => {
         }
     }
 
+    const handleCreateGoal = () => {
+        navigate('/goalscreate'); 
+    };
+
     return (
-        <div className={styles.GoalsContainer}>
-            {hasLoaded ? (
-                <GoalsContext />
-            ) : (
-                <p>Loading Goals Data....</p>
-            )}
+        <div className={styles.Container}>
+            <div className={styles.SearchContainer}>
+                <input
+                    type="text"
+                    placeholder="Search goals..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className={styles.SearchInput}
+                />
+                <button onClick={handleCreateGoal} className={styles.CreateButton}>
+                    Create Goal
+                </button>
+            </div>
+            <div className={styles.GoalsContainer}>
+                {hasLoaded ? (
+                    <GoalsContext />
+                ) : (
+                    <p>Loading Goals Data....</p>
+                )}
+            </div>
         </div>
     );
 };

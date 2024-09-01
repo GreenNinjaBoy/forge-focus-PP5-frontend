@@ -154,8 +154,8 @@ const GoalsEdit = ({ id, setGoalData, setGoalState }) => {
 
 GoalsEdit.propTypes = {
   id: PropTypes.number,
-  setGoalData: PropTypes.func.isRequired,
-  setGoalState: PropTypes.func.isRequired,
+  setGoalData: PropTypes.func,
+  setGoalState: PropTypes.func,
 };
 
 export default GoalsEdit;

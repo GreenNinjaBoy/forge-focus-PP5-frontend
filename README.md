@@ -112,7 +112,7 @@ For ease of reading I have attempted to split the bugs into their associated fea
 <summary>Click Arrow to see bugs related to SignUp Page</summary>
 | Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
 |--|--|--|--|
-| When attempting to signup as a user, a 500 internal error would display in the console but when API Checked within backend the user has been created. | 500 (Internal Server Error) handleSubmit@ Signup.jsx:30  |  currently Still Working on the bug | Bug is not Fixed
+| When attempting to signup as a user, a 500 internal error would display in the console but when API Checked within backend the user has been created. | 500 (Internal Server Error) handleSubmit@ Signup.jsx:30  | with the help with the following link from stack overflow, the issue has now been resolved and the error now does not display | Bug is now fixed|
 </details>
 
 ### Signin Page
