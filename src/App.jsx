@@ -16,7 +16,7 @@ import NotAuthorized from './pages/NotAuthorized';
 import GoalsEdit from './pages/goals/GoalsEdit';
 import Footer from './components/Footer';
 import SuccessMessage from './components/SuccessMessage';
-
+import { getAuthToken } from './pages/utils/Auth';
 
 function App() {
   const currentUser = useCurrentUser();
@@ -26,8 +26,8 @@ function App() {
 
   useEffect(() => {
     const checkTokens = () => {
-      const refreshTokenTimeStamp = localStorage.getItem('refreshTokenTimeStamp');
-      if (refreshTokenTimeStamp && currentUser) {
+      const token = getAuthToken();
+      if (token && currentUser) {
         setAuthenticatedUser(true);
       } else {
         setAuthenticatedUser(false);
@@ -46,7 +46,7 @@ function App() {
       <MainNavBar />
       <SuccessMessage />
       <Routes>
-        <Route path="/" element={authenticatedUser ? <Navigate to="/home" /> : <Navigate to="/about" />} />
+        <Route path="/" element={<Navigate to={authenticatedUser ? "/home" : "/about"} />} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />

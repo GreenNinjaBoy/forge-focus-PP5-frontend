@@ -5,7 +5,7 @@ const ProtectedRoute = ({ children }) => {
   const currentUser = useCurrentUser();
 
   if (!currentUser) {
-    return <Navigate to="/notAuthorized" />;
+    return <Navigate to="/notauthorized" />;
   }
 
   return children;
