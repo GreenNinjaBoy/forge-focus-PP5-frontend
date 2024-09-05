@@ -11,6 +11,25 @@ const TasksArea = ( {id} ) => {
     const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const fetchTasks = async () => {
+            try {
+                const { data } = await axiosReq.get(`/tasks/`);
+                const unassignedTasks = data.results.filter(task => !task.goals);
+                setTasksData(unassignedTasks);
+                setActiveTasks(unassignedTasks.filter(task => !task.completed));
+                setCompletedTasks(unassignedTasks.filter(task => task.completed));
+                setHasLoaded(true);
+            } catch (err) {
+                console.log("Failed to fetch tasks", err);
+            }
+        };
+
+        fetchTasks();
+    }, [navigate, id]);
+
+    
+
 
   return (
     <div>TasksArea</div>
