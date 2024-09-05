@@ -25,7 +25,7 @@ const GoalsArea = ({ id }) => {
                     setGoalsData(data.results);
                     setFilteredGoals(data.results);
                 } else {
-                    setGoalsData([]); // Ensure goalsData is an array
+                    setGoalsData([]);
                     setFilteredGoals([]);
                 }
                 setHasLoaded(true);

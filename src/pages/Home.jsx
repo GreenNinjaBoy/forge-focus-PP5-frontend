@@ -75,7 +75,7 @@ const Home = () => {
                   You currently have {tasksCount} tasks that are not assigned to any goals.
                 </Card.Text>
                 <Button onClick={() => navigate('/taskscreate')}>Create New Task</Button>
-                <Button onClick={() => navigate('/TasksArea')}>View Tasks</Button>
+                <Button onClick={() => navigate('/tasksarea')}>View Tasks</Button>
               </Card.Body>
             </Card>
           </div>
