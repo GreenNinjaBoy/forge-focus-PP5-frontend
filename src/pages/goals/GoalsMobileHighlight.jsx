@@ -6,3 +6,11 @@ import { Accordion,
     Card, Spinner } from "react-bootstrap";
 import { axiosReq } from "../../api/axiosDefaults";
 
+const GoalsMobileHighlight = (props) => {
+    const {
+        name,
+        image,
+        id
+    } = props;
+}
+
