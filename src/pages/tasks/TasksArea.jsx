@@ -52,7 +52,10 @@ const TasksArea = ( {id} ) => {
         setActiveTasks([...activeTasks, ...updatedTasks.filter(task => !task.completed)]);
     };
 
-    
+    const handleDeleteTask = (taskId) => {
+        setActiveTasks(activeTasks.filter(task => task.id !== taskId));
+        setCompletedTasks(completedTasks.filter(task => task.id !== taskId));
+    };
 
 
   return (
