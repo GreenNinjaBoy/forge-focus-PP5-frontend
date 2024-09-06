@@ -28,6 +28,14 @@ const TasksArea = ( {id} ) => {
         fetchTasks();
     }, [navigate, id]);
 
+    useEffect(() => {
+        const results = tasksData.filter(task =>
+            task.task_title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setActiveTasks(results.filter(task => !task.completed));
+        setCompletedTasks(results.filter(task => task.completed));
+    }, [searchTerm, tasksData]);
+
     
 
 
