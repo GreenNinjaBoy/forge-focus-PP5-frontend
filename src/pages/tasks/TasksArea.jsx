@@ -36,6 +36,14 @@ const TasksArea = ( {id} ) => {
         setCompletedTasks(results.filter(task => task.completed));
     }, [searchTerm, tasksData]);
 
+    const handleCompleteTask = (taskId) => {
+        const updatedTasks = activeTasks.map( task =>
+            task.id === taskId ? { ...task, completed: true } : task
+        );
+        setActiveTasks(updatedTasks.filter(task => !task.completed));
+        setCompletedTasks([...completedTasks, ...updatedTasks.filter(task => task.completed)]);
+    };
+
     
 
 
