@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import styles from "../../styles/TasksArea.module.css"
 
 const TasksArea = ( {id} ) => {
     const [tasksData, setTasksData] = useState([]);
@@ -64,26 +65,27 @@ const TasksArea = ( {id} ) => {
 
 
     return (
-        <div>
-            <div >
+        <div className={styles.Container}>
+            <div className={styles.SearchContainer} >
                 <input
                     type="text"
                     placeholder="serach tasks..."
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}   
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className={styles.SearchInput}   
                     />
-                    <Button onClick={handleCreateTask}>
+                    <Button onClick={handleCreateTask} className={styles.CreateButton}>
                     Create New Task
                 </Button>
             </div>
-            <div>
+            <div className={styles.CreateButton}>
                 {hasLoaded ? (
                     <>
-                    <div>
+                    <div className={styles.ActiveTasks}>
                         <h2>Active Tasks</h2>
                         {activeTasks.length > 0 ? (
                             activeTasks.map(task => (
-                                <div key={task.id}>
+                                <div key={task.id} className={styles.TaskCard}>
                                     <p>{task.task_title}</p>
                                     <button onClick={() => handleCompleteTask(task.id)}>Complete</button>
                                             <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
@@ -94,11 +96,11 @@ const TasksArea = ( {id} ) => {
                                     <p>No active tasks.</p>
                                 )}
                             </div>
-                            <div>
+                            <div className={styles.CompletedTasks}>
                                 <h2>Completed Tasks</h2>
                                 {completedTasks.length > 0 ? (
                                     completedTasks.map(task => (
-                                        <div key={task.id}>
+                                        <div key={task.id} className={styles.TaskCard}>
                                             <p>{task.task_title}</p>
                                             <button onClick={() => handleResetTask(task.id)}>Reset</button>
                                             <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
