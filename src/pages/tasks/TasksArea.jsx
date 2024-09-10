@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const TasksArea = ( {id} ) => {
     const [tasksData, setTasksData] = useState([]);
-    const [activeTasks, setActiveTasks] = useSate([]);
+    const [activeTasks, setActiveTasks] = useState([]);
     const [completedTasks, setCompletedTasks] = useState([]);
     const [hasLoaded, setHasLoaded] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -58,9 +58,60 @@ const TasksArea = ( {id} ) => {
     };
 
 
-  return (
-    <div>TasksArea</div>
-  )
-}
+    return (
+        <div>
+            <div >
+                <input
+                    type="text"
+                    placeholder="serach tasks..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    
+                    />
+            </div>
+            <div>
+                {hasLoaded ? (
+                    <>
+                    <div>
+                        <h2>Active Tasks</h2>
+                        {activeTasks.length > 0 ? (
+                            activeTasks.map(task => (
+                                <div key={task.id}>
+                                    <p>{task.task_title}</p>
+                                    <button onClick={() => handleCompleteTask(task.id)}>Complete</button>
+                                            <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
+                                            <button onClick={() => navigate(`/tasksedit/${task.id}`)}>Edit</button>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>No active tasks.</p>
+                                )}
+                            </div>
+                            <div>
+                                <h2>Completed Tasks</h2>
+                                {completedTasks.length > 0 ? (
+                                    completedTasks.map(task => (
+                                        <div key={task.id}>
+                                            <p>{task.task_title}</p>
+                                            <button onClick={() => handleResetTask(task.id)}>Reset</button>
+                                            <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>No completed tasks.</p>
+                                )}
+                            </div>
+                        </>
+                    ) : (
+                        <p>Loading Tasks Data....</p>
+                    )}
+                </div>
+            </div>
+        );
+    };
 
-export default TasksArea
+    TasksArea.propTypes = {
+        id: PropTypes.number, 
+    };
+
+export default TasksArea;

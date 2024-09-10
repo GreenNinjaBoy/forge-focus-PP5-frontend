@@ -14,6 +14,7 @@ import GoalsArea from './pages/goals/GoalsArea';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotAuthorized from './pages/NotAuthorized';
 import GoalsEdit from './pages/goals/GoalsEdit';
+import TasksArea from './pages/tasks/TasksArea';
 import Footer from './components/Footer';
 import SuccessMessage from './components/SuccessMessage';
 import { getAuthToken } from './pages/utils/Auth';
@@ -56,6 +57,7 @@ function App() {
         <Route path="/goalsarea" element={<ProtectedRoute><GoalsArea /></ProtectedRoute>} />
         <Route path="/goalscreate" element={<ProtectedRoute><GoalsCreate /></ProtectedRoute>} />
         <Route path="/goalsedit" element={<ProtectedRoute><GoalsEdit /></ProtectedRoute>} />
+        <Route path="/tasksarea" element={<ProtectedRoute><TasksArea /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to={authenticatedUser ? "/home" : "/about"} state={{ from: location }} />} />
       </Routes>
       <Footer />
