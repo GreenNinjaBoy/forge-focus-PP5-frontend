@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const TasksArea = ( {id} ) => {
     const [tasksData, setTasksData] = useState([]);
@@ -57,6 +58,10 @@ const TasksArea = ( {id} ) => {
         setCompletedTasks(completedTasks.filter(task => task.id !== taskId));
     };
 
+    const handleCreateTask = () => {
+        navigate('/taskcreate');
+    }
+
 
     return (
         <div>
@@ -65,9 +70,11 @@ const TasksArea = ( {id} ) => {
                     type="text"
                     placeholder="serach tasks..."
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    
+                    onChange={(e) => setSearchTerm(e.target.value)}   
                     />
+                    <Button onClick={handleCreateTask}>
+                    Create New Task
+                </Button>
             </div>
             <div>
                 {hasLoaded ? (
