@@ -31,7 +31,7 @@ const TaskCreate = ({ keyParameters = {} }) => {
         const { name, value } = event.target;
         if (name === "taskTitle") setTaskTitle(value);
         if (name === "taskDetails") setTaskDetails(value);
-        if (name === "achieve_by") setDeadline(value);
+        if (name === "deadline") setDeadline(value);
         if (name === "goal") setSelectedGoal(value);
     };
 
@@ -41,10 +41,11 @@ const TaskCreate = ({ keyParameters = {} }) => {
             const { data } = await axiosReq.post("/tasks/", {
                 task_title: taskTitle,
                 task_details: taskDetails,
-                achieve_by: deadline,
+                deadline: deadline,
                 goals: selectedGoal || null,
                 completed: false,
             });
+            console.log("Task created successfully:", data);
             navigate(selectedGoal ? "/goalsarea" : "/tasksarea");
         } catch (err) {
             setError("Failed to create task");
@@ -84,7 +85,7 @@ const TaskCreate = ({ keyParameters = {} }) => {
                     <Form.Label>Task Deadline:</Form.Label>
                     <Form.Control
                         type="date"
-                        name="achieve_by"
+                        name="deadline"
                         value={deadline}
                         onChange={handleChange}
                     />

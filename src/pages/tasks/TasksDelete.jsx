@@ -1,44 +1,53 @@
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { axiosReq } from "../../api/axiosDefaults";
-import { Button, Alert } from "react-bootstrap";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+import { axiosReq } from "../../api/axiosDefaults";
+import { Button } from "react-bootstrap";
+import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
-
-const TasksDelete = () => {
-    const { id } = useParams();
-    const [error, setError] = useState(null);
+const TasksDelete = ({ id, taskTitle, setTasksState }) => {
+    const setShowGlobalSuccess = useSetShowGlobalSuccess();
+    const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
+    
     const navigate = useNavigate();
 
     const handleDelete = async () => {
         try {
-            await axiosReq.delete(`/tasks/${id}/`);
-            navigate("/tasksarea");
+            console.log(`Deleting task with ID: ${id}`);
+            const response = await axiosReq.delete(`/tasks/${id}/`);
+            console.log("Delete response:", response); 
+            setGlobalSuccessMessage("You have deleted your task");
+            setShowGlobalSuccess(true);
+            navigate('/tasksarea');
         } catch (err) {
-            setError("Failed to delete task");
-            console.error("Failed to delete task", err);
+            console.error("Error Deleting Task", err);
+            if (err.response) {
+                console.error("Response data:", err.response.data);
+                console.error("Response status:", err.response.status);
+                console.error("Response headers:", err.response.headers);
+            }
         }
     };
 
     const handleCancel = () => {
-        navigate("/tasksarea");
+        setTasksState('view');
     };
 
     return (
         <div>
             <h2>Delete Task</h2>
-            {error && <Alert variant="danger">{error}</Alert>}
-            <p>Are you sure you want to delete this task?</p>
+            <p>Are you sure you want to delete this task: {taskTitle}?</p>
             <div>
-                <Button variant="danger" onClick={handleDelete}>Delete</Button>
-                <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
+                <Button onClick={handleDelete}>Delete</Button>
+                <Button onClick={handleCancel}>Cancel</Button>
             </div>
         </div>
     );
 };
 
 TasksDelete.propTypes = {
-    id: PropTypes.number,
+    id: PropTypes.number.isRequired,
+    taskTitle: PropTypes.string.isRequired,
+    setTasksState: PropTypes.func.isRequired,
 };
 
 export default TasksDelete;

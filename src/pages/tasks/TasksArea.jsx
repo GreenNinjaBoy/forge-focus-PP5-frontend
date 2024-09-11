@@ -1,14 +1,19 @@
-import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
+import TasksView from "./TasksView";
+import TasksEdit from "./TasksEdit";
+import TasksDelete from "./TasksDelete";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/TasksArea.module.css";
-import PropTypes from "prop-types";
 
-const TasksArea = () => {
+const TasksArea = ({ id }) => {
     const [tasksData, setTasksData] = useState([]);
-    const [activeTasks, setActiveTasks] = useState([]);
-    const [completedTasks, setCompletedTasks] = useState([]);
+    const [filteredTasks, setFilteredTasks] = useState([]);
+    const [tasksState, setTasksState] = useState("view");
     const [hasLoaded, setHasLoaded] = useState(false);
+    const [taskId, setTaskId] = useState(null);
+    const [taskTitle, setTaskTitle] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate();
 
@@ -16,48 +21,63 @@ const TasksArea = () => {
         const fetchTasks = async () => {
             try {
                 const { data } = await axiosReq.get(`/tasks/?goals__isnull=true`);
-                setTasksData(data.results);
-                setActiveTasks(data.results.filter(task => !task.completed));
-                setCompletedTasks(data.results.filter(task => task.completed));
+                console.log("Fetched data successfully:", data);
+                if (data.results && Array.isArray(data.results)) {
+                    setTasksData(data.results);
+                    setFilteredTasks(data.results);
+                } else {
+                    setTasksData([]);
+                    setFilteredTasks([]);
+                }
                 setHasLoaded(true);
             } catch (err) {
+                if (err.response?.status === 401) {
+                    navigate('/signin');
+                } else if (err.response?.status === 403 || err.response?.status === 404) {
+                    navigate('/home');
+                }
                 console.log("Failed to fetch tasks", err);
             }
         };
 
         fetchTasks();
-    }, [navigate]);
+    }, [navigate, id]);
 
     useEffect(() => {
         const results = tasksData.filter(task =>
             task.task_title.toLowerCase().includes(searchTerm.toLowerCase())
         );
-        setActiveTasks(results.filter(task => !task.completed));
-        setCompletedTasks(results.filter(task => task.completed));
+        setFilteredTasks(results);
     }, [searchTerm, tasksData]);
 
-    const handleCompleteTask = (taskId) => {
-        const updatedTasks = activeTasks.map(task =>
-            task.id === taskId ? { ...task, completed: true } : task
-        );
-        setActiveTasks(updatedTasks.filter(task => !task.completed));
-        setCompletedTasks([...completedTasks, ...updatedTasks.filter(task => task.completed)]);
-    };
-
-    const handleResetTask = (taskId) => {
-        const updatedTasks = completedTasks.map(task =>
-            task.id === taskId ? { ...task, completed: false } : task
-        );
-        setCompletedTasks(updatedTasks.filter(task => task.completed));
-        setActiveTasks([...activeTasks, ...updatedTasks.filter(task => !task.completed)]);
-    };
-
-    const handleDeleteTask = (taskId) => {
-        navigate(`/tasksdelete/${taskId}`);
-    };
+    function TasksContext() {
+        if (tasksState === 'view') {
+            return Array.isArray(filteredTasks) && filteredTasks.length > 0 ? (
+                filteredTasks.map(task => (
+                    <TasksView
+                        key={task.id}
+                        id={task.id}
+                        task_title={task.task_title}
+                        task_details={task.task_details}
+                        deadline={task.deadline}
+                        completed={task.completed}
+                        setTasksState={setTasksState}
+                        setTaskId={setTaskId}
+                        setTaskTitle={setTaskTitle}
+                    />
+                ))
+            ) : (
+                <p>No tasks match your search criteria.</p>
+            );
+        } else if (tasksState === 'edit') {
+            return <TasksEdit id={taskId} setTasksData={setTasksData} setTasksState={setTasksState} />;
+        } else if (tasksState === 'delete') {
+            return <TasksDelete id={taskId} taskTitle={taskTitle} setTasksState={setTasksState} />;
+        }
+    }
 
     const handleCreateTask = () => {
-        navigate('/taskcreate');
+        navigate('/taskcreate'); 
     };
 
     return (
@@ -71,42 +91,12 @@ const TasksArea = () => {
                     className={styles.SearchInput}
                 />
                 <button onClick={handleCreateTask} className={styles.CreateButton}>
-                    Create New Task
+                    Create Task
                 </button>
             </div>
             <div className={styles.TasksContainer}>
                 {hasLoaded ? (
-                    <>
-                        <div className={styles.ActiveTasks}>
-                            <h2>Active Tasks</h2>
-                            {activeTasks.length > 0 ? (
-                                activeTasks.map(task => (
-                                    <div key={task.id} className={styles.TaskCard}>
-                                        <p>{task.task_title}</p>
-                                        <button onClick={() => handleCompleteTask(task.id)}>Complete</button>
-                                        <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
-                                        <button onClick={() => navigate(`/tasksedit/${task.id}`)}>Edit</button>
-                                    </div>
-                                ))
-                            ) : (
-                                <p>No active tasks.</p>
-                            )}
-                        </div>
-                        <div className={styles.CompletedTasks}>
-                            <h2>Completed Tasks</h2>
-                            {completedTasks.length > 0 ? (
-                                completedTasks.map(task => (
-                                    <div key={task.id} className={styles.TaskCard}>
-                                        <p>{task.task_title}</p>
-                                        <button onClick={() => handleResetTask(task.id)}>Reset</button>
-                                        <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
-                                    </div>
-                                ))
-                            ) : (
-                                <p>No completed tasks.</p>
-                            )}
-                        </div>
-                    </>
+                    <TasksContext />
                 ) : (
                     <p>Loading Tasks Data....</p>
                 )}
@@ -116,7 +106,7 @@ const TasksArea = () => {
 };
 
 TasksArea.propTypes = {
-    id: PropTypes.number,
+    id: PropTypes.number, 
 };
 
 export default TasksArea;
