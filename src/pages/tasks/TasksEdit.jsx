@@ -3,54 +3,80 @@ import { useState, useEffect } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert } from "react-bootstrap";
+import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
 const TasksEdit = ({ id, setTasksData, setTasksState }) => {
-    const [taskTitle, setTaskTitle] = useState("");
-    const [taskDetails, setTaskDetails] = useState("");
-    const [deadline, setDeadline] = useState("");
-    const [completed, setCompleted] = useState(false);
+    const [taskData, setTaskData] = useState({
+        task_title: "",
+        task_details: "",
+        deadline: "",
+        goals: null,
+    });
+    const [goals, setGoals] = useState([]);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const setShowGlobalSuccess = useSetShowGlobalSuccess();
+    const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
 
     useEffect(() => {
         const fetchTask = async () => {
             try {
                 const { data } = await axiosReq.get(`/tasks/${id}/`);
-                setTaskTitle(data.task_title);
-                setTaskDetails(data.task_details);
-                setDeadline(data.deadline);
-                setCompleted(data.completed);
+                setTaskData({
+                    task_title: data.task_title,
+                    task_details: data.task_details,
+                    deadline: data.deadline.split('T')[0], // Ensure date is in yyyy-MM-dd format
+                    goals: data.goals,
+                });
             } catch (err) {
-                setError("Failed to fetch task");
+                if (err.response?.status === 401) {
+                    navigate('/signin');
+                } else if (err.response?.status === 403 || err.response?.status === 404) {
+                    navigate('/tasksarea');
+                }
                 console.error("Failed to fetch task", err);
             }
         };
 
+        const fetchGoals = async () => {
+            try {
+                const { data } = await axiosReq.get("/goals/");
+                setGoals(data.results);
+            } catch (err) {
+                console.error("Failed to fetch goals", err);
+            }
+        };
+
         fetchTask();
-    }, [id]);
+        fetchGoals();
+    }, [id, navigate]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        if (name === "taskTitle") setTaskTitle(value);
-        if (name === "taskDetails") setTaskDetails(value);
-        if (name === "deadline") setDeadline(value);
-        if (name === "completed") setCompleted(event.target.checked);
+        setTaskData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const formattedData = {
+            ...taskData,
+            deadline: taskData.deadline ? `${taskData.deadline}T00:00:00Z` : null, // Format deadline correctly
+        };
         try {
-            const { data } = await axiosReq.put(`/tasks/${id}/`, {
-                task_title: taskTitle,
-                task_details: taskDetails,
-                achieve_by: deadline,
-                completed: completed,
-            });
-            setTasksData(prevTasks => prevTasks.map(task => (task.id === id ? data : task)));
+            const { data } = await axiosReq.put(`/tasks/${id}/`, formattedData);
+            setGlobalSuccessMessage("You have edited your task");
+            setShowGlobalSuccess(true);
+            setTasksData(prevTasks => prevTasks.map(task => task.id === id ? data : task)); // Update tasksData as an array
             setTasksState('view');
+            navigate('/tasksarea');
         } catch (err) {
-            setError("Failed to update task");
-            console.error("Failed to update task", err);
+            if (err.response?.status !== 401) {
+                setError(err.response?.data?.detail || "An error occurred while updating the task.");
+                console.error("Error response data:", err.response?.data);
+            }
         }
     };
 
@@ -67,8 +93,8 @@ const TasksEdit = ({ id, setTasksData, setTasksState }) => {
                     <Form.Label>Task Title:</Form.Label>
                     <Form.Control
                         type="text"
-                        name="taskTitle"
-                        value={taskTitle}
+                        name="task_title"
+                        value={taskData.task_title}
                         onChange={handleChange}
                         required
                     />
@@ -77,8 +103,8 @@ const TasksEdit = ({ id, setTasksData, setTasksState }) => {
                     <Form.Label>Task Details:</Form.Label>
                     <Form.Control
                         as="textarea"
-                        name="taskDetails"
-                        value={taskDetails}
+                        name="task_details"
+                        value={taskData.task_details}
                         onChange={handleChange}
                     />
                 </Form.Group>
@@ -87,18 +113,25 @@ const TasksEdit = ({ id, setTasksData, setTasksState }) => {
                     <Form.Control
                         type="date"
                         name="deadline"
-                        value={deadline}
+                        value={taskData.deadline}
                         onChange={handleChange}
                     />
                 </Form.Group>
-                <Form.Group controlId="task-completed">
-                    <Form.Check
-                        type="checkbox"
-                        name="completed"
-                        label="Completed"
-                        checked={completed}
+                <Form.Group controlId="task-goals">
+                    <Form.Label>Assign to Goal:</Form.Label>
+                    <Form.Control
+                        as="select"
+                        name="goals"
+                        value={taskData.goals || ""}
                         onChange={handleChange}
-                    />
+                    >
+                        <option value="">None</option>
+                        {goals.map((goal) => (
+                            <option key={goal.id} value={goal.id}>
+                                {goal.name}
+                            </option>
+                        ))}
+                    </Form.Control>
                 </Form.Group>
                 <div>
                     <Button onClick={handleCancel}>Cancel</Button>
