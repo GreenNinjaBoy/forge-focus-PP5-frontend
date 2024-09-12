@@ -3,8 +3,13 @@
     background-color: #346138;
     color: white;
     display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
     padding: 10px 10px 10px 15px;
-    align-items: center;
+    position: fixed; /* Fix the footer to the bottom */
+    bottom: 0; /* Align it to the bottom */
+    left: 0; /* Ensure it spans the full width */
+    z-index: 1000; /* Ensure it stays above other content */
 }
 
 .Footer > p {
