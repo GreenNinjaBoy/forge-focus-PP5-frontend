@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import { Button } from "react-bootstrap";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
@@ -7,17 +6,16 @@ import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks
 const TasksDelete = ({ id, taskTitle, setTasksState }) => {
     const setShowGlobalSuccess = useSetShowGlobalSuccess();
     const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
-    
-    const navigate = useNavigate();
 
     const handleDelete = async () => {
         try {
-            console.log(`Deleting task with ID: ${id}`);
+            console.log(`Deleting task with ID: ${id}`); 
             const response = await axiosReq.delete(`/tasks/${id}/`);
             console.log("Delete response:", response); 
             setGlobalSuccessMessage("You have deleted your task");
             setShowGlobalSuccess(true);
-            navigate('/tasksarea');
+            console.log("Refreshing the page"); 
+            window.location.reload(); 
         } catch (err) {
             console.error("Error Deleting Task", err);
             if (err.response) {
