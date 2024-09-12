@@ -1,48 +1,32 @@
+import React from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+import styles from "../../styles/GoalsView.module.css";
 
-const GoalsView = (props) => {
-    const {
-        id,
-        name,
-        reason,
-        image,
-        setGoalState,
-        setGoalId
-    } = props;
+const GoalsView = ({ id, name, image, tasksCount }) => {
+  const navigate = useNavigate();
 
-    const handleEdit = () => {
-        setGoalId(id);
-        setGoalState('edit');
-    }
+  const handleViewGoal = () => {
+    navigate(`/goaldetails/${id}`); 
+  };
 
-    const handleDelete = () => {
-        setGoalState('delete');
-    }
-
-    return (
-        <div>
-            <img src={image} alt='goal' />
-            <h2>{name}</h2>
-            <p>{reason}</p>
-            <div>
-                <button onClick={handleEdit}>
-                    Edit Goal
-                </button>
-                <button onClick={handleDelete}>
-                    Delete Goal
-                </button>
-            </div>
-        </div>
-    );
+  return (
+    <div className={styles.GoalCard}>
+      <img src={image} alt={name} className={styles.GoalImage} />
+      <h3>{name}</h3>
+      <p>Tasks: {tasksCount}</p>
+      <button onClick={handleViewGoal} className={styles.ViewButton}>
+        View Goal
+      </button>
+    </div>
+  );
 };
 
 GoalsView.propTypes = {
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    reason: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    setGoalState: PropTypes.func.isRequired,
-    setGoalId: PropTypes.func.isRequired,
-}
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  tasksCount: PropTypes.number.isRequired,
+};
 
 export default GoalsView;

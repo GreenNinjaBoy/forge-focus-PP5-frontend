@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { useCurrentUser } from '../contexts/CurrentUserContext';
+import { useCurrentUser } from '../hooks/useCurrentUser';
 
 const ProtectedRoute = ({ children }) => {
   const currentUser = useCurrentUser();

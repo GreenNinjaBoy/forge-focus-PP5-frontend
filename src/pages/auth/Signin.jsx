@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
-import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
+import { useSetCurrentUser } from "../../hooks/useCurrentUser"; // Update the import path
 import { setTokenTimestamp } from "../utils/Utils";
 import { useRedirect } from "../../hooks/useRedirect";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
@@ -29,7 +29,7 @@ function SignIn() {
     try {
       const { data } = await axios.post("/dj-rest-auth/login/", logInData);
       setCurrentUser(data.user);
-      console.log("user data recieved",data.user);
+      console.log("user data received", data.user);
       if (data && data.access_token) {
         setTokenTimestamp(data);
         setGlobalSuccessMessage("You are now signed in.");

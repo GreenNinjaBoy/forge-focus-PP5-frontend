@@ -6,7 +6,7 @@ import About from './pages/About';
 import SignUp from './pages/auth/Signup';
 import SignIn from './pages/auth/Signin';
 import GoalsCreate from './pages/goals/GoalsCreate';
-import { useCurrentUser } from './contexts/CurrentUserContext';
+import { useCurrentUser } from './hooks/useCurrentUser';
 import './App.css';
 import MainNavBar from './components/NavBar';
 import Goals from './pages/goals/Goals';
@@ -20,6 +20,7 @@ import TasksDelete from './pages/tasks/TasksDelete';
 import Footer from './components/Footer';
 import SuccessMessage from './components/SuccessMessage';
 import { getAuthToken } from './pages/utils/Auth';
+import GoalDetails from './pages/goals/GoalDetails';
 
 function App() {
   const currentUser = useCurrentUser();
@@ -57,6 +58,7 @@ function App() {
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/goals" element={<ProtectedRoute><Goals /></ProtectedRoute>} />
         <Route path="/goalsarea" element={<ProtectedRoute><GoalsArea /></ProtectedRoute>} />
+        <Route path="/goaldetails/:id" element={<ProtectedRoute><GoalDetails /></ProtectedRoute>} />
         <Route path="/goalscreate" element={<ProtectedRoute><GoalsCreate /></ProtectedRoute>} />
         <Route path="/goalsedit" element={<ProtectedRoute><GoalsEdit /></ProtectedRoute>} />
         <Route path="/tasksarea" element={<ProtectedRoute><TasksArea /></ProtectedRoute>} />

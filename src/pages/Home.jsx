@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { axiosReq } from '../api/axiosDefaults';
-import { useCurrentUser, useSetCurrentUser } from '../contexts/CurrentUserContext';
+import { useCurrentUser, useSetCurrentUser } from '../hooks/useCurrentUser';
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
@@ -74,7 +74,7 @@ const Home = () => {
                 <Card.Text>
                   You currently have {tasksCount} tasks that are not assigned to any goals.
                 </Card.Text>
-                <Button onClick={() => navigate('/taskscreate')}>Create New Task</Button>
+                <Button onClick={() => navigate('/taskcreate')}>Create New Task</Button>
                 <Button onClick={() => navigate('/tasksarea')}>View Tasks</Button>
               </Card.Body>
             </Card>

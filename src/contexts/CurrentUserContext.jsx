@@ -1,15 +1,11 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import PropTypes from "prop-types";
 import axios from "axios";
 import { axiosReq, axiosRes } from "../api/axiosDefaults";
 import { useNavigate } from "react-router";
 import { removeTokenTimestamp, shouldRefreshToken } from "../pages/utils/Utils";
 import { getAuthToken, setAuthToken, clearAuthToken } from "../pages/utils/Auth";
-
-export const CurrentUserContext = createContext();
-export const SetCurrentUserContext = createContext();
-
-export const useCurrentUser = () => useContext(CurrentUserContext);
-export const useSetCurrentUser = () => useContext(SetCurrentUserContext);
+import { CurrentUserContext, SetCurrentUserContext } from "../hooks/useCurrentUser";
 
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -38,7 +34,8 @@ export const CurrentUserProvider = ({ children }) => {
           try {
             const { data } = await axios.post("/dj-rest-auth/token/refresh/");
             setAuthToken(data.access);
-          } catch (err) {
+            config.headers.Authorization = `Bearer ${data.access}`;
+          } catch (error) {
             setCurrentUser((prevCurrentUser) => {
               if (prevCurrentUser) {
                 navigate("/signin");
@@ -47,7 +44,7 @@ export const CurrentUserProvider = ({ children }) => {
             });
             removeTokenTimestamp();
             clearAuthToken();
-            return config;
+            return Promise.reject(error);
           }
         }
         return config;
@@ -64,7 +61,9 @@ export const CurrentUserProvider = ({ children }) => {
           try {
             const { data } = await axios.post("/dj-rest-auth/token/refresh/");
             setAuthToken(data.access);
-          } catch (err) {
+            err.config.headers.Authorization = `Bearer ${data.access}`;
+            return axios(err.config);
+          } catch (error) {
             setCurrentUser((prevCurrentUser) => {
               if (prevCurrentUser) {
                 navigate("/signin");
@@ -74,7 +73,6 @@ export const CurrentUserProvider = ({ children }) => {
             removeTokenTimestamp();
             clearAuthToken();
           }
-          return axios(err.config);
         }
         return Promise.reject(err);
       }
@@ -88,4 +86,8 @@ export const CurrentUserProvider = ({ children }) => {
       </SetCurrentUserContext.Provider>
     </CurrentUserContext.Provider>
   );
+};
+
+CurrentUserProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };

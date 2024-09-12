@@ -1,4 +1,4 @@
-import { useCurrentUser } from '../../contexts/CurrentUserContext';
+import { useCurrentUser } from '../../hooks/useCurrentUser';
 import { useParams } from 'react-router-dom';
 import GoalsDesktop from './GoalsDesktop';
 
