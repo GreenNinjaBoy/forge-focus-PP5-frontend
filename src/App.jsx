@@ -9,7 +9,6 @@ import GoalsCreate from './pages/goals/GoalsCreate';
 import { useCurrentUser } from './hooks/useCurrentUser';
 import './App.css';
 import MainNavBar from './components/NavBar';
-import Goals from './pages/goals/Goals';
 import GoalsArea from './pages/goals/GoalsArea';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotAuthorized from './pages/NotAuthorized';
@@ -56,7 +55,6 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-        <Route path="/goals" element={<ProtectedRoute><Goals /></ProtectedRoute>} />
         <Route path="/goalsarea" element={<ProtectedRoute><GoalsArea /></ProtectedRoute>} />
         <Route path="/goaldetails/:id" element={<ProtectedRoute><GoalDetails /></ProtectedRoute>} />
         <Route path="/goalscreate" element={<ProtectedRoute><GoalsCreate /></ProtectedRoute>} />

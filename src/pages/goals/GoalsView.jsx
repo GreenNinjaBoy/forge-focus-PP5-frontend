@@ -12,7 +12,7 @@ const GoalsView = ({ id, name, image, tasksCount }) => {
 
   return (
     <div className={styles.GoalCard}>
-      <img src={image} alt={name} className={styles.GoalImage} />
+      <img src={image} alt={name} className={styles.Image} />
       <h3>{name}</h3>
       <p>Tasks: {tasksCount}</p>
       <button onClick={handleViewGoal} className={styles.ViewButton}>
