@@ -4,10 +4,12 @@ import { Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
 import { useSetCurrentUser } from "../../hooks/useCurrentUser";
 import { setTokenTimestamp } from "../../utils/Utils";
+import { useRedirect } from "../../hooks/useRedirect";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
 function SignIn() {
   const setCurrentUser = useSetCurrentUser();
+  useRedirect("loggedIn");
 
   const setShowGlobalSuccess = useSetShowGlobalSuccess();
   const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
@@ -27,18 +29,10 @@ function SignIn() {
     try {
       const { data } = await axios.post("/dj-rest-auth/login/", logInData);
       setCurrentUser(data.user);
-      console.log("user data received", data.user);
-      if (data && data.access_token) {
-        setTokenTimestamp(data);
-        setGlobalSuccessMessage("You are now signed in.");
-        setShowGlobalSuccess(true);
-        console.log("Token timestamp set with data:", data);
-      } else {
-        setGlobalSuccessMessage("You are now signed in.");
-        setShowGlobalSuccess(true);
-        //console.warn("Data does not contain access_token:", data);
-      }
-      navigate('/home');
+      setTokenTimestamp(data);
+      setGlobalSuccessMessage("You are now signed in.");
+      setShowGlobalSuccess(true);
+      navigate("/home");
     } catch (err) {
       setErrors(err.response?.data);
     }
@@ -88,6 +82,6 @@ function SignIn() {
       </Form>
     </div>
   );
-};
+}
 
 export default SignIn;
