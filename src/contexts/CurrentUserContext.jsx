@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { axiosReq, axiosRes } from "../api/axiosDefaults";
 import { useNavigate } from "react-router";
-import { removeTokenTimestamp, shouldRefreshToken } from "../pages/utils/Utils";
-import { getAuthToken, setAuthToken, clearAuthToken } from "../pages/utils/Auth";
+import { removeTokenTimestamp, shouldRefreshToken } from "../utils/Utils";
 import { CurrentUserContext, SetCurrentUserContext } from "../hooks/useCurrentUser";
 
 export const CurrentUserProvider = ({ children }) => {
@@ -12,14 +11,11 @@ export const CurrentUserProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const handleMount = async () => {
-    const token = getAuthToken();
-    if (token) {
-      try {
-        const { data } = await axiosRes.get("dj-rest-auth/user/");
-        setCurrentUser(data);
-      } catch (err) {
-        console.log(err);
-      }
+    try {
+      const { data } = await axiosRes.get("dj-rest-auth/user/");
+      setCurrentUser(data);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -32,10 +28,8 @@ export const CurrentUserProvider = ({ children }) => {
       async (config) => {
         if (shouldRefreshToken()) {
           try {
-            const { data } = await axios.post("/dj-rest-auth/token/refresh/");
-            setAuthToken(data.access);
-            config.headers.Authorization = `Bearer ${data.access}`;
-          } catch (error) {
+            await axios.post("dj-rest-auth/token/refresh/");
+          } catch (err) {
             setCurrentUser((prevCurrentUser) => {
               if (prevCurrentUser) {
                 navigate("/signin");
@@ -43,8 +37,7 @@ export const CurrentUserProvider = ({ children }) => {
               return null;
             });
             removeTokenTimestamp();
-            clearAuthToken();
-            return Promise.reject(error);
+            return config;
           }
         }
         return config;
@@ -59,11 +52,8 @@ export const CurrentUserProvider = ({ children }) => {
       async (err) => {
         if (err.response?.status === 401) {
           try {
-            const { data } = await axios.post("/dj-rest-auth/token/refresh/");
-            setAuthToken(data.access);
-            err.config.headers.Authorization = `Bearer ${data.access}`;
-            return axios(err.config);
-          } catch (error) {
+            await axios.post("/dj-rest-auth/token/refresh/");
+          } catch (err) {
             setCurrentUser((prevCurrentUser) => {
               if (prevCurrentUser) {
                 navigate("/signin");
@@ -71,8 +61,8 @@ export const CurrentUserProvider = ({ children }) => {
               return null;
             });
             removeTokenTimestamp();
-            clearAuthToken();
           }
+          return axios(err.config);
         }
         return Promise.reject(err);
       }

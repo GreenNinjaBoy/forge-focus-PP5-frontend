@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useCurrentUser, useSetCurrentUser } from '../hooks/useCurrentUser';
 import { axiosReq } from "../api/axiosDefaults";
-import { removeTokenTimestamp } from "../pages/utils/Utils";
+import { removeTokenTimestamp } from "../utils/Utils";
 import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
 import styles from '../styles/MainNavBar.module.css';
 

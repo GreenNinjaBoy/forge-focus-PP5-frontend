@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import { Route, Routes, Navigate,} from 'react-router-dom';
 import './api/axiosDefaults';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -18,38 +17,19 @@ import TaskCreate from './pages/tasks/TaskCreate';
 import TasksDelete from './pages/tasks/TasksDelete';
 import Footer from './components/Footer';
 import SuccessMessage from './components/SuccessMessage';
-import { getAuthToken } from './pages/utils/Auth';
 import GoalDetails from './pages/goals/GoalDetails';
 
 function App() {
   const currentUser = useCurrentUser();
-  const [authenticatedUser, setAuthenticatedUser] = useState(false);
-  const [tokensChecked, setTokensChecked] = useState(false);
-  const location = useLocation();
 
-  useEffect(() => {
-    const checkTokens = () => {
-      const token = getAuthToken();
-      if (token && currentUser) {
-        setAuthenticatedUser(true);
-      } else {
-        setAuthenticatedUser(false);
-      }
-      setTokensChecked(true);
-    };
-    checkTokens();
-  }, [currentUser]);
 
-  if (!tokensChecked) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div>
       <MainNavBar />
       <SuccessMessage />
       <Routes>
-        <Route path="/" element={<Navigate to={authenticatedUser ? "/home" : "/about"} />} />
+        <Route path="/" element={<Navigate to={currentUser ? "/home" : "/about"} />} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
@@ -62,7 +42,7 @@ function App() {
         <Route path="/tasksarea" element={<ProtectedRoute><TasksArea /></ProtectedRoute>} />
         <Route path="/taskcreate" element={<ProtectedRoute><TaskCreate /></ProtectedRoute>} />
         <Route path="/tasksDelete" element={<ProtectedRoute><TasksDelete /></ProtectedRoute>} />
-        <Route path="*" element={<Navigate to={authenticatedUser ? "/home" : "/about"} state={{ from: location }} />} />
+        <Route path="*" element={<Navigate to={currentUser ? "/home" : "/about"} state={{ from: location }} />} />
       </Routes>
       <Footer />
     </div>

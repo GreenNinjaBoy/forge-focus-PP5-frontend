@@ -1,4 +1,3 @@
-// The code in this file was copied from the 'Moments' walkthrough project.
 import {jwtDecode} from "jwt-decode";
 
 export const setTokenTimestamp = (data) => {

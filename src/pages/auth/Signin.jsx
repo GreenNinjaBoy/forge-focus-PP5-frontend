@@ -2,9 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
-import { useSetCurrentUser } from "../../hooks/useCurrentUser"; // Update the import path
-import { setTokenTimestamp } from "../utils/Utils";
-import { useRedirect } from "../../hooks/useRedirect";
+import { useSetCurrentUser } from "../../hooks/useCurrentUser";
+import { setTokenTimestamp } from "../../utils/Utils";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
 function SignIn() {
@@ -12,7 +11,6 @@ function SignIn() {
 
   const setShowGlobalSuccess = useSetShowGlobalSuccess();
   const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
-  useRedirect("loggedIn");
 
   const [logInData, setLogInData] = useState({
     username: "",
