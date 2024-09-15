@@ -16,7 +16,7 @@ const Home = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userResponse = await axiosReq.get('/user/');
+        const userResponse = await axiosReq.get('dj-rest-auth/user/');
         setCurrentUser(userResponse.data);
       } catch (err) {
         console.error("Failed to fetch user data", err);

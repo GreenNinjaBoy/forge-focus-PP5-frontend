@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useCurrentUser, useSetCurrentUser } from '../hooks/useCurrentUser';
 import { axiosReq } from "../api/axiosDefaults";
-import { removeTokens} from "../utils/Utils";
+import { removeTokenTimestamp } from "../utils/Utils";
 import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
 import styles from '../styles/MainNavBar.module.css';
 
@@ -10,7 +10,6 @@ const MainNavbar = () => {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
   const navigate = useNavigate();
-
   const handleLogoClick = () => {
     if (currentUser) {
       navigate("/home");
@@ -18,7 +17,6 @@ const MainNavbar = () => {
       navigate("/about");
     }
   };
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -28,36 +26,31 @@ const MainNavbar = () => {
         console.error('Error fetching user data:', error);
       }
     };
-
     if (!currentUser) {
       fetchUserData();
     }
   }, [currentUser, setCurrentUser]);
-
   const handleSignout = async () => {
     try {
       await axiosReq.post(`/dj-rest-auth/logout/`);
       setCurrentUser(null);
-      removeTokens();
+      removeTokenTimestamp();
       navigate("/about");
     } catch (err) {
       console.log(err);
     }
   };
-
   const loggedOutLinks = (
     <div className="d-flex justify-content-between w-100">
       <NavLink className={styles.Link} to="/signup">Sign Up</NavLink>
       <NavLink className={styles.Link} to="/signin">Sign In</NavLink>
     </div>
   );
-
   const loggedInLinks = (
     <Dropdown>
       <Dropdown.Toggle variant="success" id="dropdown-basic" className={styles.Link}>
         {currentUser ? `${currentUser.username}` : 'User'}
       </Dropdown.Toggle>
-
       <Dropdown.Menu className={styles.Link}>
         <Dropdown.Item as={NavLink} to="/home">Home</Dropdown.Item>
         <Dropdown.Item as={NavLink} to="/goalsarea">Goals</Dropdown.Item>
@@ -65,7 +58,6 @@ const MainNavbar = () => {
       </Dropdown.Menu>
     </Dropdown>
   );
-
   return (
     <Navbar expand="lg" fixed="top" className={styles.Header}>
       <Container fluid>
@@ -84,5 +76,4 @@ const MainNavbar = () => {
     </Navbar>
   );
 };
-
 export default MainNavbar;

@@ -9,6 +9,7 @@ import { useCurrentUser } from './hooks/useCurrentUser';
 import './App.css';
 import MainNavBar from './components/NavBar';
 import GoalsArea from './pages/goals/GoalsArea';
+import GoalsDelete from './pages/goals/GoalsDelete';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotAuthorized from './pages/NotAuthorized';
 import GoalsEdit from './pages/goals/GoalsEdit';
@@ -39,6 +40,7 @@ function App() {
         <Route path="/goaldetails/:id" element={<ProtectedRoute><GoalDetails /></ProtectedRoute>} />
         <Route path="/goalscreate" element={<ProtectedRoute><GoalsCreate /></ProtectedRoute>} />
         <Route path="/goalsedit" element={<ProtectedRoute><GoalsEdit /></ProtectedRoute>} />
+        <Route path="/goalsdelete/:id" element={<ProtectedRoute><GoalsDelete /></ProtectedRoute>} />
         <Route path="/tasksarea" element={<ProtectedRoute><TasksArea /></ProtectedRoute>} />
         <Route path="/taskcreate" element={<ProtectedRoute><TaskCreate /></ProtectedRoute>} />
         <Route path="/tasksDelete" element={<ProtectedRoute><TasksDelete /></ProtectedRoute>} />

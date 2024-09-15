@@ -2,17 +2,17 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
-import { useSetCurrentUser } from "../../hooks/useCurrentUser";
-import { setTokens } from "../../utils/Utils";  
+import { useSetCurrentUser } from "../../hooks/useCurrentUser"; // Update the import path
+import { setTokenTimestamp } from "../../utils/Utils";
 import { useRedirect } from "../../hooks/useRedirect";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
 function SignIn() {
   const setCurrentUser = useSetCurrentUser();
-  useRedirect("loggedIn");
 
   const setShowGlobalSuccess = useSetShowGlobalSuccess();
   const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
+  useRedirect("loggedIn");
 
   const [logInData, setLogInData] = useState({
     username: "",
@@ -27,19 +27,22 @@ function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post("/dj-rest-auth/login/", logInData);
-      console.log("Login response:", response);
-      const { data } = response;
-      console.log("Login data:", data);
+      const { data } = await axios.post("/dj-rest-auth/login/", logInData);
       setCurrentUser(data.user);
-      setTokens(data);
-      setGlobalSuccessMessage("You are now signed in.");
-      setShowGlobalSuccess(true);
-      navigate("/home");
+      console.log("user data received", data.user);
+      if (data && data.access_token) {
+        setTokenTimestamp(data);
+        setGlobalSuccessMessage("You are now signed in.");
+        setShowGlobalSuccess(true);
+        console.log("Token timestamp set with data:", data);
+      } else {
+        setGlobalSuccessMessage("You are now signed in.");
+        setShowGlobalSuccess(true);
+        //console.warn("Data does not contain access_token:", data);
+      }
+      navigate('/home');
     } catch (err) {
-      console.error("Login error:", err);
-      console.error("Error response:", err.response);
-      setErrors(err.response?.data || {});
+      setErrors(err.response?.data);
     }
   };
 
@@ -64,8 +67,9 @@ function SignIn() {
             onChange={handleChange}
           />
         </Form.Group>
-        {errors.username?.map((message, idx) => (
-          <Alert variant="warning" key={idx}>
+
+        {errors.password?.map((message, idx) => (
+          <Alert key={idx}>
             {message}
           </Alert>
         ))}
@@ -80,24 +84,12 @@ function SignIn() {
             onChange={handleChange}
           />
         </Form.Group>
-        {errors.password?.map((message, idx) => (
-          <Alert variant="warning" key={idx}>
-            {message}
-          </Alert>
-        ))}
-
-        {errors.non_field_errors?.map((message, idx) => (
-          <Alert variant="warning" key={idx}>
-            {message}
-          </Alert>
-        ))}
-
         <Button type="submit">
           Sign In
         </Button>
       </Form>
     </div>
   );
-}
+};
 
 export default SignIn;
