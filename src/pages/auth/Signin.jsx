@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
 import { useSetCurrentUser } from "../../hooks/useCurrentUser";
-import { setTokenTimestamp } from "../../utils/Utils";
+import { setTokens } from "../../utils/Utils";  
 import { useRedirect } from "../../hooks/useRedirect";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
@@ -27,14 +27,19 @@ function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const { data } = await axios.post("/dj-rest-auth/login/", logInData);
+      const response = await axios.post("/dj-rest-auth/login/", logInData);
+      console.log("Login response:", response);
+      const { data } = response;
+      console.log("Login data:", data);
       setCurrentUser(data.user);
-      setTokenTimestamp(data);
+      setTokens(data);
       setGlobalSuccessMessage("You are now signed in.");
       setShowGlobalSuccess(true);
       navigate("/home");
     } catch (err) {
-      setErrors(err.response?.data);
+      console.error("Login error:", err);
+      console.error("Error response:", err.response);
+      setErrors(err.response?.data || {});
     }
   };
 
@@ -59,9 +64,8 @@ function SignIn() {
             onChange={handleChange}
           />
         </Form.Group>
-
-        {errors.password?.map((message, idx) => (
-          <Alert key={idx}>
+        {errors.username?.map((message, idx) => (
+          <Alert variant="warning" key={idx}>
             {message}
           </Alert>
         ))}
@@ -76,6 +80,18 @@ function SignIn() {
             onChange={handleChange}
           />
         </Form.Group>
+        {errors.password?.map((message, idx) => (
+          <Alert variant="warning" key={idx}>
+            {message}
+          </Alert>
+        ))}
+
+        {errors.non_field_errors?.map((message, idx) => (
+          <Alert variant="warning" key={idx}>
+            {message}
+          </Alert>
+        ))}
+
         <Button type="submit">
           Sign In
         </Button>
