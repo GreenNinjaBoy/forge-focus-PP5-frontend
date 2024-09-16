@@ -7,18 +7,16 @@ export const useRedirect = (userAuthStatus, currentUser) => {
 
   useEffect(() => {
     const handleMount = async () => {
-      if (currentUser === undefined) return; // Wait until the currentUser is defined
-
       try {
         await axios.post("/dj-rest-auth/token/refresh/");
         // if user is logged in, the code below will run
         if (userAuthStatus === "loggedIn" && currentUser) {
-          navigate("/home");
+          navigate("/");
         }
       } catch (err) {
         // if user is not logged in, the code below will run
         if (userAuthStatus === "loggedOut" && !currentUser) {
-          navigate("/about");
+          navigate("/");
         }
       }
     };
