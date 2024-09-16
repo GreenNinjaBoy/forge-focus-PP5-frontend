@@ -54,6 +54,7 @@ const MainNavbar = () => {
       <Dropdown.Menu className={styles.Link}>
         <Dropdown.Item as={NavLink} to="/home">Home</Dropdown.Item>
         <Dropdown.Item as={NavLink} to="/goalsarea">Goals</Dropdown.Item>
+        <Dropdown.Item as={NavLink} to="/tasksarea">Tasks</Dropdown.Item>
         <Dropdown.Item onClick={handleSignout}>Sign Out</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

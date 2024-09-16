@@ -2,17 +2,18 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
-import { useSetCurrentUser } from "../../hooks/useCurrentUser"; // Update the import path
+import { useSetCurrentUser, useCurrentUser } from "../../hooks/useCurrentUser";
 import { setTokenTimestamp } from "../../utils/Utils";
 import { useRedirect } from "../../hooks/useRedirect";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
 function SignIn() {
   const setCurrentUser = useSetCurrentUser();
+  const currentUser = useCurrentUser();
+  useRedirect("loggedIn", currentUser);
 
   const setShowGlobalSuccess = useSetShowGlobalSuccess();
   const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
-  useRedirect("loggedIn");
 
   const [logInData, setLogInData] = useState({
     username: "",
@@ -29,20 +30,12 @@ function SignIn() {
     try {
       const { data } = await axios.post("/dj-rest-auth/login/", logInData);
       setCurrentUser(data.user);
-      console.log("user data received", data.user);
-      if (data && data.access_token) {
-        setTokenTimestamp(data);
-        setGlobalSuccessMessage("You are now signed in.");
-        setShowGlobalSuccess(true);
-        console.log("Token timestamp set with data:", data);
-      } else {
-        setGlobalSuccessMessage("You are now signed in.");
-        setShowGlobalSuccess(true);
-        //console.warn("Data does not contain access_token:", data);
-      }
-      navigate('/home');
+      setTokenTimestamp(data);
+      setGlobalSuccessMessage("You are now signed in.");
+      setShowGlobalSuccess(true);
+      navigate("/home"); // Ensure this route exists in your routing setup
     } catch (err) {
-      setErrors(err.response?.data);
+      setErrors(err.response?.data || {});
     }
   };
 
@@ -68,7 +61,7 @@ function SignIn() {
           />
         </Form.Group>
 
-        {errors.password?.map((message, idx) => (
+        {errors.password && errors.password.map((message, idx) => (
           <Alert key={idx}>
             {message}
           </Alert>
@@ -90,6 +83,6 @@ function SignIn() {
       </Form>
     </div>
   );
-};
+}
 
 export default SignIn;
