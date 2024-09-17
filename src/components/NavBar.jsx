@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useCurrentUser, useSetCurrentUser } from '../hooks/useCurrentUser';
 import { axiosReq } from "../api/axiosDefaults";
-import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
+import { Navbar, Nav, Container, Dropdown,} from "react-bootstrap";
 import styles from '../styles/MainNavBar.module.css';
 
 const MainNavbar = () => {
@@ -42,6 +42,7 @@ const MainNavbar = () => {
     <div className="d-flex justify-content-between w-100">
       <NavLink className={styles.Link} to="/signup">Sign Up</NavLink>
       <NavLink className={styles.Link} to="/signin">Sign In</NavLink>
+      <NavLink className={styles.Link} to="contact">ContactUs</NavLink>
     </div>
   );
   const loggedInLinks = (
@@ -53,6 +54,7 @@ const MainNavbar = () => {
         <Dropdown.Item as={NavLink} to="/home">Home</Dropdown.Item>
         <Dropdown.Item as={NavLink} to="/goalsarea">Goals</Dropdown.Item>
         <Dropdown.Item as={NavLink} to="/tasksarea">Tasks</Dropdown.Item>
+        <Dropdown.Item as={NavLink} to="/contact">ContactUs</Dropdown.Item>
         <Dropdown.Item onClick={handleSignout}>Sign Out</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

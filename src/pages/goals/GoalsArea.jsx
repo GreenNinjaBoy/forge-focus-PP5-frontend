@@ -2,17 +2,13 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
 import GoalsView from "./GoalsView";
-import GoalsEdit from "./GoalsEdit";
-import GoalsDelete from "./GoalsDelete";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/GoalsView.module.css";
 
 const GoalsArea = ({ id }) => {
   const [goalsData, setGoalsData] = useState([]);
   const [filteredGoals, setFilteredGoals] = useState([]);
-  const [goalsState, setGoalsState] = useState("view");
   const [hasLoaded, setHasLoaded] = useState(false);
-  const [goalId, setGoalId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
@@ -49,35 +45,6 @@ const GoalsArea = ({ id }) => {
     setFilteredGoals(results);
   }, [searchTerm, goalsData]);
 
-  function GoalsContext() {
-    if (goalsState === 'view') {
-      return Array.isArray(filteredGoals) && filteredGoals.length > 0 ? (
-        filteredGoals.map(goal => (
-          <GoalsView
-            key={goal.id}
-            id={goal.id}
-            name={goal.name}
-            image={goal.image}
-            tasksCount={goal.tasks.length}
-          />
-        ))
-      ) : (
-        <p>No goals match your search criteria.</p>
-      );
-    } else if (goalsState === 'edit') {
-      return <GoalsEdit id={goalId} setGoalData={setGoalsData} setGoalState={setGoalsState} />;
-    } else if (goalsState === 'delete') {
-      return Array.isArray(filteredGoals) && filteredGoals.map(goal => (
-        <GoalsDelete
-          key={goal.id}
-          id={goal.id}
-          name={goal.name}
-          setGoalsState={setGoalsState}
-        />
-      ));
-    }
-  }
-
   const handleCreateGoal = () => {
     navigate('/goalscreate'); 
   };
@@ -98,7 +65,19 @@ const GoalsArea = ({ id }) => {
       </div>
       <div className={styles.GoalsContainer}>
         {hasLoaded ? (
-          <GoalsContext />
+          filteredGoals.length > 0 ? (
+            filteredGoals.map(goal => (
+              <GoalsView
+                key={goal.id}
+                id={goal.id}
+                name={goal.name}
+                image={goal.image}
+                tasksCount={goal.tasks.length}
+              />
+            ))
+          ) : (
+            <p>No goals match your search criteria.</p>
+          )
         ) : (
           <p>Loading Goals Data....</p>
         )}

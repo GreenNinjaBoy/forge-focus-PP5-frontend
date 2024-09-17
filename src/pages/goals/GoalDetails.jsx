@@ -1,8 +1,9 @@
+import PropTypes from "prop-types";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 
-const GoalsDetails = () => { 
+const GoalsDetails = () => {
   const { id } = useParams();
   const [goal, setGoal] = useState(null);
   const [tasks, setTasks] = useState([]);
@@ -13,32 +14,16 @@ const GoalsDetails = () => {
     const fetchGoalDetails = async () => {
       try {
         const { data } = await axiosReq.get(`/goals/${id}/`);
-        console.log("Goal details:", data); // Log the goal details response
         setGoal(data);
+        setTasks(data.tasks);
         setHasLoaded(true);
       } catch (err) {
-        if (err.response?.status === 401) {
-          navigate('/signin');
-        } else if (err.response?.status === 403 || err.response?.status === 404) {
-          navigate('/home');
-        }
-        console.log("Failed to fetch goal details", err);
-      }
-    };
-
-    const fetchTasks = async () => {
-      try {
-        const { data } = await axiosReq.get(`/tasks/`);
-        const filteredTasks = data.results.filter(task => task.goals === parseInt(id));
-        setTasks(filteredTasks);
-      } catch (err) {
-        console.log("Failed to fetch tasks", err);
+        console.error("Failed to fetch goal details", err);
       }
     };
 
     fetchGoalDetails();
-    fetchTasks();
-  }, [id, navigate]);
+  }, [id]);
 
   if (!hasLoaded) {
     return <p>Loading Goal Details...</p>;
@@ -63,6 +48,10 @@ const GoalsDetails = () => {
       <button onClick={() => navigate(`/goalsdelete/${id}`)}>Delete Goal</button>
     </div>
   );
+};
+
+GoalsDetails.propTypes = {
+  id: PropTypes.number.isRequired,
 };
 
 export default GoalsDetails;
