@@ -13,7 +13,11 @@ const GoalsView = ({ id, name, image, tasksCount }) => {
     <div className={styles.GoalCard}>
       <img src={image} alt={name} className={styles.Image} />
       <h3>{name}</h3>
-      <p>Tasks: {tasksCount}</p>
+      <p>
+        {tasksCount > 0 
+          ? `There are ${tasksCount} tasks associated with this goal` 
+          : "There are no tasks associated with this goal"}
+      </p>
       <button onClick={handleViewGoal} className={styles.ViewButton}>
         View Goal
       </button>
