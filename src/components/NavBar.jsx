@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useCurrentUser, useSetCurrentUser } from '../hooks/useCurrentUser';
 import { axiosReq } from "../api/axiosDefaults";
-import { removeTokenTimestamp } from "../utils/Utils";
 import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
 import styles from '../styles/MainNavBar.module.css';
 
@@ -34,7 +33,6 @@ const MainNavbar = () => {
     try {
       await axiosReq.post(`/dj-rest-auth/logout/`);
       setCurrentUser(null);
-      removeTokenTimestamp();
       navigate("/about");
     } catch (err) {
       console.log(err);

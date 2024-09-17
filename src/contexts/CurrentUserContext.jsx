@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { axiosReq, axiosRes } from "../api/axiosDefaults";
 import { useNavigate } from "react-router";
-import { removeTokenTimestamp, shouldRefreshToken } from "../utils/Utils";
+import { shouldRefreshToken } from "../utils/Utils";
 import { CurrentUserContext, SetCurrentUserContext } from "../hooks/useCurrentUser";
 
 export const CurrentUserProvider = ({ children }) => {
@@ -36,7 +36,6 @@ export const CurrentUserProvider = ({ children }) => {
               }
               return null;
             });
-            removeTokenTimestamp();
             return config;
           }
         }
@@ -60,7 +59,6 @@ export const CurrentUserProvider = ({ children }) => {
               }
               return null;
             });
-            removeTokenTimestamp();
           }
           return axios(err.config);
         }
