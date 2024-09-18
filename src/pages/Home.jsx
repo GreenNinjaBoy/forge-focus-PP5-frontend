@@ -13,14 +13,20 @@ const Home = () => {
 
   const [goalsCount, setGoalsCount] = useState(0);
   const [tasksCount, setTasksCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        console.log('Fetching user data...');
         const userResponse = await axiosReq.get('dj-rest-auth/user/');
+        console.log('User data received:', userResponse.data);
         setCurrentUser(userResponse.data);
       } catch (err) {
         console.error("Failed to fetch user data", err);
+      } finally {
+        setIsLoading(false);
+        console.log('Loading completed');
       }
     };
 
@@ -28,9 +34,12 @@ const Home = () => {
   }, [setCurrentUser]);
 
   useEffect(() => {
+    console.log('Current user updated:', currentUser);
+    
     const fetchGoalsData = async () => {
       try {
         const goalsResponse = await axiosReq.get('/goals/');
+        console.log('Goals data received:', goalsResponse.data);
         setGoalsCount(goalsResponse.data.results.length);
       } catch (err) {
         console.error("Failed to fetch goals data", err);
@@ -40,6 +49,7 @@ const Home = () => {
     const fetchTasksData = async () => {
       try {
         const tasksResponse = await axiosReq.get('/tasks/');
+        console.log('Tasks data received:', tasksResponse.data);
         const unassignedTasks = tasksResponse.data.results.filter(task => !task.goals);
         setTasksCount(unassignedTasks.length);
       } catch (err) {
@@ -53,11 +63,17 @@ const Home = () => {
     }
   }, [currentUser]);
 
+  console.log('Rendering Home component. isLoading:', isLoading, 'currentUser:', currentUser);
+
+  if (isLoading) {
+    return <div className={styles.loading}>Loading...</div>;
+  }
+
   return (
     <div className={styles.homeContainer}>
-      { currentUser ? (
+      {currentUser ? (
         <>
-          <h1 className={styles.heading}>Welcome {currentUser.username}</h1>
+          <h1 className={styles.heading}>Welcome, {currentUser.username}</h1>
           <div className={styles.cardContainer}>
             <Card className={styles.cardCustom}>
               <Card.Body>

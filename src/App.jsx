@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useParams } from 'react-router-dom';
 import './api/axiosDefaults';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -36,13 +36,13 @@ function App() {
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/goalsarea" element={<ProtectedRoute><GoalsArea /></ProtectedRoute>} />
-        <Route path="/goaldetails/:id" element={<ProtectedRoute><GoalDetails /></ProtectedRoute>} />
+        <Route path="/goaldetails/:id" element={<ProtectedRoute><GoalDetailsWrapper/></ProtectedRoute>} />
         <Route path="/goalscreate" element={<ProtectedRoute><GoalsCreate /></ProtectedRoute>} />
         <Route path="/goalsedit/:id" element={<ProtectedRoute><GoalsEdit /></ProtectedRoute>} />
-        <Route path="/goalsdelete/:id" element={<ProtectedRoute><GoalsDelete /></ProtectedRoute>} />
+        <Route path="/goalsdelete/:id" element={<ProtectedRoute><GoalsDeleteWrapper /></ProtectedRoute>} />
         <Route path="/tasksarea" element={<ProtectedRoute><TasksArea /></ProtectedRoute>} />
         <Route path="/taskcreate" element={<ProtectedRoute><TaskCreate /></ProtectedRoute>} />
-        <Route path="/tasksDelete" element={<ProtectedRoute><TasksDelete /></ProtectedRoute>} />
+        <Route path="/tasksDelete" element={<ProtectedRoute><TasksDeleteWrapper /></ProtectedRoute>} />
         <Route path="/contact" element={<ContactForm />} />
         <Route path="*" element={<Navigate to={currentUser ? "/home" : "/about"} replace />} />
       </Routes>
@@ -50,5 +50,20 @@ function App() {
     </div>
   );
 }
+
+const GoalsDeleteWrapper = () => {
+  const { id } = useParams();
+  return <GoalsDelete id={id} />;
+};
+
+const TasksDeleteWrapper = () => {
+  const { id } = useParams();
+  return <TasksDelete id={id} />;
+};
+
+const GoalDetailsWrapper = () => {
+  const { id } = useParams();
+  return <GoalDetails id={id} />;
+};
 
 export default App;

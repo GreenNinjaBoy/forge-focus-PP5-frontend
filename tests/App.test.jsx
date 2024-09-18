@@ -1,10 +1,11 @@
 import { describe, it } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import App from '../src/App'
+import renderWithRouter from './Utils.test'
 
 describe('App', () => {
   it('renders the App component', () => {
-    render(<App />)
+    renderWithRouter(<App />)
     
     screen.debug();
   })
