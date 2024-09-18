@@ -1,10 +1,10 @@
-// tests/Home.test.jsx
+
 import { describe, it, vi, expect } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Home from '../src/pages/Home';
-import { axiosReq } from '../src/api/axiosDefaults';
-import * as currentUserHooks from '../src/hooks/useCurrentUser';
+import Home from '../../src/pages/Home';
+import { axiosReq } from '../../src/api/axiosDefaults';
+import * as currentUserHooks from '../../src/hooks/useCurrentUser';
 
 // Mock the modules
 vi.mock('../src/api/axiosDefaults', () => ({
