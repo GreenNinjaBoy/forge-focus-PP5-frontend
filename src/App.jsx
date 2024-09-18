@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate,} from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import './api/axiosDefaults';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -24,8 +24,6 @@ import ContactForm from './pages/contact/ContactForm';
 function App() {
   const currentUser = useCurrentUser();
 
-
-
   return (
     <div>
       <MainNavBar />
@@ -46,7 +44,7 @@ function App() {
         <Route path="/taskcreate" element={<ProtectedRoute><TaskCreate /></ProtectedRoute>} />
         <Route path="/tasksDelete" element={<ProtectedRoute><TasksDelete /></ProtectedRoute>} />
         <Route path="/contact" element={<ContactForm />} />
-        <Route path="*" element={<Navigate to={currentUser ? "/home" : "/about"} state={{ from: location }} />} />
+        <Route path="*" element={<Navigate to={currentUser ? "/home" : "/about"} replace />} />
       </Routes>
       <Footer />
     </div>

@@ -8,6 +8,7 @@ import { CurrentUserContext, SetCurrentUserContext } from "../hooks/useCurrentUs
 
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   const handleMount = async () => {
@@ -16,6 +17,8 @@ export const CurrentUserProvider = ({ children }) => {
       setCurrentUser(data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -70,7 +73,7 @@ export const CurrentUserProvider = ({ children }) => {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <SetCurrentUserContext.Provider value={setCurrentUser}>
-        {children}
+        {!isLoading && children}
       </SetCurrentUserContext.Provider>
     </CurrentUserContext.Provider>
   );

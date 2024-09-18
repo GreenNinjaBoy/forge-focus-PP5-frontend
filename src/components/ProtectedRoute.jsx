@@ -4,11 +4,12 @@ import { useCurrentUser } from '../hooks/useCurrentUser';
 const ProtectedRoute = ({ children }) => {
   const currentUser = useCurrentUser();
 
-  if (!currentUser) {
-    return <Navigate to="/notauthorized" />;
+  if (currentUser === null) {
+    // Still loading, you might want to show a loading spinner here
+    return null;
   }
 
-  return children;
+  return currentUser ? children : <Navigate to="/notauthorized" />;
 };
 
 export default ProtectedRoute;
