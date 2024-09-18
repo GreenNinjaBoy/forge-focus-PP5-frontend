@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useCurrentUser } from '../hooks/useCurrentUser';
+import PropTypes from "prop-types";
 
 const ProtectedRoute = ({ children }) => {
   const currentUser = useCurrentUser();
@@ -10,6 +11,10 @@ const ProtectedRoute = ({ children }) => {
   }
 
   return currentUser ? children : <Navigate to="/notauthorized" />;
+};
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default ProtectedRoute;
