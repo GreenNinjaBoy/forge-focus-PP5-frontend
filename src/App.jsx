@@ -7,6 +7,7 @@ import SignIn from './pages/auth/Signin';
 import GoalsCreate from './pages/goals/GoalsCreate';
 import { useCurrentUser } from './hooks/useCurrentUser';
 import './App.css';
+import GoalsDesktop from './pages/goals/GoalsDesktop';
 import MainNavBar from './components/NavBar';
 import GoalsArea from './pages/goals/GoalsArea';
 import GoalsDelete from './pages/goals/GoalsDelete';
@@ -35,6 +36,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/goalsdesktop" element={<GoalsDesktop />} />
         <Route path="/goalsarea" element={<ProtectedRoute><GoalsArea /></ProtectedRoute>} />
         <Route path="/goaldetails/:id" element={<ProtectedRoute><GoalDetails /></ProtectedRoute>} />
         <Route path="/goalscreate" element={<ProtectedRoute><GoalsCreate /></ProtectedRoute>} />
