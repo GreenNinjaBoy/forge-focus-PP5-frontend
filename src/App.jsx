@@ -38,7 +38,7 @@ function App() {
         <Route path="/goalsarea" element={<ProtectedRoute><GoalsArea /></ProtectedRoute>} />
         <Route path="/goaldetails/:id" element={<ProtectedRoute><GoalDetails /></ProtectedRoute>} />
         <Route path="/goalscreate" element={<ProtectedRoute><GoalsCreate /></ProtectedRoute>} />
-        <Route path="/goalsedit" element={<ProtectedRoute><GoalsEdit /></ProtectedRoute>} />
+        <Route path="/goalsedit/:id" element={<ProtectedRoute><GoalsEdit /></ProtectedRoute>} />
         <Route path="/goalsdelete/:id" element={<ProtectedRoute><GoalsDelete /></ProtectedRoute>} />
         <Route path="/tasksarea" element={<ProtectedRoute><TasksArea /></ProtectedRoute>} />
         <Route path="/taskcreate" element={<ProtectedRoute><TaskCreate /></ProtectedRoute>} />
