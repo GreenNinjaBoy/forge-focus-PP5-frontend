@@ -3,6 +3,7 @@ import { axiosReq } from '../api/axiosDefaults';
 import { useCurrentUser, useSetCurrentUser } from '../hooks/useCurrentUser';
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import styles from '../styles/Home.module.css';
 
 const Home = () => {
   const currentUser = useCurrentUser();
@@ -53,35 +54,39 @@ const Home = () => {
   }, [currentUser]);
 
   return (
-    <div>
+    <div className={styles.homeContainer}>
       { currentUser ? (
         <>
-          <h1>Welcome {currentUser.username}</h1>
-          <div className="d-flex justify-content-around">
-            <Card style={{ width: '18rem' }}>
+          <h1 className={styles.heading}>Welcome {currentUser.username}</h1>
+          <div className={styles.cardContainer}>
+            <Card className={styles.cardCustom}>
               <Card.Body>
-                <Card.Title>Goals</Card.Title>
-                <Card.Text>
+                <Card.Title className={styles.cardTitleCustom}>Goals</Card.Title>
+                <Card.Text className={styles.cardTextCustom}>
                   You currently have {goalsCount} goals you are working hard to achieve.
                 </Card.Text>
-                <Button onClick={() => navigate('/goalscreate')}>Create New Goal</Button>
-                <Button onClick={() => navigate('/goalsarea')}>View Goals</Button>
+                <div className={styles.buttonRow}>
+                  <Button className={styles.buttonCustom} onClick={() => navigate('/goalscreate')}>Create New Goal</Button>
+                  <Button className={styles.buttonCustom} onClick={() => navigate('/goalsarea')}>View Goals</Button>
+                </div>
               </Card.Body>
             </Card>
-            <Card style={{ width: '18rem' }}>
+            <Card className={styles.cardCustom}>
               <Card.Body>
-                <Card.Title>Tasks</Card.Title>
-                <Card.Text>
+                <Card.Title className={styles.cardTitleCustom}>Tasks</Card.Title>
+                <Card.Text className={styles.cardTextCustom}>
                   You currently have {tasksCount} tasks that are not assigned to any goals.
                 </Card.Text>
-                <Button onClick={() => navigate('/taskcreate')}>Create New Task</Button>
-                <Button onClick={() => navigate('/tasksarea')}>View Tasks</Button>
+                <div className={styles.buttonRow}>
+                  <Button className={styles.buttonCustom} onClick={() => navigate('/taskcreate')}>Create New Task</Button>
+                  <Button className={styles.buttonCustom} onClick={() => navigate('/tasksarea')}>View Tasks</Button>
+                </div>
               </Card.Body>
             </Card>
           </div>
         </>
       ) : (
-        <div>
+        <div className={styles.noUserInfo}>
           <h2>No User information to display</h2>
         </div>
       )}

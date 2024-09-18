@@ -33,7 +33,7 @@ function SignIn() {
       setTokenTimestamp(data);
       setGlobalSuccessMessage("You are now signed in.");
       setShowGlobalSuccess(true);
-      navigate("/home"); // Ensure this route exists in your routing setup
+      navigate("/home");
     } catch (err) {
       setErrors(err.response?.data || {});
     }

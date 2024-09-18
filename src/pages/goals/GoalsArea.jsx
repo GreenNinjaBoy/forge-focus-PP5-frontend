@@ -4,6 +4,7 @@ import { axiosReq } from "../../api/axiosDefaults";
 import GoalsView from "./GoalsView";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/GoalsView.module.css";
+import { Button } from "react-bootstrap";
 
 const GoalsArea = ({ id }) => {
   const [goalsData, setGoalsData] = useState([]);
@@ -49,6 +50,10 @@ const GoalsArea = ({ id }) => {
     navigate('/goalscreate'); 
   };
 
+  const handleBack = () => {
+    navigate(-1);
+}
+
   return (
     <div className={styles.Container}>
       <div className={styles.SearchContainer}>
@@ -82,6 +87,7 @@ const GoalsArea = ({ id }) => {
           <p>Loading Goals Data....</p>
         )}
       </div>
+      <div><Button onClick={handleBack}>Previous Page</Button></div>
     </div>
   );
 };

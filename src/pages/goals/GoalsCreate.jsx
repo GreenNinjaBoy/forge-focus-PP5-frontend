@@ -45,6 +45,7 @@ const GoalsCreate = () => {
 
     try {
       const { data } = await axiosReq.post('/goals/', formData);
+      console.log(data); // Log the data to the console
       setGlobalSuccessMessage("You have created a new goal!")
       setShowGlobalSuccess(true);
       navigate(`/goalsarea`);

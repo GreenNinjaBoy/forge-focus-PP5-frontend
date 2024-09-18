@@ -48,6 +48,10 @@ const About = () => {
                     <h3>If you wish to be a member and start forging a path to achieve your goals please click the Signup button below</h3>
                     <Button onClick={() => navigate('/Signup')}>Sign Up</Button>
                 </div>
+                <div>
+                    <h3>If you are already a member head to the Signin Area</h3>
+                    <Button onClick={() => navigate('/Signin')}>Sign Up</Button>
+                </div>
             </div>
         );
     }

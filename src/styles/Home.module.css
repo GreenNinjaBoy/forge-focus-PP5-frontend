@@ -1,0 +1,75 @@
+.homeContainer {
+    padding: 2rem;
+}
+
+.heading {
+    margin-bottom: 2rem; 
+}
+
+.cardContainer {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; 
+}
+
+.cardCustom {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 1rem; 
+}
+
+.cardTitleCustom {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.cardTextCustom {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.buttonCustom {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    margin: 0.5rem; 
+}
+
+.buttonCustom:hover {
+    background-color: #0056b3;
+}
+
+.buttonRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.noUserInfo {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .cardContainer {
+    flex-direction: column; 
+    align-items: center; 
+    }
+
+    .cardCustom {
+    width: 100%;
+    max-width: 400px; 
+    }
+
+    .buttonRow {
+    flex-direction: column; 
+    align-items: center; 
+    }
+
+    .buttonCustom {
+    width: 100%;
+    margin: 0.5rem 0; 
+    }
+}
