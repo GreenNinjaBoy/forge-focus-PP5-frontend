@@ -1,10 +1,5 @@
-import { createContext, useContext } from "react";
+import { useContext } from 'react';
+import { CurrentUserContext, SetCurrentUserContext } from '../contexts/CurrentUserContext';
 
-export const CurrentUserContext = createContext();
-export const SetCurrentUserContext = createContext();
-
-export const useCurrentUser = () => {
-  const currentUser = useContext(CurrentUserContext);
-  return currentUser === undefined ? null : currentUser;
-};
+export const useCurrentUser = () => useContext(CurrentUserContext);
 export const useSetCurrentUser = () => useContext(SetCurrentUserContext);

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import styles from '../styles/Home.module.css';
 
 const Home = () => {
+  console.log('Home component rendering');
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
 
@@ -16,6 +17,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    console.log('Home useEffect, currentUser:', currentUser);
     const fetchUserData = async () => {
       try {
         console.log('Fetching user data...');
@@ -30,37 +32,37 @@ const Home = () => {
       }
     };
 
-    fetchUserData();
-  }, [setCurrentUser]);
+    if (!currentUser) {
+      fetchUserData();
+    } else {
+      setIsLoading(false);
+    }
+  }, [currentUser, setCurrentUser]);
 
   useEffect(() => {
     console.log('Current user updated:', currentUser);
     
-    const fetchGoalsData = async () => {
-      try {
-        const goalsResponse = await axiosReq.get('/goals/');
-        console.log('Goals data received:', goalsResponse.data);
-        setGoalsCount(goalsResponse.data.results.length);
-      } catch (err) {
-        console.error("Failed to fetch goals data", err);
+    const fetchData = async () => {
+      if (currentUser) {
+        try {
+          const [goalsResponse, tasksResponse] = await Promise.all([
+            axiosReq.get('/goals/'),
+            axiosReq.get('/tasks/')
+          ]);
+          
+          console.log('Goals data received:', goalsResponse.data);
+          setGoalsCount(goalsResponse.data.results.length);
+          
+          console.log('Tasks data received:', tasksResponse.data);
+          const unassignedTasks = tasksResponse.data.results.filter(task => !task.goals);
+          setTasksCount(unassignedTasks.length);
+        } catch (err) {
+          console.error("Failed to fetch data", err);
+        }
       }
     };
 
-    const fetchTasksData = async () => {
-      try {
-        const tasksResponse = await axiosReq.get('/tasks/');
-        console.log('Tasks data received:', tasksResponse.data);
-        const unassignedTasks = tasksResponse.data.results.filter(task => !task.goals);
-        setTasksCount(unassignedTasks.length);
-      } catch (err) {
-        console.error("Failed to fetch tasks data", err);
-      }
-    };
-
-    if (currentUser) {
-      fetchGoalsData();
-      fetchTasksData();
-    }
+    fetchData();
   }, [currentUser]);
 
   console.log('Rendering Home component. isLoading:', isLoading, 'currentUser:', currentUser);
@@ -103,7 +105,8 @@ const Home = () => {
         </>
       ) : (
         <div className={styles.noUserInfo}>
-          <h2>No User information to display</h2>
+          <h2>Please sign in to view your dashboard</h2>
+          <Button onClick={() => navigate('/signin')}>Sign In</Button>
         </div>
       )}
     </div>

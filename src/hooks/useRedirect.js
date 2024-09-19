@@ -1,6 +1,7 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { axiosRes } from "../api/axiosDefaults";
+import { removeTokenTimestamp } from "../utils/Utils";
 
 export const useRedirect = (userAuthStatus, currentUser) => {
   const navigate = useNavigate();
@@ -8,16 +9,18 @@ export const useRedirect = (userAuthStatus, currentUser) => {
   useEffect(() => {
     const handleMount = async () => {
       try {
-        await axios.post("/dj-rest-auth/token/refresh/");
+        await axiosRes.post("/dj-rest-auth/token/refresh/");
         // if user is logged in, the code below will run
         if (userAuthStatus === "loggedIn" && currentUser) {
           navigate("/");
         }
       } catch (err) {
-        console.error("Error refreshing token:", err); // Log the error
+        console.error("Error refreshing token:", err);
+        // if token refresh fails, clear the user session
+        removeTokenTimestamp();
         // if user is not logged in, the code below will run
-        if (userAuthStatus === "loggedOut" && !currentUser) {
-          navigate("/");
+        if (userAuthStatus === "loggedOut" || !currentUser) {
+          navigate("/signin");
         }
       }
     };

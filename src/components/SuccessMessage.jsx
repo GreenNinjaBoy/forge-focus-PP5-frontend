@@ -6,9 +6,7 @@ import {
   useSetShowGlobalSuccess,
   useShowGlobalSuccess } from "../hooks/useGlobalSuccess";
 
-
 const SuccessMessage = () => {
-
   const showGlobalSuccess = useShowGlobalSuccess();
   const setShowGlobalSuccess = useSetShowGlobalSuccess();
   const globalSuccessMessage = useGlobalSuccessMessage();
@@ -29,4 +27,4 @@ const SuccessMessage = () => {
   )
 }
 
-export default SuccessMessage
+export default SuccessMessage;

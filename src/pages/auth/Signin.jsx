@@ -1,17 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert } from "react-bootstrap";
-import axios from "axios";
-import { useSetCurrentUser, useCurrentUser } from "../../hooks/useCurrentUser";
+import { axiosRes } from "../../api/axiosDefaults";
+import { useSetCurrentUser } from "../../hooks/useCurrentUser";
 import { setTokenTimestamp } from "../../utils/Utils";
-import { useRedirect } from "../../hooks/useRedirect";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
 function SignIn() {
   const setCurrentUser = useSetCurrentUser();
-  const currentUser = useCurrentUser();
-  useRedirect("loggedIn", currentUser);
-
   const setShowGlobalSuccess = useSetShowGlobalSuccess();
   const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
 
@@ -28,13 +24,14 @@ function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const { data } = await axios.post("/dj-rest-auth/login/", logInData);
+      const { data } = await axiosRes.post("/dj-rest-auth/login/", logInData);
       setCurrentUser(data.user);
       setTokenTimestamp(data);
       setGlobalSuccessMessage("You are now signed in.");
       setShowGlobalSuccess(true);
       navigate("/home");
     } catch (err) {
+      console.error("Sign in error:", err.response?.data || err.message);
       setErrors(err.response?.data || {});
     }
   };

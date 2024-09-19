@@ -1,20 +1,16 @@
 import { Navigate } from 'react-router-dom';
 import { useCurrentUser } from '../hooks/useCurrentUser';
-import PropTypes from "prop-types";
 
 const ProtectedRoute = ({ children }) => {
   const currentUser = useCurrentUser();
+  console.log('ProtectedRoute: currentUser', currentUser);
 
   if (currentUser === null) {
-    // possibly add spinner here
-    return null;
+    // User auth status is still being determined
+    return <div>Loading...</div>;
   }
 
-  return currentUser ? children : <Navigate to="/notauthorized" />;
-};
-
-ProtectedRoute.propTypes = {
-  children: PropTypes.node.isRequired,
+  return currentUser ? children : <Navigate to="/signin" />;
 };
 
 export default ProtectedRoute;
