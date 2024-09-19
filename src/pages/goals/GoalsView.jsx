@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import styles from "../../styles/GoalsView.module.css";
+import styles from "../../styles/GoalsArea.module.css";
 
 const GoalsView = ({ id, name, image, tasksCount }) => {
   const navigate = useNavigate();

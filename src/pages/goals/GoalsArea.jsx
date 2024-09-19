@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
 import GoalsView from "./GoalsView";
 import { useNavigate } from "react-router-dom";
-import styles from "../../styles/GoalsView.module.css";
+import styles from "../../styles/GoalsArea.module.css"; // Updated import
 import { Button } from "react-bootstrap";
 
 const GoalsArea = ({ id }) => {
@@ -52,7 +52,7 @@ const GoalsArea = ({ id }) => {
 
   const handleBack = () => {
     navigate(-1);
-}
+  };
 
   return (
     <div className={styles.Container}>
@@ -72,13 +72,14 @@ const GoalsArea = ({ id }) => {
         {hasLoaded ? (
           filteredGoals.length > 0 ? (
             filteredGoals.map(goal => (
-              <GoalsView
-                key={goal.id}
-                id={goal.id}
-                name={goal.name}
-                image={goal.image}
-                tasksCount={goal.tasks.length}
-              />
+              <div key={goal.id} className={styles.GoalCard}>
+                <GoalsView
+                  id={goal.id}
+                  name={goal.name}
+                  image={goal.image}
+                  tasksCount={goal.tasks.length}
+                />
+              </div>
             ))
           ) : (
             <p>No goals match your search criteria.</p>
@@ -87,7 +88,10 @@ const GoalsArea = ({ id }) => {
           <p>Loading Goals Data....</p>
         )}
       </div>
-      <div><Button onClick={handleBack}>Previous Page</Button></div>
+      <div className={styles.ButtonContainer}>
+        <Button onClick={handleBack}>Previous Page</Button>
+        <Button onClick={handleCreateGoal}>Create Goal</Button>
+      </div>
     </div>
   );
 };
