@@ -37,7 +37,12 @@ const MainNavbar = () => {
   );
 
   const loggedOutLinks = (
-    <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
+    <Nav.Item>
+    <Nav.Link as={NavLink} to="/signin">Login</Nav.Link>
+    <Nav.Link as={NavLink} to="/signup">Signup</Nav.Link>
+    <Nav.Link as={NavLink} to="/contact">ContactUs</Nav.Link>
+    </Nav.Item>
+
   );
 
   return (
