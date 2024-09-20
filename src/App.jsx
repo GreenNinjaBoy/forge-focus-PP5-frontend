@@ -42,7 +42,7 @@ function App() {
         <Route path="/goalsdelete/:id" element={<ProtectedRoute><GoalsDeleteWrapper /></ProtectedRoute>} />
         <Route path="/tasksarea" element={<ProtectedRoute><TasksArea /></ProtectedRoute>} />
         <Route path="/taskcreate" element={<ProtectedRoute><TaskCreate /></ProtectedRoute>} />
-        <Route path="/tasksDelete" element={<ProtectedRoute><TasksDeleteWrapper /></ProtectedRoute>} />
+        <Route path="/tasksdSelete/:id" element={<ProtectedRoute><TasksDeleteWrapper /></ProtectedRoute>} />
         <Route path="/contact" element={<ContactForm />} />
         <Route path="*" element={<Navigate to={currentUser ? "/home" : "/about"} replace />} />
       </Routes>

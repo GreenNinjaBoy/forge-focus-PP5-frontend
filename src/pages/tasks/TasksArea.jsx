@@ -1,112 +1,125 @@
-import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import { axiosReq } from "../../api/axiosDefaults";
-import TasksView from "./TasksView";
-import TasksEdit from "./TasksEdit";
-import TasksDelete from "./TasksDelete";
-import { useNavigate } from "react-router-dom";
-import styles from "../../styles/TasksArea.module.css";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { axiosReq } from '../../api/axiosDefaults';
+import styles from '../../styles/TasksArea.module.css';
 
-const TasksArea = ({ id }) => {
-    const [tasksData, setTasksData] = useState([]);
-    const [filteredTasks, setFilteredTasks] = useState([]);
-    const [tasksState, setTasksState] = useState("view");
-    const [hasLoaded, setHasLoaded] = useState(false);
-    const [taskId, setTaskId] = useState(null);
-    const [taskTitle, setTaskTitle] = useState("");
-    const [searchTerm, setSearchTerm] = useState("");
-    const navigate = useNavigate();
+const TasksTable = () => {
+  const [tasks, setTasks] = useState([]);
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchTasks = async () => {
-            try {
-                const { data } = await axiosReq.get(`/tasks/?goals__isnull=true`);
-                console.log("Fetched data successfully:", data);
-                if (data.results && Array.isArray(data.results)) {
-                    setTasksData(data.results);
-                    setFilteredTasks(data.results);
-                } else {
-                    setTasksData([]);
-                    setFilteredTasks([]);
-                }
-                setHasLoaded(true);
-            } catch (err) {
-                if (err.response?.status === 401) {
-                    navigate('/signin');
-                } else if (err.response?.status === 403 || err.response?.status === 404) {
-                    navigate('/home');
-                }
-                console.log("Failed to fetch tasks", err);
-            }
-        };
-
-        fetchTasks();
-    }, [navigate, id]);
-
-    useEffect(() => {
-        const results = tasksData.filter(task =>
-            task.task_title.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredTasks(results);
-    }, [searchTerm, tasksData]);
-
-    function TasksContext() {
-        if (tasksState === 'view') {
-            return Array.isArray(filteredTasks) && filteredTasks.length > 0 ? (
-                filteredTasks.map(task => (
-                    <TasksView
-                        key={task.id}
-                        id={task.id}
-                        task_title={task.task_title}
-                        task_details={task.task_details}
-                        deadline={task.deadline}
-                        completed={task.completed}
-                        setTasksState={setTasksState}
-                        setTaskId={setTaskId}
-                        setTaskTitle={setTaskTitle}
-                    />
-                ))
-            ) : (
-                <p>No tasks match your search criteria.</p>
-            );
-        } else if (tasksState === 'edit') {
-            return <TasksEdit id={taskId} setTasksData={setTasksData} setTasksState={setTasksState} />;
-        } else if (tasksState === 'delete') {
-            return <TasksDelete id={taskId} taskTitle={taskTitle} setTasksState={setTasksState} />;
-        }
+  const fetchTasks = async () => {
+    try {
+      const { data } = await axiosReq.get('/tasks/');
+      console.log("Fetched tasks:", data.results);
+      
+      const tasksWithoutGoals = data.results.filter(task => task.goals === null);
+      console.log("Tasks without goals:", tasksWithoutGoals);
+      
+      setTasks(tasksWithoutGoals);
+      setHasLoaded(true);
+    } catch (err) {
+      console.log("Failed to fetch tasks", err);
+      if (err.response?.status === 401) {
+        navigate('/signin');
+      } else if (err.response?.status === 403 || err.response?.status === 404) {
+        navigate('/home');
+      }
     }
+  };
 
-    const handleCreateTask = () => {
-        navigate('/taskcreate'); 
-    };
+  useEffect(() => {
+    fetchTasks();
+  }, [navigate]);
 
-    return (
-        <div className={styles.Container}>
-            <div className={styles.SearchContainer}>
-                <input
-                    type="text"
-                    placeholder="Search tasks..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className={styles.SearchInput}
-                />
-                <button onClick={handleCreateTask} className={styles.CreateButton}>
-                    Create Task
-                </button>
-            </div>
-            <div className={styles.TasksContainer}>
-                {hasLoaded ? (
-                    <TasksContext />
-                ) : (
-                    <p>Loading Tasks Data....</p>
-                )}
-            </div>
+  const handleViewTask = (taskId) => {
+    navigate(`/task/${taskId}`);
+  };
+
+  const handleCompleteTask = async (taskId) => {
+    try {
+      await axiosReq.patch(`/tasks/${taskId}/`, { completed: true });
+      // Fetch tasks again to ensure we have the latest data
+      await fetchTasks();
+    } catch (err) {
+      console.log("Failed to complete task", err);
+    }
+  };
+
+  const handleResetTask = (taskId) => {
+    navigate(`/task/edit/${taskId}`);
+  };
+
+  const handleDeleteTask = (taskId) => {
+    navigate(`/tasksdelete/${taskId}`);
+  };
+
+  const handleReuseTask = async (taskId) => {
+    try {
+      await axiosReq.post(`/tasks/${taskId}/reuse/`);
+      await fetchTasks();
+    } catch (err) {
+      console.log("Failed to reuse task", err);
+    }
+  };
+
+  const isExpired = (deadline) => {
+    return new Date(deadline) < new Date();
+  };
+
+  const ActiveTasks = () => (
+    <div className={styles.column}>
+      <h2>Active Tasks</h2>
+      {tasks.filter(task => !task.completed && !isExpired(task.deadline)).map(task => (
+        <div key={task.id} className={styles.task}>
+          <h3>{task.task_title}</h3>
+          <p>Expires: {new Date(task.deadline).toLocaleDateString()}</p>
+          <button onClick={() => handleViewTask(task.id)}>View</button>
+          <button onClick={() => handleCompleteTask(task.id)}>Complete</button>
         </div>
-    );
+      ))}
+    </div>
+  );
+
+  const CompletedTasks = () => (
+    <div className={styles.column}>
+      <h2>Completed Tasks</h2>
+      {tasks.filter(task => task.completed).map(task => (
+        <div key={task.id} className={styles.task}>
+          <h3>{task.task_title}</h3>
+          <button onClick={() => handleReuseTask(task.id)}>Reuse</button>
+          <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
+        </div>
+      ))}
+    </div>
+  );
+
+  const ExpiredTasks = () => (
+    <div className={styles.column}>
+      <h2>Expired Tasks</h2>
+      {tasks.filter(task => !task.completed && isExpired(task.deadline)).map(task => (
+        <div key={task.id} className={styles.task}>
+          <h3>{task.task_title}</h3>
+          <button onClick={() => handleResetTask(task.id)}>Reset</button>
+          <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
+        </div>
+      ))}
+    </div>
+  );
+
+  return (
+    <div className={styles.container}>
+      {hasLoaded ? (
+        <div className={styles.tasksTable}>
+          <ActiveTasks />
+          <CompletedTasks />
+          <ExpiredTasks />
+        </div>
+      ) : (
+        <p>Loading Tasks...</p>
+      )}
+    </div>
+  );
 };
 
-TasksArea.propTypes = {
-    id: PropTypes.number, 
-};
-
-export default TasksArea;
+export default TasksTable;

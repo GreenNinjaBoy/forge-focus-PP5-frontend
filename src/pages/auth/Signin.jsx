@@ -28,6 +28,7 @@ function SignIn() {
       }
       if (response.data.refresh) {
         localStorage.setItem('refreshToken', response.data.refresh);
+        setTokenTimestamp(response.data);
       } else {
         console.warn('Refresh token not received in the response');
       }
