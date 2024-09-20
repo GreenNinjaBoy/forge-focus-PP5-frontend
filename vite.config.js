@@ -8,5 +8,14 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: './tests/setup.js', 
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: "https://forge-focus-api-backend-83543ef108af.herokuapp.com", 
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      },
+    }
   }
 })

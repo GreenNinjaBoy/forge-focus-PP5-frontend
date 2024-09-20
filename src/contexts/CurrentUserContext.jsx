@@ -1,8 +1,7 @@
-import { createContext, useEffect, useMemo, useState } from "react";
-import axios from "axios";
-import { axiosReq, axiosRes } from "../api/axiosDefaults";
-import { useNavigate } from "react-router";
-import { removeTokenTimestamp, shouldRefreshToken } from "../utils/Utils";
+import React, { createContext, useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
+import { axiosReq, axiosRes } from '../api/axiosDefaults';
+import { useNavigate } from 'react-router-dom';
 
 export const CurrentUserContext = createContext();
 export const SetCurrentUserContext = createContext();
@@ -11,66 +10,59 @@ export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
 
-  const handleMount = async () => {
+  const handleMount = useCallback(async () => {
     try {
-      const { data } = await axiosRes.get("dj-rest-auth/user/");
+      const { data } = await axiosRes.get('dj-rest-auth/user/');
       setCurrentUser(data);
-      console.log("Current user set in context:", data);
     } catch (err) {
-      console.log("Error fetching current user:", err);
+      console.log(err);
     }
-  };
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const { data } = await axios.get('dj-rest-auth/user/');
-        setCurrentUser(data);
-        console.log('CurrentUserContext: User fetched', data);
-      } catch (err) {
-        console.log('CurrentUserContext: Error fetching user', err);
-        setCurrentUser(null);
-      }
-    };
-    fetchUser();
   }, []);
 
-  useMemo(() => {
-    axiosReq.interceptors.request.use(
+  useEffect(() => {
+    handleMount();
+  }, [handleMount]);
+
+  useEffect(() => {
+    const requestInterceptor = axiosReq.interceptors.request.use(
       async (config) => {
-        if (shouldRefreshToken()) {
-          try {
-            await axios.post("/dj-rest-auth/token/refresh/");
-          } catch (err) {
-            setCurrentUser(null);
-            removeTokenTimestamp();
-            navigate("/signin");
-            return Promise.reject("Session expired. Please log in again.");
-          }
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken) {
+          config.headers['Authorization'] = `Bearer ${accessToken}`;
         }
         return config;
       },
-      (err) => {
-        return Promise.reject(err);
+      (error) => {
+        return Promise.reject(error);
       }
     );
 
-    axiosRes.interceptors.response.use(
+    const responseInterceptor = axiosRes.interceptors.response.use(
       (response) => response,
-      async (err) => {
-        if (err.response?.status === 401) {
+      async (error) => {
+        if (error.response?.status === 401 && !error.config.url.includes('dj-rest-auth/token/refresh/')) {
           try {
-            await axios.post("/dj-rest-auth/token/refresh/");
-            return axios(err.config);
-          } catch (refreshErr) {
+            const refreshToken = localStorage.getItem('refreshToken') || document.cookie.split('; ').find(row => row.startsWith('my-refresh-token=')).split('=')[1];
+            const { data } = await axios.post('/dj-rest-auth/token/refresh/', { refresh: refreshToken });
+            localStorage.setItem('accessToken', data.access);
+            error.config.headers['Authorization'] = `Bearer ${data.access}`;
+            return axios(error.config);
+          } catch (refreshError) {
             setCurrentUser(null);
-            removeTokenTimestamp();
-            navigate("/signin");
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            navigate('/signin');
+            return Promise.reject(refreshError);
           }
         }
-        return Promise.reject(err);
+        return Promise.reject(error);
       }
     );
+
+    return () => {
+      axiosReq.interceptors.request.eject(requestInterceptor);
+      axiosRes.interceptors.response.eject(responseInterceptor);
+    };
   }, [navigate]);
 
   return (
@@ -81,3 +73,6 @@ export const CurrentUserProvider = ({ children }) => {
     </CurrentUserContext.Provider>
   );
 };
+
+export const useCurrentUser = () => React.useContext(CurrentUserContext);
+export const useSetCurrentUser = () => React.useContext(SetCurrentUserContext);

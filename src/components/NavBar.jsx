@@ -1,6 +1,7 @@
 import { Navbar, Nav, Container, Dropdown } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCurrentUser, useSetCurrentUser } from '../hooks/useCurrentUser';
+import axios from 'axios';
 import styles from '../styles/MainNavBar.module.css';
 
 const MainNavbar = () => {
@@ -8,10 +9,18 @@ const MainNavbar = () => {
   const setCurrentUser = useSetCurrentUser();
   const navigate = useNavigate();
 
-  const handleSignout = () => {
-    // Sign out logic here
-    setCurrentUser(null);
-    navigate('/');
+  const handleSignout = async () => {
+    try {
+      await axios.post('dj-rest-auth/logout/');
+      // Remove tokens from local storage
+      localStorage.removeItem('refreshTokenTimestamp');
+      // Update current user state
+      setCurrentUser(null);
+      // Redirect to home page
+      navigate('/');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleLogoClick = () => {
@@ -38,11 +47,10 @@ const MainNavbar = () => {
 
   const loggedOutLinks = (
     <Nav.Item>
-    <Nav.Link as={NavLink} to="/signin">Login</Nav.Link>
-    <Nav.Link as={NavLink} to="/signup">Signup</Nav.Link>
-    <Nav.Link as={NavLink} to="/contact">ContactUs</Nav.Link>
+      <Nav.Link as={NavLink} to="/signin">Login</Nav.Link>
+      <Nav.Link as={NavLink} to="/signup">Signup</Nav.Link>
+      <Nav.Link as={NavLink} to="/contact">ContactUs</Nav.Link>
     </Nav.Item>
-
   );
 
   return (
