@@ -1,78 +1,84 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-import { axiosReq, axiosRes } from '../api/axiosDefaults';
-import { useNavigate } from 'react-router-dom';
-
-export const CurrentUserContext = createContext();
-export const SetCurrentUserContext = createContext();
+import { useEffect, useMemo, useState } from "react";
+import PropTypes from "prop-types";
+import axios from "axios";
+import { axiosReq, axiosRes } from "../api/axiosDefaults";
+import { useNavigate } from "react-router";
+import { shouldRefreshToken } from "../utils/Utils";
+import { CurrentUserContext, SetCurrentUserContext } from "../hooks/useCurrentUser";
 
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  const handleMount = useCallback(async () => {
+  const handleMount = async () => {
     try {
-      const { data } = await axiosRes.get('dj-rest-auth/user/');
+      const { data } = await axiosRes.get("dj-rest-auth/user/");
       setCurrentUser(data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     handleMount();
-  }, [handleMount]);
+  }, []);
 
-  useEffect(() => {
-    const requestInterceptor = axiosReq.interceptors.request.use(
+  useMemo(() => {
+    axiosReq.interceptors.request.use(
       async (config) => {
-        const accessToken = localStorage.getItem('accessToken');
-        if (accessToken) {
-          config.headers['Authorization'] = `Bearer ${accessToken}`;
+        if (shouldRefreshToken()) {
+          try {
+            await axios.post("dj-rest-auth/token/refresh/");
+          } catch (err) {
+            setCurrentUser((prevCurrentUser) => {
+              if (prevCurrentUser) {
+                navigate("/signin");
+              }
+              return null;
+            });
+            return config;
+          }
         }
         return config;
       },
-      (error) => {
-        return Promise.reject(error);
+      (err) => {
+        return Promise.reject(err);
       }
     );
 
-    const responseInterceptor = axiosRes.interceptors.response.use(
+    axiosRes.interceptors.response.use(
       (response) => response,
-      async (error) => {
-        if (error.response?.status === 401 && !error.config.url.includes('dj-rest-auth/token/refresh/')) {
+      async (err) => {
+        if (err.response?.status === 401) {
           try {
-            const refreshToken = localStorage.getItem('refreshToken') || document.cookie.split('; ').find(row => row.startsWith('my-refresh-token=')).split('=')[1];
-            const { data } = await axios.post('/dj-rest-auth/token/refresh/', { refresh: refreshToken });
-            localStorage.setItem('accessToken', data.access);
-            error.config.headers['Authorization'] = `Bearer ${data.access}`;
-            return axios(error.config);
-          } catch (refreshError) {
-            setCurrentUser(null);
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            navigate('/signin');
-            return Promise.reject(refreshError);
+            await axios.post("/dj-rest-auth/token/refresh/");
+          } catch (err) {
+            setCurrentUser((prevCurrentUser) => {
+              if (prevCurrentUser) {
+                navigate("/signin");
+              }
+              return null;
+            });
           }
+          return axios(err.config);
         }
-        return Promise.reject(error);
+        return Promise.reject(err);
       }
     );
-
-    return () => {
-      axiosReq.interceptors.request.eject(requestInterceptor);
-      axiosRes.interceptors.response.eject(responseInterceptor);
-    };
   }, [navigate]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <SetCurrentUserContext.Provider value={setCurrentUser}>
-        {children}
+        {!isLoading && children}
       </SetCurrentUserContext.Provider>
     </CurrentUserContext.Provider>
   );
 };
 
-export const useCurrentUser = () => React.useContext(CurrentUserContext);
-export const useSetCurrentUser = () => React.useContext(SetCurrentUserContext);
+CurrentUserProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};

@@ -39,7 +39,6 @@ const TasksTable = () => {
   const handleCompleteTask = async (taskId) => {
     try {
       await axiosReq.patch(`/tasks/${taskId}/`, { completed: true });
-      // Fetch tasks again to ensure we have the latest data
       await fetchTasks();
     } catch (err) {
       console.log("Failed to complete task", err);
@@ -50,8 +49,8 @@ const TasksTable = () => {
     navigate(`/task/edit/${taskId}`);
   };
 
-  const handleDeleteTask = (taskId) => {
-    navigate(`/tasksdelete/${taskId}`);
+  const handleDeleteTask = () => {
+    navigate(`/tasksdelete/`);
   };
 
   const handleReuseTask = async (taskId) => {

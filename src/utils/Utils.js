@@ -1,21 +1,14 @@
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 export const setTokenTimestamp = (data) => {
-  const refreshToken = data?.refresh_token;
-  if (refreshToken) {
-    try {
-      const refreshTokenTimestamp = jwtDecode(refreshToken).exp;
-      localStorage.setItem("refreshTokenTimestamp", refreshTokenTimestamp.toString());
-    } catch (error) {
-      console.error("Error decoding refresh token:", error);
-    }
-  }
+    const refreshTokenTimestamp = jwtDecode(data?.refresh_token).exp
+    localStorage.setItem("refreshTokenTimestamp", refreshTokenTimestamp)
 };
 
 export const shouldRefreshToken = () => {
-  return !!localStorage.getItem('refreshTokenTimestamp');
+    return !!localStorage.getItem('refreshTokenTimestamp')
 };
 
 export const removeTokenTimestamp = () => {
-  localStorage.removeItem('refreshTokenTimestamp');
+    localStorage.removeItem('refreshTokenTimestamp')
 };
