@@ -50,8 +50,68 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
 - [Acknowledgements](#Acknowledgements)
 
 # Design
+
 ## The Strategy Plane
+Intended User Group The intended user group are those individuals who wish to achieve and focus on areas of their life aiding in them keeping track 
+and on top of things the the user wishes to achieve.
+
+User Background Issues For those with a very busy and sometimes un manageable full life and are unable to strive to things they want to achieve despite their determination to keep on top of things. which then leads to things in their live getting missed. Without a way to maintain organization within their life, users concentration can falter in areas resulting in these areas being difficult to maintain and eventually all progress being lost.
+
+**Issue Statement**
+
+"I am an extremely busy individual who is finding it difficult to keep track of everything I need to do and the extra things I wish I could do to help me progress in life.
+
+Application Aim To provide busy individuals with an application which will allow them to store and manipulate data such as:
+
+- Data that identifies the different areas in life that the user wishes to set goals for.
+- Set tasks to aid in achieving this.
+- Data that can be tracked and deadline dates set.
+
+**Considerations to take into account**
+- The data belonging to a user must be kept safe at all times, ensuring that the signed in user can only view and edit their own and can't access other users data and other users can't access the signed in user.
+
 ## The Scope Plane
+For users this application will provide a secure React front-end application which will enable a signed in user to easily interact and create data belonging to that particular signed in user. The users data will be stored in a backend database controlled and served by the Django Rest Famework API.
+
+The details of the scope of this project from a users point of view can be listed down below.
+
+**Experience**
+- As a new user, I can instantly see information about the application, so that I can understand the value that it may offer me.
+- As a new user, I can find out more about the organizing side of the application, so that I can learn more about how the application works enticing me to sign up.
+- As a new user, I can find out more about the taking steps side of the application, so that I can learn more about how the application works enticing me to sign up.
+
+**Navigation**
+- As a user, a clear navigation bar is present throughout the site, so that I can navigate easily between different sections of the application.
+- As a user, the navigation bar contains links which are specific to whether I am logged in or logged out, so that all available links are relevant and accessible to me.
+- As a user, navigation between different sections of the website is seamless without un-necessary page refreshing, so that I can navigate quickly around the site.
+- As an authorized user, all sub pages include an x that will return me to my previous page on clicking, so that I can easily check things out and then return to where I was.
+- As an authorized user, clicking on a task within the ‘take action’ page will take me to the ‘organize’ page where that assignment is located.
+
+**Authentication**
+- As a new user, I can easily set up an account, so that I can quickly get stuck into exploring and using the application.
+- As a signed-up user, I can use my username and password to sign in to my account, so that my account remains secure and only I can login.
+- As a signed-up user, I am the only one who can access my data, so that it remains safe and secure.
+- As a signed-up user, I can reset my password, so that I can still access my account even if I have forgotten my password.
+- As an authenticated user, I can easily logout of my account, so that I can keep my account secure.
+- As an authenticated user, I can maintain my authenticated status until I choose to log out, so that I am not unexpectedly logged out due to expired access tokens.
+- As an authenticated user, I can edit my user information, so that I can make changes to my username and password, helping me to keep my account secure.
+- As an authenticated user, I can delete my data including my user data, so that I can remove all my data from the system should I wish to.
+
+**Goals areas**
+- As an authenticated user, I can create a goal, so that I can set out the different areas in my life that I want to use this app to support with and why each area is important to me.
+- As an authenticated user, I can edit a goal, so that I can make changes should I wish.
+- As an authenticated user, I can delete a goal, so that I can remove information I no longer need or want.
+
+**Tasks**
+- As an authenticated user, I can create tasks that can be linked to a goal or be used indepentantly, so that I can set myself progression targets that are specific, measurable, achievable, reachable and time-bound, defining the value to be gained in achieving the task.
+- As an authenticated user, I can edit a task so that I can make changes should I wish.
+- As an authenticated user, I can delete a task, so that I can remove information I no longer need or want.
+
+**Informed User**
+- As an authenticated user, I receive a success message on creation, editing and deleting, so that I know my action was successful.
+- As an authenticated user, I receive a confirmation message on clicking to delete, so that I am made aware of any linked information that will also be deleted should I proceed and can avoid any accidental deletes.
+- As an authenticated user, I receive a confirmation message when an action will result in form input updates remaining unsaved, so that I don’t accidentally lose data I meant to save.
+
 ## The Structure Plane
 ## The Skeleton Plane
 ## The Surface Plane
