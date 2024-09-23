@@ -427,15 +427,39 @@ This ContactForm component provides a straightforward way for users to reach out
 enhancing user engagement and support capabilities of the platform.
 
 # Future Features
+Some Future features that I have considered for the development of the 
+Forge Focus Application are as follows.
 
 ## Add User Profiles
-## Edit/Delete User Profiles
-## Improved User Navigation
-## Rank Goals
-## Connect with other Users
-## Team Goals With Other Users
-## Message System to communicate to other users
+Allow users to create detailed profiles, showcasing their goals, achievements, and personal information. 
+This feature will enhance user engagement and personalization within the platform.
 
+## Edit/Delete User Profiles
+Provide users with the ability to modify or remove their profile information, 
+ensuring they have full control over their personal data and online presence within the application.
+
+## Improved User Navigation
+Enhance the user interface with more intuitive navigation options, making it easier for users 
+to move between different sections of the application and access their goals and tasks more efficiently.
+
+## Rank Goals
+Implement a system for users to prioritize their goals, helping them focus on what's most important. 
+This feature will include options to set high, medium, and low priority levels for each goal.
+
+## Connect with other Users
+Introduce some form of social networking capabilities, allowing users to connect with like-minded individuals, 
+share their progress, and offer mutual support in achieving their goals.
+
+## Team Goals With Other Users
+Enable collaborative goal-setting, where users can create shared goals with friends, 
+family, or colleagues. This feature will promote teamwork and mutual accountability.
+
+## Message System to communicate to other users
+Develop an in-app messaging system, facilitating direct communication between users. 
+This will support collaboration on shared goals and foster a community of mutual support and motivation.
+
+These possible future features would help the application be a better
+tool for a users personal development and goal achievement.
 
 # Technologies/ Lanuages used
 
@@ -536,16 +560,86 @@ For ease of reading I have attempted to split the bugs into their associated fea
 | Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
 
 # Creating/Deployment
+
 ## Create Repository
+The repository was created using Github. with my previous projects as a student this was done using a template provided by Code Institute. 
+However this time I did not use a template and used the following steps to create the Forge Focus Repository:
+
+- Headover to [Github](www.github.com) and signin using your credentials.
+- Once Signed in Click Repositories tab.
+- At the top right handside of your list of repositories you will see a "new" button, Click this button.
+- You will then be brought to the new repositories page where can give your repository a name (for this I used "Forge-Focus-PP5-Frontend).
+- There is an optional description box if you wish to give a bit more detail to your repository.
+- Then Click on the green "create repository" and Github will create the new repository.
+
 ## Cloning Repository
+
+Github can also be used to clone a repository so that the code can be altered and pushed back to the main repository using a different IDE.
+
+This can be done by using the following steps.
+
+1. In the "Forge-Focus-PP5-Frontend" repository, select the green "code" tab.
+2. Select HTTPS in the dropdown menu.
+3. Copy the URL under HTTPS.
+4. There are 2 main virtual IDE's that CodeInstitiue reccomend and those are CodeAnyWhere and GitPod.
+
+Please Note that the images used for CodeAnywhere were images used in a previous project entitled Story-time-Adventures-PP3 the process however remains the same.
+
+**Cloning Repository Using CodeAnywhere**
+1. Open the CodeAnywhere.
+2. Sign in using your Github details.
+3. codeanywhere sign in
+4. Click on the create new workspace button.
+5. Paste copied HTTPS and click create (Codeanywhere will now generate the virtual IDE).
+6. Once IDE has Loaded create inital index.html page and add test text.
+7. Once test text is added press Ctrl + S to save.
+8. Click terminal tab at top of screen and click new terminal.
+9. Once new terminal has opened test that content is being pushed back to github.
+10. In the terminal type git add . and press enter (this will add all new content).
+11. Then type git commit -m "add test text" and press enter (this lets anyone seeing your commits know what you have done).
+12. Once you have done that type git push and press enter (this will push all changes made to the github repository).
+13. Navigate to github.
+14. Choose the repository you were working on.
+15. Check the changes have been successfully pushed.
+
+**Cloning Repository Usining Gitpod**
+1. Open GitPod
+2. Click the signin/ Login button at the top right hand corner of the page.
+3. Sign/Login using your GitHub credentials.
+4. Click on New Workspace
+5. Gitpod works slightly different from Codeanywhere, you can either begin typing the name of your repository and you will see it appear in the dropdown menu or you can simply paste the copied HTTPS in to the field.
+6. Click Continue and you Gitpod virtual workspace will be created.
+7. Once IDE has Loaded create inital index.html page and add test text.
+8. Once test text is added press Ctrl + S to save.
+9. Click terminal tab at top of screen and click new terminal.
+10. Once new terminal has opened test that content is being pushed back to github.
+11. In the terminal type git add . and press enter (this will add all new content).
+12. Then type git commit -m "add test text" and press enter (this lets anyone seeing your commits know what you have done).
+13. Once you have done that type git push and press enter (this will push all changes made to the github repository).
+14. Navigate to github.
+15. Choose the repository you were working on.
+16. Check the changes have been successfully pushed.
+
+# Please Note
+If for what ever reason you find yourself switching between CodeAnywhere or Gitpod please make sure that the first command in your terminal is "git pull" as this will pull any changes that you have made using other IDE's.
+
 ## Forking Repository
+
+## Creating React Application
+
+
 ## Connecting to backend API
+
 ## CodeInstitute SQL
+
 ## Deploying Using Heroku
+
 ## Creating Django backend API
 
 # Credits
+
 ## Content
+
 ## Code
 
 # Acknowledgements
