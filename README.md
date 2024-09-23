@@ -228,6 +228,49 @@ while providing a smooth user experience throughout the authentication process.
 
 ## Signup Page
 
+The SignUp component provides a user-friendly interface for new users to create an account on Forge Focus. 
+This component is essential for user onboarding and expanding the application's user base.
+
+**Key features and functionalities:**
+
+1. User Input Collection:
+- Captures username, email, password, and password confirmation
+- Uses controlled components for form inputs
+- Real-time update of state as user types
+
+- Form Validation and Submission:
+- Prevents default form submission behavior
+- Sends a POST request to the backend API for user registration
+- Handles successful registration by navigating to the sign-in page
+
+2. Comprehensive Error Handling:
+- Displays field-specific validation errors returned from the server
+- Shows non-field errors (general errors) as alerts
+- Handles unexpected errors with a generic message
+
+3. State Management:
+- Utilizes React's useState hook for local state management
+- Manages form data and error states separately
+
+4. Success Feedback:
+- Integrates with global success message hooks to provide feedback on successful registration
+
+5. Navigation:
+- Uses React Router's useNavigate hook for programmatic navigation after successful registration
+
+6. Security Considerations:
+- Password fields use type="password" for secure input
+- Implements password confirmation to reduce the risk of typos
+
+7. User Experience:
+- Clearly labeled form fields with appropriate input types
+- Immediate feedback on input errors
+
+This SignUp component ensures a smooth and secure registration process for new Forge Focus users, 
+integrating with the application's authentication system and providing 
+a positive first interaction/experience with the application.
+
+**Insert Image When Ready**
 
 ## Signin Page
 The SignIn component provides a user interface for existing users to authenticate 
