@@ -317,6 +317,7 @@ integrating with the application's overall authentication and authorization syst
 **Insert Image When Ready**
 
 ## Main Goals Area
+## Search Goals
 ## Goal Detail Page
 ## Create New Goal
 ## Edit Goal
@@ -324,12 +325,57 @@ integrating with the application's overall authentication and authorization syst
 
 ## Main Tasks Area
 ## Task Details Page
+## Search Goals
 ## Create New Task
 ## Edit Task
 ## Delete Task
 
 ## User Messages
-## Search Goals
+
+The User Message System in Forge Focus provides a centralized mechanism for displaying success messages 
+to users across the application. This system is implemented using React's Context API 
+and consists of the GlobalMessageProvider component along with several custom hooks.
+
+**Key features and functionalities:**
+
+1. Context Creation:
+Four separate contexts are created to manage the state and setters for global success messages:
+- ShowGlobalSuccessContext
+- SetShowGlobalSuccessContext
+- GlobalSuccessMessageContext
+- SetGlobalSuccessMessageContext
+
+2. State Management:
+Uses React's useState hook via useGloabalSuccess.js to manage:
+- showGlobalSuccess: boolean to control message visibility
+- globalSuccessMessage: string containing the message content
+
+3. Auto-hide Functionality:
+- Implements a useEffect hook to automatically hide the success message after 5 seconds
+- Clears the message content when hiding to prevent stale messages
+
+4. Prop Types Validation:
+- Utilizes PropTypes to ensure that the provider receives the expected children prop
+
+5. Context Provider Nesting:
+- Nests multiple context providers to make both state and setter functions available throughout the component tree
+
+6. Usage in Components:
+Allows any component in the application to:
+- Display a success message
+- Set the message content
+- Control the visibility of the message
+
+7. Integration with App Structure:
+- Designed to work with a 'SuccessMessage' component nested within App.js
+
+8. Flexibility:
+
+Can be easily extended to handle different types of messages (e.g., error, warning) by adding additional contexts
+- This Global Message System enhances the user experience in Forge Focus by providing a consistent and 
+- centralized way to display important feedback to users. 
+- It's particularly useful for confirming successful actions like form submissions, data updates, or completed processes.
+
 ## Contact Form
 
 # Future Features
