@@ -378,6 +378,54 @@ Can be easily extended to handle different types of messages (e.g., error, warni
 
 ## Contact Form
 
+The ContactForm component provides a user interface for users to send messages or inquiries to the Forge Focus team. 
+This component is designed to collect user feedback and facilitate communication between users and administrators.
+
+**Key features and functionalities:**
+
+1. User Input Collection:
+- Captures user's name, email, and message
+- Uses controlled components for form inputs
+- Real-time update of state as user types
+
+3. Form Submission:
+- Prevents default form submission behavior
+- Sends a POST request to the backend API ("/contact/" endpoint)
+- Handles successful submission by showing a success message and navigating to the home page
+
+4. Error Handling:
+- Displays field-specific validation errors returned from the server
+- Shows non-field errors (general errors) as alerts
+
+5. State Management:
+- Utilizes React's useState hook for local state management
+- Manages form data and error states separately
+
+6. Success Feedback:
+- Integrates with global success message hooks to provide feedback on successful form submission
+
+7. Navigation:
+- Uses React Router's useNavigate hook for programmatic navigation after successful submission
+
+8. Accessibility:
+- Implements screen reader-only labels for form inputs
+
+9. User Experience:
+- Clear, simple layout with centered content
+- Immediate feedback on input errors
+
+**Important Note:** 
+Currently, the submitted contact form data can only be viewed by an admin user logged in directly to the backend API admin interface. 
+This limitation means that regular users or front-end administrators cannot access or manage 
+the submitted contact messages through the main application interface.
+
+**Future Enhancements:**
+- Implement a front-end interface for authorized users to view and manage contact submissions
+- Add email notifications for new contact form submissions
+
+This ContactForm component provides a straightforward way for users to reach out to the Forge Focus admin, 
+enhancing user engagement and support capabilities of the platform.
+
 # Future Features
 
 ## Add User Profiles
