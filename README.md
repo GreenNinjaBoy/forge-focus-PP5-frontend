@@ -58,7 +58,36 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
 ## Agile Methodology
 
 # Features
+
 ## AboutPage
+
+The About page serves as the landing page for Forge Focus.
+Key Features of the About Page Include:
+
+1. **Interactive Carousel**: A visually engaging carousel that introduces user to the
+core concepts of the Forge Focus application:
+- Welcome message emphasizing the app's purpose
+- Overview of the app's functionality
+- Explanation of the goal creation process
+- Explanation of the task creation and how
+to link tasks to goals.
+
+2. User-Friendly Navigation: Clear calls-to-action for both new and returning users:
+
+- "Sign Up" button for new users to create an account
+- "Sign In" button for existing members to access their dashboard
+
+3. Responsive Design: Utilizes React Bootstrap components to ensure a seamless experience across different devices and screen sizes.
+Custom Styling: Implements a module-based CSS approach for maintainable and scoped styles.
+
+4. Custom Styling: Implements a module-based CSS approach for maintainable and scoped styles.
+
+The About page effectivley Communicates the value proposition of Forge Focus, 
+encouraging users to take action and refining and achieving their personal goals
+through structured planning and task management.
+
+**Add picture here when ready**
+
 ## HomePage
 ## NavBar
 ## User Authentication
