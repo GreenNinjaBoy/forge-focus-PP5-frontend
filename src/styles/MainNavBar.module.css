@@ -28,7 +28,7 @@
     font-weight: bold;
     font-size: 2rem;
     height: 100%;
-    color: #1a3a5a; /* Using the suggested complementary color */
+    color: #1a3a5a; 
 }
 
 .LogoName span {
@@ -36,7 +36,7 @@
 }
 
 .LogoName:hover {
-    color: #0f2436; /* Darker shade for hover state */
+    color: #0f2436;
 }
 
 .iconGroup {
