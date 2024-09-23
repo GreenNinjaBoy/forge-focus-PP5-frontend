@@ -78,6 +78,13 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
 
 # FrameWorks and Libraries Used
 
+- React Router: Declarative routing for React applications
+- React Bootstrap: Bootstrap components built with React
+- Axios: Promise-based HTTP client for the browser and Node.js
+- JWT Decode: Library to decode JWTs token which are Base64Url encoded
+- Lucide React: Beautiful & consistent icon toolkit made by the community
+- Prop Types: Runtime type checking for React props
+
 # Technologies and Tools Used
 
 - React: A JavaScript library for building user interfaces
