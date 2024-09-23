@@ -80,6 +80,10 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
 
 # Technologies and Tools Used
 
+- React: A JavaScript library for building user interfaces
+- Vite: Next generation frontend tooling
+- Node.js: JavaScript runtime built on Chrome's V8 JavaScript engine
+
 # Validation and Testing
 
 # Bugs/fixes
