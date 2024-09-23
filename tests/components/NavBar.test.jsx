@@ -1,59 +1,98 @@
-// tests/MainNavbar.test.jsx
-import { describe, it, vi, expect } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import MainNavbar from '../../src/components/NavBar';
-import * as currentUserHooks from '../../src/hooks/useCurrentUser';
-import { useNavigate } from 'react-router-dom';
+import * as useCurrentUserModule from '../../src/hooks/useCurrentUser';
+import axios from 'axios';
+import * as reactRouterDom from 'react-router-dom';
 
-// Mock useNavigate
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
-  return {
-    ...actual,
-    useNavigate: vi.fn(),
-  };
-});
+// Mock the modules
+vi.mock('react-router-dom', () => ({
+  ...vi.importActual('react-router-dom'),
+  useNavigate: vi.fn(),
+  NavLink: vi.fn(({ children }) => children),
+}));
+vi.mock('axios');
+vi.mock('../../src/hooks/useCurrentUser');
+vi.mock('../../src/styles/MainNavBar.module.css', () => ({
+  default: {
+    Header: 'mockHeaderClass',
+    navContainer: 'mockNavContainerClass',
+    LogoName: 'mockLogoNameClass',
+    iconGroup: 'mockIconGroupClass',
+    icon: 'mockIconClass',
+    backgroundIcon: 'mockBackgroundIconClass',
+    NavLinks: 'mockNavLinksClass',
+    navLink: 'mockNavLinkClass',
+  },
+}));
 
 describe('MainNavbar', () => {
-  it('renders the MainNavbar component for logged out user', () => {
-    vi.spyOn(currentUserHooks, 'useCurrentUser').mockReturnValue(null);
-    vi.spyOn(currentUserHooks, 'useSetCurrentUser').mockReturnValue(vi.fn());
+  const mockSetCurrentUser = vi.fn();
+  const mockNavigate = vi.fn();
+  const mockUseCurrentUser = vi.fn();
+  const mockUseSetCurrentUser = vi.fn();
 
-    render(
-      <MemoryRouter>
-        <MainNavbar />
-      </MemoryRouter>
-    );
-
-    // Check for login link
-    expect(screen.getByText(/Login/i)).toBeInTheDocument();
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockUseCurrentUser.mockReturnValue(null);
+    mockUseSetCurrentUser.mockReturnValue(mockSetCurrentUser);
+    useCurrentUserModule.useCurrentUser = mockUseCurrentUser;
+    useCurrentUserModule.useSetCurrentUser = mockUseSetCurrentUser;
+    vi.mocked(useCurrentUserModule.useCurrentUser).mockReturnValue(null);
+    vi.mocked(useCurrentUserModule.useSetCurrentUser).mockReturnValue(mockSetCurrentUser);
+    vi.mocked(reactRouterDom.useNavigate).mockReturnValue(mockNavigate);
   });
 
-  it('renders the MainNavbar component for logged in user and handles interactions', () => {
-    const mockSetCurrentUser = vi.fn();
-    const navigate = vi.fn();
-    vi.spyOn(currentUserHooks, 'useCurrentUser').mockReturnValue({ username: 'testuser' });
-    vi.spyOn(currentUserHooks, 'useSetCurrentUser').mockReturnValue(mockSetCurrentUser);
-    useNavigate.mockReturnValue(navigate);
+  it('renders correctly when user is logged out', () => {
+    render(<MainNavbar />);
 
-    render(
-      <MemoryRouter>
-        <MainNavbar />
-      </MemoryRouter>
-    );
+    expect(screen.getByText('Forge Focus')).toBeInTheDocument();
+    expect(screen.getByText('Login')).toBeInTheDocument();
+    expect(screen.getByText('Signup')).toBeInTheDocument();
+    expect(screen.getByText('Contact Us')).toBeInTheDocument();
+    expect(screen.queryByText('Sign Out')).not.toBeInTheDocument();
+  });
 
-    // Check for dropdown menu
-    expect(screen.getByText(/Menu/i)).toBeInTheDocument();
+  it('renders correctly when user is logged in', () => {
+    vi.mocked(useCurrentUserModule.useCurrentUser).mockReturnValue({ username: 'testuser' });
 
-    // Simulate clicking the logo
-    fireEvent.click(screen.getByText(/Forge Focus/i));
-    expect(navigate).toHaveBeenCalledWith('/dashboard');
+    render(<MainNavbar />);
 
-    // Simulate clicking the sign-out button
-    fireEvent.click(screen.getByText(/Menu/i));
-    fireEvent.click(screen.getByText(/Sign Out/i));
+    expect(screen.getByText('Forge Focus')).toBeInTheDocument();
+    expect(screen.getByText('Goals')).toBeInTheDocument();
+    expect(screen.getByText('Tasks')).toBeInTheDocument();
+    expect(screen.getByText('Contact Us')).toBeInTheDocument();
+    expect(screen.getByText('Sign Out')).toBeInTheDocument();
+    expect(screen.queryByText('Login')).not.toBeInTheDocument();
+    expect(screen.queryByText('Signup')).not.toBeInTheDocument();
+  });
+
+  it('navigates to dashboard when logo is clicked and user is logged in', () => {
+    vi.mocked(useCurrentUserModule.useCurrentUser).mockReturnValue({ username: 'testuser' });
+
+    render(<MainNavbar />);
+
+    fireEvent.click(screen.getByText('Forge Focus'));
+    expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
+  });
+
+  it('navigates to home when logo is clicked and user is logged out', () => {
+    render(<MainNavbar />);
+
+    fireEvent.click(screen.getByText('Forge Focus'));
+    expect(mockNavigate).toHaveBeenCalledWith('/');
+  });
+
+  it('signs out the user when Sign Out is clicked', async () => {
+    vi.mocked(useCurrentUserModule.useCurrentUser).mockReturnValue({ username: 'testuser' });
+    vi.mocked(axios.post).mockResolvedValue({});
+
+    render(<MainNavbar />);
+
+    fireEvent.click(screen.getByText('Sign Out'));
+
+    expect(axios.post).toHaveBeenCalledWith('dj-rest-auth/logout/');
     expect(mockSetCurrentUser).toHaveBeenCalledWith(null);
-    expect(navigate).toHaveBeenCalledWith('/');
+    expect(mockNavigate).toHaveBeenCalledWith('/');
   });
 });
