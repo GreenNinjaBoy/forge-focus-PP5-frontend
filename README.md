@@ -58,6 +58,7 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
 ## Agile Methodology
 
 # Features
+## AboutPage
 ## HomePage
 ## NavBar
 ## User Authentication
@@ -74,9 +75,20 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
 ## Improved Navigation
 ## Rank Goals
 
-# Languages Used
+# Technologies/ Lanuages used
 
-# FrameWorks and Libraries Used
+Forge Focus uses a variety of modern web development technologies to create the
+React application. It uses the combination of Vite for fast builds, React for
+UI components, and testing tools. All of which are listed below.
+
+## Languages Used
+
+- JavaScript: The primary language used for both frontend and build tools
+- JSX: A syntax extension for JavaScript used with React
+- HTML: Markup language for structuring web content
+- CSS: Style sheet language for describing the presentation of web content
+
+## FrameWorks and Libraries Used
 
 - React Router: Declarative routing for React applications
 - React Bootstrap: Bootstrap components built with React
@@ -85,15 +97,24 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
 - Lucide React: Beautiful & consistent icon toolkit made by the community
 - Prop Types: Runtime type checking for React props
 
-# Technologies and Tools Used
+## Technologies and Tools Used
 
 - React: A JavaScript library for building user interfaces
 - Vite: Next generation frontend tooling
 - Node.js: JavaScript runtime built on Chrome's V8 JavaScript engine
 
-# Validation and Testing
+## Validation and Testing
 
-# Bugs/fixes
+- React Testing Library: Simple and complete testing utilities for React
+- Jest DOM: Custom Jest matchers to test the state of the DOM
+- User Event: Library for simulating user events for testing
+
+## Deployment
+
+- Serve: Static file serving and directory listing
+- Heroku: Cloud platform for deploying and running modern apps
+
+## Bugs/fixes
 
 The bugs below were identified during the development of The Forge Focus application.
 For ease of reading I have attempted to split the bugs into their associated features.
