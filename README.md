@@ -126,20 +126,179 @@ through structured planning and task management.
 **Add picture here when ready**
 
 ## HomePage
-## NavBar
-## User Authentication
+The Home component serves as the main dashboard for the Forge Focus application. 
+It provides users with an overview of their goals and tasks, 
+as well as quick access to key features. Key aspects of this component include:
+
+1. Authentication-based Content:
+- Displays personalized content for logged-in users
+- Shows a sign-in prompt for non-authenticated users
+
+
+2. User Data Fetching:
+- Utilizes custom hooks (useCurrentUser and useSetCurrentUser) for user state management
+- Fetches user data on component mount if not already available
+
+
+3. Dynamic Dashboard:
+- Retrieves and displays the count of user's goals
+- Shows the number of tasks not assigned to any goals
+- Updates in real-time as the user interacts with the application
+
+
+4. Quick Action Cards:
+- Goals Card: Displays goal count and provides buttons to create new goals or view existing ones
+- Tasks Card: Shows count of unassigned tasks with options to create new tasks or view all tasks
+
+5. Responsive Design:
+- Uses React Bootstrap components for a mobile-friendly layout
+- Implements custom CSS modules for styled components
+
+
+6. Navigation Integration:
+- Utilizes React Router for seamless navigation between different sections of the app
+
+7. Loading State Handling:
+- Displays a loading indicator while fetching user data
+
+8. Error Handling:
+- Implements try-catch blocks to manage potential API request failures
+
+This Home component provides users with a clear overview of their progress and 
+easy access to the main features of Forge Focus, 
+encouraging engagement with goal-setting and task management functionalities.
+
+**Add Picture When Ready**
+
+## User Authentication/ Not Authorized Page
+
+Forge Focus implements an authentication and authorization system 
+to ensure secure access to user-specific content. 
+The system comprises several key components:
+
+**ProtectedRoute Component**
+- Acts as a wrapper for routes that require authentication
+- Checks the user's authentication status
+- Redirects unauthenticated users to the sign-in page
+- Displays a loading state while determining user authentication status
+
+**CurrentUserProvider Component**
+- Manages the global state for the current user
+- Utilizes React Context API for efficient state management
+- Handles user authentication on initial load
+- Implements token refresh mechanism to maintain user sessions
+- Uses axios interceptors to handle authentication errors and token refreshing
+- Provides the current user data and setter function to child components
+
+**NotAuthorized Component**
+- Displays a user-friendly message when access is denied
+- Offers options to sign in or sign up
+- Utilizes React Router for navigation to authentication pages
+
+### Key Features:
+
+1. Global State Management:
+- Uses React Context for efficient sharing of user data across components
+
+2. Token Refresh Mechanism:
+- Automatically refreshes authentication tokens to maintain user sessions
+
+3. Interceptors for API Requests:
+- Handles 401 (Unauthorized) errors by attempting to refresh the token
+- Redirects to sign-in page if token refresh fails
+
+4. Protected Routes:
+- Ensures that certain routes are only accessible to authenticated users
+
+5. Loading State Handling:
+- Displays loading indicator while fetching user data or determining authentication status
+
+6. Error Handling:
+- Gracefully handles authentication errors and network issues
+
+7. User-Friendly Unauthorized Access Handling:
+- Provides clear instructions and easy navigation options when access is denied
+
+This authentication system ensures that Forge Focus maintains a secure environment 
+where users can safely interact with their personal goal and task data, 
+while providing a smooth user experience throughout the authentication process.
+
+**Add in picture When Ready**
+
+
 ## Signup Page
+
+
 ## Signin Page
-## Goals
-## Tasks
+The SignIn component provides a user interface for existing users to authenticate 
+and access their Forge Focus account. This component is crucial 
+for the application's security and user experience.
+
+**Key features and functionalities:**
+
+1. User Input Handling:
+- Collects username and password from the user
+- Uses controlled components for form inputs
+- Real-time update of state as user types
+
+2. Form Submission:
+- Prevents default form submission behavior
+- Sends a POST request to the backend API for authentication
+- Handles successful login by updating the current user state and navigating to the home page
+
+3. Error Handling:
+- Displays validation errors returned from the server
+- Shows password-related errors as alerts
+
+4. State Management:
+- Utilizes React's useState hook for local state management
+- Integrates with custom hooks for global state management (useSetCurrentUser, useCurrentUser)
+
+5. Authentication Flow:
+- Sets authentication tokens upon successful login
+- Updates the global user state with the logged-in user's information
+
+6. Redirection:
+- Uses a custom hook (useRedirect) to prevent already logged-in users from accessing the sign-in page
+
+7. Success Feedback:
+- Utilizes global success message hooks to provide feedback on successful sign-in
+
+8. Security Considerations:
+- Password field uses type="password" for secure input
+- Integrates with backend API authentication system for secure credential verification
+
+This SignIn component ensures a smooth and secure authentication process for Forge Focus users, 
+integrating with the application's overall authentication and authorization system.
+
+**Insert Image When Ready**
+
+## Main Goals Area
+## Goal Detail Page
+## Create New Goal
+## Edit Goal
+## Delete Goal
+
+## Main Tasks Area
+## Task Details Page
+## Create New Task
+## Edit Task
+## Delete Task
+
 ## User Messages
 ## Search Goals
 ## Contact Form
 
 # Future Features
+
+## Add User Profiles
 ## Edit/Delete User Profiles
-## Improved Navigation
+## Improved User Navigation
 ## Rank Goals
+## Connect with other Users
+## Team Goals With Other Users
+## Message System to communicate to other users
+
 
 # Technologies/ Lanuages used
 
