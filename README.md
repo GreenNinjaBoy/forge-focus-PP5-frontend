@@ -59,6 +59,43 @@ These goals can be everyday goals, or more spesific to a certain apect of the us
 
 # Features
 
+## NavBar
+
+The MainNavbar component is a crucial part of the Forge Focus application, 
+providing intuitive navigation and user-specific actions. Key features include:
+
+1. Responsive Design:
+- Utilizes React Bootstrap for a mobile-friendly, collapsible menu
+- Custom styling with CSS modules for a unique look and feel
+
+2. Dynamic Content:
+- Adapts navigation options based on user authentication status
+- Displays different links for logged-in and logged-out users
+
+
+3. Branding:
+- Features the "Forge Focus" logo with an animated flame icon
+- Logo acts as a home button, directing to dashboard or landing page based on user status
+
+4. Authentication Integration:
+
+- Implements sign-out functionality with proper token management
+- Uses custom hooks (useCurrentUser and useSetCurrentUser) for user state management
+
+5. Navigation Links:
+- For logged-in users: Goals, Tasks, Contact Us, and Sign Out
+- For logged-out users: Login, Signup, and Contact Us
+
+6. Styling:
+- Uses Lucide React icons for visual enhancements
+- Implements custom CSS modules for scoped styling
+
+This NavBar component ensures a seamless and intuitive navigation experience, 
+adapting to the user's authentication status and providing easy access 
+to key features of the Forge Focus application.
+
+**Insert Image When Ready**
+
 ## AboutPage
 
 The About page serves as the landing page for Forge Focus.
@@ -94,7 +131,7 @@ through structured planning and task management.
 ## Signup Page
 ## Signin Page
 ## Goals
-## Steps
+## Tasks
 ## User Messages
 ## Search Goals
 ## Contact Form
