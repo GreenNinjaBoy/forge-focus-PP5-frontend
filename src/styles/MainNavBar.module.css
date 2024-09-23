@@ -1,36 +1,118 @@
 .Header {
     background-color: #78e79e;
     border: solid 1px #007926;
-    height: 55px;
-    align-items: normal;
+    height: 50px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    display: flex;
+    align-items: center;
+}
+
+.navContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: 0 15px;
+    width: 100%;
 }
 
 .LogoName {
     font-family: "Permanent Marker", sans-serif;
-    font-size: 45px;
-    font-weight: 400;
     font-style: normal;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 2rem;
+    height: 100%;
+    color: #1a3a5a; /* Using the suggested complementary color */
+}
+
+.LogoName span {
+    margin-right: 0.5rem; 
 }
 
 .LogoName:hover {
-    color: #3c159c;
+    color: #0f2436; /* Darker shade for hover state */
 }
 
-.Link {
-    margin-bottom: 5px;
-    color: black;
-    font-size: 1.2rem;
-    background-color: #78e79e;
-    
-
+.iconGroup {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    display: inline-block;
 }
+
+.icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.backgroundIcon {
+    color: #1a3a5a; /* Using the suggested complementary color */
+    z-index: 0;
+}
+
+.foregroundIcon {
+    color: #4a4a4a;
+    z-index: 1;
+}
+
 .NavLinks {
-    position: fixed;
-    height: 50px;
-    right: 0px;
-    padding: 10px 20px 5px 20px;
-    text-align: left;
+    display: flex;
     align-items: center;
-    font-family: "Permanent Marker", sans-serif;
+    margin-left: auto;
+    height: 100%;
+}
 
+.NavLinks a {
+    font-family: "Permanent Marker", sans-serif;
+    font-size: 1.2rem;
+    margin-left: 1rem;
+    color: #1a3a5a; /* Using the suggested complementary color */
+    text-decoration: none;
+    transition: color 0.3s ease;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.NavLinks a:hover {
+    color: #0f2436; /* Darker shade for hover state */
+}
+
+@media (max-width: 991px) {
+    .Header {
+        height: auto;
+        min-height: 50px;
+    }
+
+    .navContainer {
+        flex-wrap: wrap;
+    }
+
+    .LogoName {
+        font-size: 1.8rem;
+    }
+
+    .NavLinks {
+        flex-direction: column;
+        align-items: flex-end;
+        width: 100%;
+        padding: 10px 0;
+        height: auto;
+    }
+
+    .NavLinks a {
+        margin-left: 0;
+        margin-bottom: 10px;
+        width: 100%;
+        text-align: right;
+        height: auto;
+    }
 }

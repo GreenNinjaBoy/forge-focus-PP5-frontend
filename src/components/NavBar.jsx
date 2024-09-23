@@ -1,8 +1,9 @@
-import { Navbar, Nav, Container, Dropdown } from 'react-bootstrap';
+import { Navbar, Nav, Container} from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCurrentUser, useSetCurrentUser } from '../hooks/useCurrentUser';
 import axios from 'axios';
 import styles from '../styles/MainNavBar.module.css';
+import { Flame, Menu } from 'lucide-react';
 
 const MainNavbar = () => {
   const currentUser = useCurrentUser();
@@ -12,11 +13,8 @@ const MainNavbar = () => {
   const handleSignout = async () => {
     try {
       await axios.post('dj-rest-auth/logout/');
-      // Remove tokens from local storage
       localStorage.removeItem('refreshTokenTimestamp');
-      // Update current user state
       setCurrentUser(null);
-      // Redirect to home page
       navigate('/');
     } catch (err) {
       console.log(err);
@@ -24,46 +22,40 @@ const MainNavbar = () => {
   };
 
   const handleLogoClick = () => {
-    if (currentUser) {
-      navigate('/dashboard');
-    } else {
-      navigate('/');
-    }
+    navigate(currentUser ? '/dashboard' : '/');
   };
 
   const loggedInLinks = (
-    <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-        Menu
-      </Dropdown.Toggle>
-      <Dropdown.Menu>
-        <Dropdown.Item as={NavLink} to="/goalsarea">Goals</Dropdown.Item>
-        <Dropdown.Item as={NavLink} to="/tasksarea">Tasks</Dropdown.Item>
-        <Dropdown.Item as={NavLink} to="/contact">ContactUs</Dropdown.Item>
-        <Dropdown.Item onClick={handleSignout}>Sign Out</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+    <>
+      <Nav.Link as={NavLink} to="/goalsarea" className={styles.navLink}>Goals</Nav.Link>
+      <Nav.Link as={NavLink} to="/tasksarea" className={styles.navLink}>Tasks</Nav.Link>
+      <Nav.Link as={NavLink} to="/contact" className={styles.navLink}>Contact Us</Nav.Link>
+      <Nav.Link onClick={handleSignout} className={styles.navLink}>Sign Out</Nav.Link>
+    </>
   );
 
   const loggedOutLinks = (
-    <Nav.Item>
-      <Nav.Link as={NavLink} to="/signin">Login</Nav.Link>
-      <Nav.Link as={NavLink} to="/signup">Signup</Nav.Link>
-      <Nav.Link as={NavLink} to="/contact">ContactUs</Nav.Link>
-    </Nav.Item>
+    <>
+      <Nav.Link as={NavLink} to="/signin" className={styles.navLink}>Login</Nav.Link>
+      <Nav.Link as={NavLink} to="/signup" className={styles.navLink}>Signup</Nav.Link>
+      <Nav.Link as={NavLink} to="/contact" className={styles.navLink}>Contact Us</Nav.Link>
+    </>
   );
 
   return (
     <Navbar expand="lg" fixed="top" className={styles.Header}>
-      <Container fluid>
-        <Nav.Link onClick={handleLogoClick} className={styles.LogoName}>Forge Focus</Nav.Link>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className={`${styles.NavLinks} me-auto my-2 my-lg-0`}
-            style={{ maxHeight: '100px' }}
-            navbarScroll
-          >
+      <Container fluid className={styles.navContainer}>
+        <Nav.Link onClick={handleLogoClick} className={styles.LogoName}>
+          <span>Forge Focus</span>
+          <div className={styles.iconGroup}>
+            <Flame size={58} className={`${styles.icon} ${styles.backgroundIcon}`} strokeWidth={2.5} />
+          </div>
+        </Nav.Link>
+        <Navbar.Toggle aria-controls="basic-navbar-nav">
+          <Menu size={24} />
+        </Navbar.Toggle>
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className={`${styles.NavLinks} ms-auto`}>
             {currentUser ? loggedInLinks : loggedOutLinks}
           </Nav>
         </Navbar.Collapse>
