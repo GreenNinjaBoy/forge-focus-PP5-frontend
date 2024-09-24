@@ -377,11 +377,86 @@ integrating with the application's overall authentication and authorization syst
 **Insert Image When Ready**
 
 ## Main Goals Area
-## Search Goals
-## Goal Detail Page
+
+The Main Goals Area is a crucial part of the Forge Focus application, 
+providing users with a comprehensive view and management interface for their goals. 
+This component offers a rich set of features to enhance user interaction with their goal data.
+
+**Some of the Key Features of the Main Goals Area are as follows:**
+
+1. **Goal Fetching and Display**
+   - Automatically fetches and displays the user's goals upon component mount
+   - Presents goals in an easy-to-view grid layout
+
+2. **Search Functionality**
+   - Allows users to search through their goals by name
+   - Implements real-time filtering as the user types
+
+3. **Pagination**
+   - Displays goals in manageable chunks (6 goals per page)
+   - Provides intuitive navigation between pages of goals
+
+4. **Create New Goal**
+   - Offers a direct link to create a new goal, enhancing user workflow
+
+5. **Navigation**
+   - Includes a 'Back' button for easy navigation to the previous page
+
+6. **Responsive Design**
+   - Utilizes custom CSS modules for a responsive and visually appealing layout
+
+7. **Dynamic Content Loading**
+   - Displays a loading message while fetching goal data
+   - Shows a message when no goals match the search criteria
+
+8. **Error Handling**
+   - Redirects to sign-in page if the user's session has expired
+   - Navigates to the home page for certain error conditions (e.g., forbidden access)
+
+9. **Goal Preview**
+   - Each goal is displayed using a GoalsView component, showing key information like name, image, and associated tasks count
+
+This component forms a core part of the user interface, 
+allowing users to effectively manage and interact with their goals.
+
+## Goal Details Page
+
+The Goals Details component provides users with a detailed view of a specific goal and its associated tasks. 
+This component offers a comprehensive interface for users to view and manage individual goal information.
+
+**Some of the Key Features of the Main Goals Area are as follows:**
+
+1. **Dynamic Goal Fetching**
+   - Automatically fetches goal details based on the goal ID from the URL parameters
+   - Displays loading state while fetching data
+
+2. **Comprehensive Goal Information Display**
+   - Shows the goal's name, image, and reason
+   - Presents a list of tasks associated with the goal
+
+3. **Task Management**
+   - Displays all tasks linked to the goal
+   - Shows a message when no tasks are associated with the goal
+
+4. **Goal Management Options**
+   - Provides buttons to edit or delete the current goal
+   - Uses React Router for seamless navigation to edit and delete pages
+
+5. **Error Handling**
+   - Implements error logging for failed data fetching
+
+6. **Responsive Design**
+   - Utilizes a simple, clean layout for easy viewing on various devices
+
+This component aids in the user interface, allowing users to dive deep into the details of each goal, view associated tasks, and take actions like editing or deleting the goal. It supports the core functionality of goal management within the application.
+
+
 ## Create New Goal
+
 ## Edit Goal
+
 ## Delete Goal
+## Goals Views
 
 ## Main Tasks Area
 ## Task Details Page
@@ -489,6 +564,9 @@ enhancing user engagement and support capabilities of the platform.
 # Future Features
 Some Future features that I have considered for the development of the 
 Forge Focus Application are as follows.
+
+## Implement task creation directly from goal details page.
+## Include goal progress tracking or completion status on goal details page.
 
 ## Add User Profiles
 Allow users to create detailed profiles, showcasing their goals, achievements, and personal information. 

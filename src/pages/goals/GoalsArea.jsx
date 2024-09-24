@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
 import GoalsView from "./GoalsView";
 import { useNavigate } from "react-router-dom";
@@ -45,7 +45,7 @@ const GoalsArea = () => {
       goal.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredGoals(results);
-    setCurrentPage(1); // Reset to first page when search term changes
+    setCurrentPage(1);
   }, [searchTerm, goalsData]);
 
   const handleCreateGoal = () => {
@@ -56,7 +56,6 @@ const GoalsArea = () => {
     navigate(-1);
   };
 
-  // Pagination logic
   const indexOfLastGoal = currentPage * goalsPerPage;
   const indexOfFirstGoal = indexOfLastGoal - goalsPerPage;
   const currentGoals = filteredGoals.slice(indexOfFirstGoal, indexOfLastGoal);
