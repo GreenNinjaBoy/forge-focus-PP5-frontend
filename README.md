@@ -524,7 +524,43 @@ refine their goals as their needs and aspirations evolve.
 
 ## Delete Goal
 
-## Goals Views
+The GoalsDelete component provides users with a secure and informative interface for deleting existing goals. This component ensures users are fully aware of the consequences of their actions before proceeding with goal deletion.
+
+**Some of the Key Features of the Main Goals Area are as follows:**
+
+1. **Goal Information Retrieval**
+   - Automatically fetches the goal's name and associated tasks count based on the goal ID from URL parameters
+   - Displays the goal name in the confirmation message for user clarity
+
+2. **Associated Tasks Warning**
+   - Informs users about the number of tasks that will be deleted along with the goal
+   - Helps prevent accidental loss of important task data
+
+3. **Confirmation Interface**
+   - Presents a clear confirmation message asking users if they're sure about deleting the goal
+   - Provides both "Cancel" and "Delete" options for user decision
+
+4. **Delete Functionality**
+   - Handles the deletion of the goal by sending a delete request to the server
+   - Navigates back to the goals area upon successful deletion
+
+5. **User Feedback**
+   - Utilizes a global success message system to inform users of successful goal deletion
+   - Displays the success message returned from the server
+
+6. **Error Handling**
+   - Implements error logging for failed data fetching and deletion attempts
+
+7. **Navigation**
+   - Includes a cancel option that returns to the goal details page without deleting
+   - Uses React Router for seamless navigation between pages
+
+### Safety Considerations:
+
+- Double confirmation process (navigating to delete page + confirming deletion) helps prevent accidental deletions
+- Displays the goal name in the confirmation message to ensure users are deleting the correct goal
+
+This component aids in the goal management process, allowing users to safely remove goals that are no longer relevant while being fully informed of the consequences.
 
 ## Main Tasks Area
 ## Task Details Page
