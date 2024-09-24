@@ -162,7 +162,7 @@ to key features of the Forge Focus application.
   <summary>About Page Details</summary>
 
   <p align="center">
-    ![image of about](https://github.com/GreenNinjaBoy/forge-focus-pp5-frontend/blob/main/documentation/features/aboutpage.webp.png)
+    <img src="https://github.com/GreenNinjaBoy/forge-focus-pp5-frontend/blob/main/documentation/features/aboutpage.webp.png" alt="image of about page" width="300">
   </p>
 
   The About page serves as the landing page for Forge Focus.
