@@ -1,13 +1,13 @@
 import { Button } from "react-bootstrap";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useNavigate, useParams } from "react-router-dom";
-import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
 const GoalsDelete = () => {
   const { id } = useParams();
   const [goalName, setGoalName] = useState("");
+  const [tasksCount, setTasksCount] = useState(0);
   const setShowGlobalSuccess = useSetShowGlobalSuccess();
   const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ const GoalsDelete = () => {
       try {
         const { data } = await axiosReq.get(`/goals/${id}/`);
         setGoalName(data.name);
+        setTasksCount(data.tasks_for_goals.length);
       } catch (err) {
         console.error("Failed to fetch goal details", err);
       }
@@ -27,9 +28,8 @@ const GoalsDelete = () => {
 
   const handleDelete = async () => {
     try {
-      console.log(`Attempting to delete goal with id: ${id}`);
-      await axiosReq.delete(`/goals/${id}/`);
-      setGlobalSuccessMessage("You have deleted your goal");
+      const response = await axiosReq.delete(`/goals/${id}/delete/`);
+      setGlobalSuccessMessage(response.data.message);
       setShowGlobalSuccess(true);
       navigate('/goalsarea'); 
     } catch (err) {
@@ -43,22 +43,14 @@ const GoalsDelete = () => {
 
   return (
     <div>
-      <p>Are you sure you wish to delete your goal {goalName}?</p>
-      <p>Warning! all associated tasks will also be deleted</p>
+      <p>Are you sure you wish to delete your goal "{goalName}"?</p>
+      <p>Warning! {tasksCount} associated task(s) will also be deleted.</p>
       <div>
-        <Button onClick={handleCancel}>
-          <div>Cancel</div>
-        </Button>
-        <Button onClick={handleDelete}>
-          Delete
-        </Button>
+        <Button onClick={handleCancel}>Cancel</Button>
+        <Button onClick={handleDelete}>Delete</Button>
       </div>
     </div>
   );
-};
-
-GoalsDelete.propTypes = {
-  id: PropTypes.number.isRequired,
 };
 
 export default GoalsDelete;

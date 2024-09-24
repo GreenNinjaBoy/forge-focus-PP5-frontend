@@ -1,75 +1,130 @@
 .homeContainer {
-    padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #e8f8ec;
+  padding: 2rem;
 }
 
 .heading {
-    margin-bottom: 2rem; 
+  font-size: 3.5rem;
+  font-weight: normal;
+  font-family: 'Permanent Marker', cursive;
+  color: #333;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .cardContainer {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap; 
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
 .cardCustom {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 1rem; 
+  background-color: #d1f3dc;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
 }
 
 .cardTitleCustom {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #007bff;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
 }
 
 .cardTextCustom {
-    font-size: 1rem;
-    color: #6c757d;
-}
-
-.buttonCustom {
-    background-color: #007bff;
-    border: none;
-    color: white;
-    margin: 0.5rem; 
-}
-
-.buttonCustom:hover {
-    background-color: #0056b3;
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
 }
 
 .buttonRow {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonCustom {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  color: white;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.buttonCustom:first-child {
+  background-color: #4299e1;
+}
+
+.buttonCustom:first-child:hover {
+  background-color: #3182ce;
+}
+
+.buttonCustom:last-child {
+  background-color: #48bb78;
+}
+
+.buttonCustom:last-child:hover {
+  background-color: #38a169;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.5rem;
+  color: #333;
 }
 
 .noUserInfo {
-    text-align: center;
-    margin-top: 2rem;
+  text-align: center;
+  padding: 2rem;
 }
 
-/* Media queries for responsiveness */
+.noUserInfo h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.noUserInfo button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  color: white;
+  background-color: #4299e1;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.noUserInfo button:hover {
+  background-color: #3182ce;
+}
+
 @media (max-width: 768px) {
-    .cardContainer {
-    flex-direction: column; 
-    align-items: center; 
-    }
+  .homeContainer {
+    padding: 1rem;
+  }
 
-    .cardCustom {
+  .heading {
+    font-size: 2.5rem;
+  }
+
+  .cardCustom {
+    max-width: 100%;
+  }
+
+  .buttonRow {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .buttonCustom {
     width: 100%;
-    max-width: 400px; 
-    }
-
-    .buttonRow {
-    flex-direction: column; 
-    align-items: center; 
-    }
-
-    .buttonCustom {
-    width: 100%;
-    margin: 0.5rem 0; 
-    }
+  }
 }
