@@ -43,7 +43,7 @@ const GoalsDelete = () => {
 
   return (
     <div>
-      <p>Are you sure you wish to delete your goal "{goalName}"?</p>
+      <p>Are you sure you wish to delete {goalName}?</p>
       <p>Warning! {tasksCount} associated task(s) will also be deleted.</p>
       <div>
         <Button onClick={handleCancel}>Cancel</Button>
