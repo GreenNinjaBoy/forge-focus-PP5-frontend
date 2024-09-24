@@ -158,32 +158,39 @@ to key features of the Forge Focus application.
 
 ## AboutPage
 
-The About page serves as the landing page for Forge Focus.
-Key Features of the About Page Include:
+<details>
+  <summary>About Page Details</summary>
 
-1. **Interactive Carousel**: A visually engaging carousel that introduces user to the
-core concepts of the Forge Focus application:
-- Welcome message emphasizing the app's purpose
-- Overview of the app's functionality
-- Explanation of the goal creation process
-- Explanation of the task creation and how
-to link tasks to goals.
+  <p align="center">
+    ![image of about](https://github.com/GreenNinjaBoy/forge-focus-pp5-frontend/blob/main/documentation/features/aboutpage.webp.png)>
+  </p>
 
-2. User-Friendly Navigation: Clear calls-to-action for both new and returning users:
+  The About page serves as the landing page for Forge Focus.
+  Key Features of the About Page Include:
 
-- "Sign Up" button for new users to create an account
-- "Sign In" button for existing members to access their dashboard
+  1. **Interactive Carousel**: A visually engaging carousel that introduces user to the
+  core concepts of the Forge Focus application:
+  - Welcome message emphasizing the app's purpose
+  - Overview of the app's functionality
+  - Explanation of the goal creation process
+  - Explanation of the task creation and how
+  to link tasks to goals.
 
-3. Responsive Design: Utilizes React Bootstrap components to ensure a seamless experience across different devices and screen sizes.
-Custom Styling: Implements a module-based CSS approach for maintainable and scoped styles.
+  2. User-Friendly Navigation: Clear calls-to-action for both new and returning users:
 
-4. Custom Styling: Implements a module-based CSS approach for maintainable and scoped styles.
+  - "Sign Up" button for new users to create an account
+  - "Sign In" button for existing members to access their dashboard
 
-The About page effectivley Communicates the value proposition of Forge Focus, 
-encouraging users to take action and refining and achieving their personal goals
-through structured planning and task management.
+  3. Responsive Design: Utilizes React Bootstrap components to ensure a seamless experience across different devices and screen sizes.
+  Custom Styling: Implements a module-based CSS approach for maintainable and scoped styles.
 
-**Add picture here when ready**
+  4. Custom Styling: Implements a module-based CSS approach for maintainable and scoped styles.
+
+  The About page effectively Communicates the value proposition of Forge Focus, 
+  encouraging users to take action and refining and achieving their personal goals
+  through structured planning and task management.
+
+</details>
 
 ## HomePage
 The Home component serves as the main dashboard for the Forge Focus application. 
