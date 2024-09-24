@@ -487,7 +487,43 @@ supporting the application's core functionality of personal development and task
 
 ## Edit Goal
 
+The GoalsEdit component allows users to modify existing goals. This component provides an intuitive interface for users to update goal details and view the associated image.
+
+**Some of the Key Features of the Main Goals Area are as follows:**
+
+1. **Dynamic Goal Data Fetching**
+   - Automatically fetches the current goal data based on the goal ID from URL parameters
+   - Populates form fields with existing goal information
+
+2. **Goal Information Editing**
+   - Allows users to modify the goal's name and reason
+   - Displays the current goal image (without the ability to change it in this version)
+
+3. **Form Submission**
+   - Handles the update of an existing goal by sending data to the server
+   - Uses FormData to package the updated information
+
+4. **Navigation and State Management**
+   - Includes a cancel button that returns to the view state without saving changes
+   - Navigates back to the goals area upon successful update
+   - Optionally updates parent component state (setGoalData and setGoalState)
+
+5. **User Feedback**
+   - Utilizes a global success message system to inform users of successful goal updates
+   - Displays error messages for each form field if validation fails
+
+6. **Error Handling**
+   - Implements error logging for failed data fetching and update attempts
+   - Redirects to appropriate pages based on error types (e.g., unauthorized, forbidden, not found)
+
+7. **Loading State**
+   - Displays a loading message while fetching goal data
+
+This component aids in the goal management process, allowing users to easily update and 
+refine their goals as their needs and aspirations evolve.
+
 ## Delete Goal
+
 ## Goals Views
 
 ## Main Tasks Area
