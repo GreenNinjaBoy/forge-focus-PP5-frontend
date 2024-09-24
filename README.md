@@ -453,6 +453,38 @@ This component aids in the user interface, allowing users to dive deep into the 
 
 ## Create New Goal
 
+The GoalsCreate component allows users to create new goals. 
+This component provides an intuitive interface for users to input goal details 
+and upload an associated image.
+
+**Some of the Key Features of the Main Goals Area are as follows:**
+
+1. **Goal Information Input**
+- Allows users to enter a name for their goal
+- Provides a field for users to explain the reason or importance of the goal
+
+
+2. **Image Upload**
+- Enables users to upload an image associated with their goal
+- Displays a preview of the selected image or a default image
+
+3. **Form Submission**
+- Handles the creation of a new goal by sending data to the server
+- Uses FormData to handle both text inputs and file upload
+
+4. **Navigation**
+- Includes a cancel button that redirects users to the home page
+- Automatically navigates to the goals area upon successful goal creation
+
+5. **User Feedback**
+- Utilizes a global success message system to inform users of successful goal creation
+
+6. **Error Handling**
+- Implements basic error logging for failed goal creation attempts
+
+This component aids in the goal-setting process, allowing users to easily create and define new goals, 
+supporting the application's core functionality of personal development and task management.
+
 ## Edit Goal
 
 ## Delete Goal
