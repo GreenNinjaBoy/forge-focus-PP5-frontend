@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { Alert, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
+import styles from '../../styles/Form.module.css';
 
 const SignUp = () => {
-
     const setShowGlobalSuccess = useSetShowGlobalSuccess();
     const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
 
@@ -47,88 +46,74 @@ const SignUp = () => {
     };
 
     return (
-        <div>
-            <div>
-                <h1>Get signed up!</h1>
+        <div className={styles.authContainer}>
+          <div className={styles.contentWrapper}>
+            <h1 className={styles.heading}>Sign Up</h1>
+            <div className={styles.formCard}>
+                <form onSubmit={handleSubmit}>
+                    <div className={styles.formRow}>
+                        <div className={styles.formColumn}>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="username" className={styles.formLabel}>Username:</label>
+                                <input
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    value={username}
+                                    onChange={handleChange}
+                                    className={styles.formControl}
+                                />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="password1" className={styles.formLabel}>Password:</label>
+                                <input
+                                    type="password"
+                                    id="password1"
+                                    name="password1"
+                                    value={password1}
+                                    onChange={handleChange}
+                                    className={styles.formControl}
+                                />
+                            </div>
+                        </div>
+                        <div className={styles.formColumn}>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="email" className={styles.formLabel}>Email:</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    value={email}
+                                    onChange={handleChange}
+                                    className={styles.formControl}
+                                />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="password2" className={styles.formLabel}>Confirm Password:</label>
+                                <input
+                                    type="password"
+                                    id="password2"
+                                    name="password2"
+                                    value={password2}
+                                    onChange={handleChange}
+                                    className={styles.formControl}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    {Object.keys(errors).map((key) => (
+                        errors[key].map((message, idx) => (
+                            <div key={`${key}-${idx}`} className={styles.alert}>
+                                {message}
+                            </div>
+                        ))
+                    ))}
+                    <button type="submit" className={styles.submitButton}>
+                        Sign Up
+                    </button>
+                </form>
             </div>
-            <div>
-                <Form onSubmit={handleSubmit}>
-                    {errors.non_field_errors?.map((message, idx) => (
-                        <Alert key={idx} variant="danger">
-                            {message}
-                        </Alert>
-                    ))}
-                    {errors.username?.map((message, idx) => (
-                        <Alert key={idx} variant="danger">
-                            {message}
-                        </Alert>
-                    ))}
-                    <Form.Group controlId="username">
-                        <Form.Label>Username:</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter a username"
-                            name="username"
-                            value={username}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
-
-                    {errors.email?.map((message, idx) => (
-                        <Alert key={idx} variant="danger">
-                            {message}
-                        </Alert>
-                    ))}
-
-                    <Form.Group controlId="email">
-                        <Form.Label>Email:</Form.Label>
-                        <Form.Control
-                            type="email"
-                            placeholder="Enter your email"
-                            name="email"
-                            value={email}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
-
-                    {errors.password1?.map((message, idx) => (
-                        <Alert key={idx} variant="danger">
-                            {message}
-                        </Alert>
-                    ))}
-
-                    <Form.Group controlId="password1">
-                        <Form.Label>Password:</Form.Label>
-                        <Form.Control
-                            type="password"
-                            placeholder="Password"
-                            name="password1"
-                            value={password1}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
-
-                    {errors.password2?.map((message, idx) => (
-                        <Alert key={idx} variant="danger">
-                            {message}
-                        </Alert>
-                    ))}
-
-                    <Form.Group controlId="password2">
-                        <Form.Label>Confirm password:</Form.Label>
-                        <Form.Control
-                            type="password"
-                            placeholder="Confirm password"
-                            name="password2"
-                            value={password2}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
-                    <Button type="submit">
-                        Sign up
-                    </Button>
-                </Form>
-            </div>
+          </div>
         </div>
     );
 };

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
 import { useSetCurrentUser, useCurrentUser } from "../../hooks/useCurrentUser";
 import { setTokenTimestamp } from "../../utils/Utils";
 import { useRedirect } from "../../hooks/useRedirect";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
+import styles from '../../styles/Form.module.css';
 
 function SignIn() {
   const setCurrentUser = useSetCurrentUser();
@@ -47,40 +47,58 @@ function SignIn() {
   };
 
   return (
-    <div>
-      <h1>Sign into your account</h1>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="username">
-          <Form.Label>Username:</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter username"
-            name="username"
-            value={username}
-            onChange={handleChange}
-          />
-        </Form.Group>
-
-        {errors.password && errors.password.map((message, idx) => (
-          <Alert key={idx}>
-            {message}
-          </Alert>
-        ))}
-
-        <Form.Group controlId="password">
-          <Form.Label>Password:</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={password}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Button type="submit">
-          Sign In
-        </Button>
-      </Form>
+    <div className={styles.authContainer}>
+      <h1 className={styles.heading}>Sign In</h1>
+      <div className={styles.formCard}>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.formRow}>
+            <div className={styles.formColumn}>
+              <div className={styles.formGroup}>
+                <label htmlFor="username" className={styles.formLabel}>Username:</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={username}
+                  onChange={handleChange}
+                  className={styles.formControl}
+                />
+              </div>
+            </div>
+            <div className={styles.formColumn}>
+              <div className={styles.formGroup}>
+                <label htmlFor="password" className={styles.formLabel}>Password:</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={password}
+                  onChange={handleChange}
+                  className={styles.formControl}
+                />
+              </div>
+            </div>
+          </div>
+          {errors.username?.map((message, idx) => (
+            <div key={idx} className={styles.alert}>
+              {message}
+            </div>
+          ))}
+          {errors.password?.map((message, idx) => (
+            <div key={idx} className={styles.alert}>
+              {message}
+            </div>
+          ))}
+          {errors.non_field_errors?.map((message, idx) => (
+            <div key={idx} className={styles.alert}>
+              {message}
+            </div>
+          ))}
+          <button type="submit" className={styles.submitButton}>
+            Sign In
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
