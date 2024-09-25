@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
-import { axiosReq } from "../../api/axiosDefaults";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
-import { Form, Button, Alert } from "react-bootstrap";
+import { axiosReq } from "../../api/axiosDefaults";
+import { Form, Button, Alert, Container, Row, Col } from "react-bootstrap";
 
-const TaskCreate = ({ keyParameters = {} }) => {
-    const { goals_id } = keyParameters;
-    const [taskTitle, setTaskTitle] = useState("");
-    const [taskDetails, setTaskDetails] = useState("");
-    const [deadline, setDeadline] = useState("");
+const TaskCreate = ({ goalsId = "" }) => {
+    const [taskData, setTaskData] = useState({
+        task_title: "",
+        task_details: "",
+        deadline: "",
+        goals: goalsId,
+        completed: false,
+    });
     const [goals, setGoals] = useState([]);
-    const [selectedGoal, setSelectedGoal] = useState(goals_id || "");
-    const [error, setError] = useState(null);
+    const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,6 +22,10 @@ const TaskCreate = ({ keyParameters = {} }) => {
                 setGoals(data.results);
             } catch (err) {
                 console.error("Failed to fetch goals", err);
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    goals: "Failed to load goals. Please try again.",
+                }));
             }
         };
 
@@ -29,94 +34,100 @@ const TaskCreate = ({ keyParameters = {} }) => {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        if (name === "taskTitle") setTaskTitle(value);
-        if (name === "taskDetails") setTaskDetails(value);
-        if (name === "deadline") setDeadline(value);
-        if (name === "goal") setSelectedGoal(value);
+        setTaskData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const { data } = await axiosReq.post("/tasks/", {
-                task_title: taskTitle,
-                task_details: taskDetails,
-                deadline: deadline,
-                goals: selectedGoal || null,
-                completed: false,
-            });
+            const { data } = await axiosReq.post("/tasks/", taskData);
             console.log("Task created successfully:", data);
-            navigate(selectedGoal ? "/goalsarea" : "/tasksarea");
+            navigate(taskData.goals ? "/goalsarea" : "/tasksarea");
         } catch (err) {
-            setError("Failed to create task");
             console.error("Failed to create task", err);
+            setErrors(err.response?.data || {});
         }
     };
 
-    const handleCancel = () => {
-        navigate("/tasksarea");
-    };
-
     return (
-        <div>
-            <h2>Create New Task</h2>
-            {error && <Alert variant="danger">{error}</Alert>}
-            <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="task-title">
-                    <Form.Label>Task Title:</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="taskTitle"
-                        value={taskTitle}
-                        onChange={handleChange}
-                        required
-                    />
-                </Form.Group>
-                <Form.Group controlId="task-details">
-                    <Form.Label>Task Details:</Form.Label>
-                    <Form.Control
-                        as="textarea"
-                        name="taskDetails"
-                        value={taskDetails}
-                        onChange={handleChange}
-                    />
-                </Form.Group>
-                <Form.Group controlId="task-deadline">
-                    <Form.Label>Task Deadline:</Form.Label>
-                    <Form.Control
-                        type="date"
-                        name="deadline"
-                        value={deadline}
-                        onChange={handleChange}
-                    />
-                </Form.Group>
-                <Form.Group controlId="goal">
-                    <Form.Label>Link to Goal:</Form.Label>
-                    <Form.Control
-                        as="select"
-                        name="goal"
-                        value={selectedGoal}
-                        onChange={handleChange}
-                    >
-                        <option value="">None</option>
-                        {goals.map((goal) => (
-                            <option key={goal.id} value={goal.id}>
-                                {goal.name}
-                            </option>
-                        ))}
-                    </Form.Control>
-                </Form.Group>
-                <div>
-                    <Button onClick={handleCancel}>Cancel Task Creation</Button>
-                    <Button type="submit">Save Task Creation</Button>
-                </div>
-            </Form>
-        </div>
-    );
-};
+        <Container>
+            <Row className="justify-content-center">
+                <Col md={8}>
+                    <h2 className="text-center mb-4">Create New Task</h2>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group controlId="task_title">
+                            <Form.Label>Task Title</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="task_title"
+                                value={taskData.task_title}
+                                onChange={handleChange}
+                                required
+                            />
+                            {errors.task_title && <Alert variant="danger">{errors.task_title}</Alert>}
+                        </Form.Group>
 
-TaskCreate.propTypes = {
-    keyParameters: PropTypes.object,
+                        <Form.Group controlId="task_details">
+                            <Form.Label>Task Details</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                name="task_details"
+                                value={taskData.task_details}
+                                onChange={handleChange}
+                            />
+                            {errors.task_details && <Alert variant="danger">{errors.task_details}</Alert>}
+                        </Form.Group>
+
+                        <Form.Group controlId="deadline">
+                            <Form.Label>Deadline</Form.Label>
+                            <Form.Control
+                                type="date"
+                                name="deadline"
+                                value={taskData.deadline}
+                                onChange={handleChange}
+                            />
+                            {errors.deadline && <Alert variant="danger">{errors.deadline}</Alert>}
+                        </Form.Group>
+
+                        <Form.Group controlId="goals">
+                            <Form.Label>Link to Goal</Form.Label>
+                            <Form.Control
+                                as="select"
+                                name="goals"
+                                value={taskData.goals}
+                                onChange={handleChange}
+                            >
+                                <option value="">None</option>
+                                {goals.map((goal) => (
+                                    <option key={goal.id} value={goal.id}>
+                                        {goal.name}
+                                    </option>
+                                ))}
+                            </Form.Control>
+                            {errors.goals && <Alert variant="danger">{errors.goals}</Alert>}
+                        </Form.Group>
+
+                        {errors.non_field_errors && (
+                            <Alert variant="danger">{errors.non_field_errors}</Alert>
+                        )}
+
+                        <div className="text-center mt-4">
+                            <Button variant="secondary" onClick={() => navigate(-1)} className="mr-2">
+                                Cancel
+                            </Button>
+                            <Button variant="primary" type="submit">
+                                Create Task
+                            </Button>
+                        </div>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
+    );
 };
 
 export default TaskCreate;

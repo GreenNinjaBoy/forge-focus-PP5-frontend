@@ -20,7 +20,12 @@ const TaskItem = ({ task, actions, className }) => {
       <div className={`${styles.taskContent} ${expanded ? styles.expanded : ''}`}>
         <p>Expires: {new Date(task.deadline).toLocaleDateString()}</p>
         {actions.map((action, index) => (
-          <button key={index} onClick={action.handler}>{action.label}</button>
+          <button key={index} onClick={(e) => {
+            e.stopPropagation();
+            action.handler();
+          }}>
+            {action.label}
+          </button>
         ))}
       </div>
     </div>
@@ -116,6 +121,7 @@ const TasksArea = () => {
   };
 
   const handleDeleteTask = (taskId) => {
+    console.log("Navigating to delete page for task:", taskId);
     navigate(`/tasksdelete/${taskId}`);
   };
 
