@@ -1,51 +1,130 @@
-import PropTypes from "prop-types";
-import { axiosReq } from "../../api/axiosDefaults";
-import { Button } from "react-bootstrap";
-import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
+import { useEffect, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { axiosReq } from '../../api/axiosDefaults';
+import styles from '../../styles/TasksArea.module.css';
 
-const TasksDelete = ({ id, taskTitle, setTasksState }) => {
-    const setShowGlobalSuccess = useSetShowGlobalSuccess();
-    const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
+const TasksArea = () => {
+  const [tasks, setTasks] = useState([]);
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const navigate = useNavigate();
 
-    const handleDelete = async () => {
-        try {
-            console.log(`Deleting task with ID: ${id}`); 
-            const response = await axiosReq.delete(`/tasks/${id}/`);
-            console.log("Delete response:", response); 
-            setGlobalSuccessMessage("You have deleted your task");
-            setShowGlobalSuccess(true);
-            console.log("Refreshing the page"); 
-            window.location.reload(); 
-        } catch (err) {
-            console.error("Error Deleting Task", err);
-            if (err.response) {
-                console.error("Response data:", err.response.data);
-                console.error("Response status:", err.response.status);
-                console.error("Response headers:", err.response.headers);
-            }
-        }
-    };
+  const fetchTasks = useCallback(async () => {
+    try {
+      const { data } = await axiosReq.get('/tasks/');
+      console.log("Fetched tasks:", data.results);
+      
+      const tasksWithoutGoals = data.results.filter(task => task.goals === null);
+      console.log("Tasks without goals:", tasksWithoutGoals);
+      
+      setTasks(tasksWithoutGoals);
+      setHasLoaded(true);
+    } catch (err) {
+      console.log("Failed to fetch tasks", err);
+      if (err.response?.status === 401) {
+        navigate('/signin');
+      } else if (err.response?.status === 403 || err.response?.status === 404) {
+        navigate('/home');
+      }
+    }
+  }, [navigate]);
 
-    const handleCancel = () => {
-        setTasksState('view');
-    };
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
 
-    return (
-        <div>
-            <h2>Delete Task</h2>
-            <p>Are you sure you want to delete this task: {taskTitle}?</p>
-            <div>
-                <Button onClick={handleDelete}>Delete</Button>
-                <Button onClick={handleCancel}>Cancel</Button>
-            </div>
+  const handleViewTask = (taskId) => {
+    navigate(`/task/${taskId}`);
+  };
+
+  const handleCompleteTask = async (taskId) => {
+    try {
+      await axiosReq.patch(`/tasks/${taskId}/toggle-complete/`);
+      await fetchTasks();
+    } catch (err) {
+      console.log("Failed to complete task", err);
+    }
+  };
+
+  const handleResetTask = async (taskId) => {
+    try {
+      await axiosReq.patch(`/tasks/${taskId}/reset/`);
+      await fetchTasks();
+    } catch (err) {
+      console.log("Failed to reset task", err);
+    }
+  };
+
+  const handleDeleteTask = (taskId) => {
+    navigate(`/tasksdelete/${taskId}`);
+  };
+
+  const handleReuseTask = async (taskId) => {
+    try {
+      await axiosReq.post(`/tasks/${taskId}/reuse/`);
+      await fetchTasks();
+    } catch (err) {
+      console.log("Failed to reuse task", err);
+    }
+  };
+
+  const isExpired = (deadline) => {
+    return new Date(deadline) < new Date();
+  };
+
+  const ActiveTasks = () => (
+    <div className={styles.column}>
+      <h2>Active Tasks</h2>
+      {tasks.filter(task => !task.completed && !isExpired(task.deadline)).map(task => (
+        <div key={task.id} className={styles.task}>
+          <h3>{task.task_title}</h3>
+          <p>Expires: {new Date(task.deadline).toLocaleDateString()}</p>
+          <button onClick={() => handleViewTask(task.id)}>View</button>
+          <button onClick={() => handleCompleteTask(task.id)}>Complete</button>
+          <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
         </div>
-    );
+      ))}
+    </div>
+  );
+
+  const CompletedTasks = () => (
+    <div className={styles.column}>
+      <h2>Completed Tasks</h2>
+      {tasks.filter(task => task.completed).map(task => (
+        <div key={task.id} className={styles.task}>
+          <h3>{task.task_title}</h3>
+          <button onClick={() => handleReuseTask(task.id)}>Reuse</button>
+          <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
+        </div>
+      ))}
+    </div>
+  );
+
+  const ExpiredTasks = () => (
+    <div className={styles.column}>
+      <h2>Expired Tasks</h2>
+      {tasks.filter(task => !task.completed && isExpired(task.deadline)).map(task => (
+        <div key={task.id} className={styles.task}>
+          <h3>{task.task_title}</h3>
+          <button onClick={() => handleResetTask(task.id)}>Reset</button>
+          <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
+        </div>
+      ))}
+    </div>
+  );
+
+  return (
+    <div className={styles.container}>
+      {hasLoaded ? (
+        <div className={styles.tasksArea}>
+          <ActiveTasks />
+          <CompletedTasks />
+          <ExpiredTasks />
+        </div>
+      ) : (
+        <p>Loading Tasks...</p>
+      )}
+    </div>
+  );
 };
 
-TasksDelete.propTypes = {
-    id: PropTypes.number.isRequired,
-    taskTitle: PropTypes.string.isRequired,
-    setTasksState: PropTypes.func.isRequired,
-};
-
-export default TasksDelete;
+export default TasksArea;

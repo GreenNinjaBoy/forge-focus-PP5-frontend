@@ -1,14 +1,75 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { axiosReq } from '../../api/axiosDefaults';
 import styles from '../../styles/TasksArea.module.css';
 
-const TasksTable = () => {
+const TaskItem = ({ task, actions, className }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  const toggleExpansion = () => {
+    setExpanded(!expanded);
+  };
+
+  return (
+    <div className={`${styles.task} ${className}`}>
+      <div className={styles.taskHeader} onClick={toggleExpansion}>
+        <h3>{task.task_title}</h3>
+        <span>{expanded ? '▲' : '▼'}</span>
+      </div>
+      <div className={`${styles.taskContent} ${expanded ? styles.expanded : ''}`}>
+        <p>Expires: {new Date(task.deadline).toLocaleDateString()}</p>
+        {actions.map((action, index) => (
+          <button key={index} onClick={action.handler}>{action.label}</button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+TaskItem.propTypes = {
+  task: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    task_title: PropTypes.string.isRequired,
+    deadline: PropTypes.string.isRequired,
+  }).isRequired,
+  actions: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    handler: PropTypes.func.isRequired,
+  })).isRequired,
+  className: PropTypes.string,
+};
+
+const TaskList = ({ tasks, className, actions }) => (
+  <div className={styles.taskList}>
+    {tasks.map(task => (
+      <TaskItem 
+        key={task.id} 
+        task={task} 
+        className={className}
+        actions={actions(task)}
+      />
+    ))}
+  </div>
+);
+
+TaskList.propTypes = {
+  tasks: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    task_title: PropTypes.string.isRequired,
+    deadline: PropTypes.string.isRequired,
+  })).isRequired,
+  className: PropTypes.string,
+  actions: PropTypes.func.isRequired,
+};
+
+const TasksArea = () => {
   const [tasks, setTasks] = useState([]);
   const [hasLoaded, setHasLoaded] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     try {
       const { data } = await axiosReq.get('/tasks/');
       console.log("Fetched tasks:", data.results);
@@ -26,11 +87,11 @@ const TasksTable = () => {
         navigate('/home');
       }
     }
-  };
+  }, [navigate]);
 
   useEffect(() => {
     fetchTasks();
-  }, [navigate]);
+  }, [fetchTasks]);
 
   const handleViewTask = (taskId) => {
     navigate(`/task/${taskId}`);
@@ -38,19 +99,24 @@ const TasksTable = () => {
 
   const handleCompleteTask = async (taskId) => {
     try {
-      await axiosReq.patch(`/tasks/${taskId}/`, { completed: true });
+      await axiosReq.patch(`/tasks/${taskId}/toggle-complete/`);
       await fetchTasks();
     } catch (err) {
       console.log("Failed to complete task", err);
     }
   };
 
-  const handleResetTask = (taskId) => {
-    navigate(`/task/edit/${taskId}`);
+  const handleResetTask = async (taskId) => {
+    try {
+      await axiosReq.patch(`/tasks/${taskId}/reset/`);
+      await fetchTasks();
+    } catch (err) {
+      console.log("Failed to reset task", err);
+    }
   };
 
-  const handleDeleteTask = () => {
-    navigate(`/tasksdelete/`);
+  const handleDeleteTask = (taskId) => {
+    navigate(`/tasksdelete/${taskId}`);
   };
 
   const handleReuseTask = async (taskId) => {
@@ -66,53 +132,73 @@ const TasksTable = () => {
     return new Date(deadline) < new Date();
   };
 
+  const filteredTasks = tasks.filter(task => 
+    task.task_title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const ActiveTasks = () => (
-    <div className={styles.column}>
-      <h2>Active Tasks</h2>
-      {tasks.filter(task => !task.completed && !isExpired(task.deadline)).map(task => (
-        <div key={task.id} className={styles.task}>
-          <h3>{task.task_title}</h3>
-          <p>Expires: {new Date(task.deadline).toLocaleDateString()}</p>
-          <button onClick={() => handleViewTask(task.id)}>View</button>
-          <button onClick={() => handleCompleteTask(task.id)}>Complete</button>
-        </div>
-      ))}
-    </div>
+    <TaskList
+      tasks={filteredTasks.filter(task => !task.completed && !isExpired(task.deadline))}
+      className={styles.activeTask}
+      actions={(task) => [
+        { label: 'View', handler: () => handleViewTask(task.id) },
+        { label: 'Complete', handler: () => handleCompleteTask(task.id) },
+        { label: 'Delete', handler: () => handleDeleteTask(task.id) }
+      ]}
+    />
   );
 
   const CompletedTasks = () => (
-    <div className={styles.column}>
-      <h2>Completed Tasks</h2>
-      {tasks.filter(task => task.completed).map(task => (
-        <div key={task.id} className={styles.task}>
-          <h3>{task.task_title}</h3>
-          <button onClick={() => handleReuseTask(task.id)}>Reuse</button>
-          <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
-        </div>
-      ))}
-    </div>
+    <TaskList
+      tasks={filteredTasks.filter(task => task.completed)}
+      className={styles.completedTask}
+      actions={(task) => [
+        { label: 'Reuse', handler: () => handleReuseTask(task.id) },
+        { label: 'Delete', handler: () => handleDeleteTask(task.id) }
+      ]}
+    />
   );
 
   const ExpiredTasks = () => (
-    <div className={styles.column}>
-      <h2>Expired Tasks</h2>
-      {tasks.filter(task => !task.completed && isExpired(task.deadline)).map(task => (
-        <div key={task.id} className={styles.task}>
-          <h3>{task.task_title}</h3>
-          <button onClick={() => handleResetTask(task.id)}>Reset</button>
-          <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
-        </div>
-      ))}
-    </div>
+    <TaskList
+      tasks={filteredTasks.filter(task => !task.completed && isExpired(task.deadline))}
+      className={styles.expiredTask}
+      actions={(task) => [
+        { label: 'Reset', handler: () => handleResetTask(task.id) },
+        { label: 'Delete', handler: () => handleDeleteTask(task.id) }
+      ]}
+    />
   );
 
   return (
     <div className={styles.container}>
+      <div className={styles.header}>
+        <button onClick={() => navigate('/home')} className={styles.navButton}>Home</button>
+        <div className={styles.searchContainer}>
+          <input
+            type="text"
+            placeholder="Search tasks..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={styles.searchInput}
+          />
+        </div>
+        <button onClick={() => navigate('/taskcreate')} className={styles.navButton}>Create Task</button>
+      </div>
       {hasLoaded ? (
-        <div className={styles.tasksTable}>
-          <ActiveTasks />
-          <CompletedTasks />
-          <ExpiredTasks />
+        <div className={styles.tasksArea}>
+          <div className={styles.column}>
+            <h2>Active Tasks</h2>
+            <ActiveTasks />
+          </div>
+          <div className={styles.column}>
+            <h2>Completed Tasks</h2>
+            <CompletedTasks />
+          </div>
+          <div className={styles.column}>
+            <h2>Expired Tasks</h2>
+            <ExpiredTasks />
+          </div>
         </div>
       ) : (
         <p>Loading Tasks...</p>
@@ -121,4 +207,4 @@ const TasksTable = () => {
   );
 };
 
-export default TasksTable;
+export default TasksArea;

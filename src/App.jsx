@@ -36,13 +36,13 @@ function App() {
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/goalsarea" element={<ProtectedRoute><GoalsArea /></ProtectedRoute>} />
-        <Route path="/goaldetails/:id" element={<ProtectedRoute><GoalDetailsWrapper/></ProtectedRoute>} />
+        <Route path="/goaldetails/:id" element={<ProtectedRoute><GoalDetailsWrapper /></ProtectedRoute>} />
         <Route path="/goalscreate" element={<ProtectedRoute><GoalsCreate /></ProtectedRoute>} />
-        <Route path="/goalsedit/:id" element={<ProtectedRoute><GoalsEdit /></ProtectedRoute>} />
+        <Route path="/goalsedit/:id" element={<ProtectedRoute><GoalsEditWrapper /></ProtectedRoute>} />
         <Route path="/goalsdelete/:id" element={<ProtectedRoute><GoalsDeleteWrapper /></ProtectedRoute>} />
         <Route path="/tasksarea" element={<ProtectedRoute><TasksArea /></ProtectedRoute>} />
         <Route path="/taskcreate" element={<ProtectedRoute><TaskCreate /></ProtectedRoute>} />
-        <Route path="/tasksdSelete/:id" element={<ProtectedRoute><TasksDeleteWrapper /></ProtectedRoute>} />
+        <Route path="/tasksdelete/:id" element={<ProtectedRoute><TasksDeleteWrapper /></ProtectedRoute>} />
         <Route path="/contact" element={<ContactForm />} />
         <Route path="*" element={<Navigate to={currentUser ? "/home" : "/about"} replace />} />
       </Routes>
@@ -64,6 +64,11 @@ const TasksDeleteWrapper = () => {
 const GoalDetailsWrapper = () => {
   const { id } = useParams();
   return <GoalDetails id={id} />;
+};
+
+const GoalsEditWrapper = () => {
+  const { id } = useParams();
+  return <GoalsEdit id={id} />;
 };
 
 export default App;

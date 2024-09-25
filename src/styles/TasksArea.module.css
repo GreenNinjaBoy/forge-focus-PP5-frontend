@@ -1,40 +1,145 @@
 .container {
-    padding: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: calc(100vh - 100px); /* Adjust based on your layout */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.navButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.navButton:hover {
+  background-color: #0056b3;
+}
+
+.searchContainer {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  margin: 0 20px;
+}
+
+.searchInput {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+}
+
+.tasksArea {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  height: calc(100% - 60px); /* Adjust based on your header height */
+}
+
+.column {
+  flex: 1;
+  padding: 15px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+.task {
+  background-color: white;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.taskHeader {
+  padding: 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.taskHeader h3 {
+  margin: 0;
+}
+
+.taskContent {
+  padding: 0 15px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease;
+}
+
+.taskContent.expanded {
+  max-height: 500px; /* Adjust based on your needs */
+  padding: 15px;
+}
+
+.task button {
+  margin-right: 8px;
+  margin-bottom: 5px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #e0e0e0;
+  transition: background-color 0.3s ease;
+}
+
+.task button:hover {
+  background-color: #d0d0d0;
+}
+
+.activeTask .taskHeader {
+  background-color: #f0f0f0; /* Light grey for active tasks */
+}
+
+.completedTask .taskHeader {
+  background-color: #e6ffe6; /* Light green for completed tasks */
+}
+
+.expiredTask .taskHeader {
+  background-color: #ffe6e6; /* Light red for expired tasks */
+}
+
+@media (max-width: 768px) {
+  .tasksArea {
+    flex-direction: column;
   }
-  
-  .tasksTable {
-    display: flex;
-    justify-content: space-between;
-  }
-  
+
   .column {
-    flex: 1;
-    margin: 0 10px;
-    padding: 10px;
-    background-color: #f0f0f0;
-    border-radius: 5px;
+    margin-bottom: 20px;
+    max-height: 400px; /* Limit height on mobile */
   }
-  
-  .task {
-    background-color: white;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
   }
-  
-  .task h3 {
-    margin-top: 0;
+
+  .searchContainer {
+    margin: 10px 0;
   }
-  
-  .task button {
-    margin-right: 5px;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
+
+  .searchInput {
+    width: 100%;
   }
-  
-  .task button:hover {
-    background-color: #e0e0e0;
+
+  .navButton {
+    width: 100%;
+    margin-top: 10px;
   }
+}
