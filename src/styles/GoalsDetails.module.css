@@ -5,80 +5,106 @@
     background-color: #e8f8ec;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.header {
+  }
+  
+  .headerContainer {
     display: flex;
-    align-items: flex-start;
+    justify-content: center;
     margin-bottom: 20px;
-}
-
-.image {
+    padding: 20px;
+    border: 1px solid #b3e6c5;
+    border-radius: 8px;
+    background-color: #ffffff;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .image {
     width: 150px;
     height: 150px;
     object-fit: cover;
     border-radius: 10px;
     margin-right: 20px;
-}
-
-.title {
+  }
+  
+  .title {
     font-size: 2.5rem;
     color: #333;
     margin: 0;
-}
-
-.content {
+  }
+  
+  .content {
     display: flex;
     gap: 20px;
-}
-
-.description {
+    margin-bottom: 20px;
+  }
+  
+  .description {
     flex: 1;
-}
-
-.description h2 {
+    padding: 20px;
+    border: 1px solid #b3e6c5;
+    border-radius: 8px;
+    background-color: #ffffff;
+  }
+  
+  .description h2 {
     font-size: 1.5rem;
     color: #333;
     margin-bottom: 10px;
-}
-
-.tasksContainer {
+  }
+  
+  .tasksContainer {
     flex: 2;
     display: flex;
     gap: 20px;
-}
-
-.taskColumn {
+  }
+  
+  .taskColumn {
     flex: 1;
-}
-
-.taskColumn h2 {
+    padding: 20px;
+    border: 1px solid #b3e6c5;
+    border-radius: 8px;
+    background-color: #ffffff;
+  }
+  
+  .taskColumn h2 {
     font-size: 1.5rem;
     color: #333;
     margin-bottom: 10px;
-}
-
-.taskList {
+  }
+  
+  .taskList {
     list-style-type: none;
     padding: 0;
-}
-
-.taskItem {
+  }
+  
+  .taskItem {
     background-color: #d1f3dc;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.buttons {
+  }
+  
+  .buttons {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #b3e6c5;
+    border-radius: 8px;
+    background-color: #ffffff;
+  }
+  
+  .rightButtons {
+    display: flex;
     gap: 10px;
-}
-
-.button {
+  }
+  
+  .button {
     padding: 10px 20px;
     background-color: #4299e1;
     color: white;
@@ -86,27 +112,38 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-}
-
-.button:hover {
+  }
+  
+  .button:hover {
     background-color: #3182ce;
-}
-
-@media (max-width: 768px) {
+  }
+  
+  @media (max-width: 768px) {
     .content {
-    flex-direction: column;
+      flex-direction: column;
     }
-
+  
     .tasksContainer {
-        flex-direction: column;
+      flex-direction: column;
     }
-
+  
     .image {
-        width: 100px;
-        height: 100px;
+      width: 100px;
+      height: 100px;
     }
-
+  
     .title {
-        font-size: 2rem;
+      font-size: 2rem;
     }
-}
+  
+    .buttons {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+  
+    .rightButtons {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }

@@ -27,15 +27,21 @@ const GoalsDetails = () => {
     fetchGoalDetails();
   }, [id]);
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   if (!hasLoaded) {
     return <p>Loading Goal Details...</p>;
   }
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <img src={goal.image} alt={goal.name} className={styles.image} />
-        <h1 className={styles.title}>{goal.name}</h1>
+      <div className={styles.headerContainer}>
+        <div className={styles.header}>
+          <img src={goal.image} alt={goal.name} className={styles.image} />
+          <h1 className={styles.title}>{goal.name}</h1>
+        </div>
       </div>
       <div className={styles.content}>
         <div className={styles.description}>
@@ -70,8 +76,11 @@ const GoalsDetails = () => {
         </div>
       </div>
       <div className={styles.buttons}>
-        <button onClick={() => navigate(`/goalsedit/${id}`)} className={styles.button}>Edit Goal</button>
-        <button onClick={() => navigate(`/goalsdelete/${id}`)} className={styles.button}>Delete Goal</button>
+        <button onClick={handleGoBack} className={styles.button}>Previous Page</button>
+        <div className={styles.rightButtons}>
+          <button onClick={() => navigate(`/goalsedit/${id}`)} className={styles.button}>Edit Goal</button>
+          <button onClick={() => navigate(`/goalsdelete/${id}`)} className={styles.button}>Delete Goal</button>
+        </div>
       </div>
     </div>
   );
