@@ -52,8 +52,8 @@ const GoalsArea = () => {
     navigate('/goalscreate');
   };
 
-  const handleBack = () => {
-    navigate(-1);
+  const handleHome = () => {
+    navigate('/home');
   };
 
   const indexOfLastGoal = currentPage * goalsPerPage;
@@ -72,7 +72,7 @@ const GoalsArea = () => {
   return (
     <div className={styles.Container}>
       <div className={styles.TopBar}>
-        <Button onClick={handleBack} className={styles.TopBarButton}>Back</Button>
+        <Button onClick={handleHome} className={styles.TopBarButton}>Home</Button>
         <div className={styles.SearchContainer}>
           <input
             type="text"

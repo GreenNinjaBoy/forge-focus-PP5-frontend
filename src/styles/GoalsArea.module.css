@@ -1,9 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
-
 .Container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   background-color: #e8f8ec;
   padding: 2rem;
 }
