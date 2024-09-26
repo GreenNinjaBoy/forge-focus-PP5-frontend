@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Carousel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import ExampleCarouselImage from "../assets/ExampleCarouselImage.jpg";
+import GoalDetails from "../assets/GoalDetails.png";
 import styles from "../styles/About.module.css";
 
 /**
@@ -46,7 +46,7 @@ const About = () => {
             ].map((item, idx) => (
               <Carousel.Item key={idx} className={styles.carouselItem}>
                 <img
-                  src={ExampleCarouselImage}
+                  src={GoalDetails}
                   alt={`Slide ${idx + 1}`}
                   className={styles.carouselImage}
                 />
