@@ -5,19 +5,33 @@ import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styles from '../styles/Home.module.css';
 
+/**
+ * Home component for displaying the user's dashboard.
+ * Fetches user data, goals count, and tasks count.
+ * Provides navigation buttons to create and view goals and tasks.
+ */
+
 const Home = () => {
   console.log('Home component rendering');
+  
+  // Get the current user and the function to set the current user from custom hooks
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
-
+  
+  // Get the navigate function from react-router-dom to programmatically navigate
   const navigate = useNavigate();
 
+  // State to manage the count of goals and tasks
   const [goalsCount, setGoalsCount] = useState(0);
   const [tasksCount, setTasksCount] = useState(0);
+  
+  // State to manage the loading status
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     console.log('Home useEffect, currentUser:', currentUser);
+    
+    // Function to fetch user data from the API
     const fetchUserData = async () => {
       try {
         console.log('Fetching user data...');
@@ -42,6 +56,7 @@ const Home = () => {
   useEffect(() => {
     console.log('Current user updated:', currentUser);
     
+    // Function to fetch goals and tasks data from the API
     const fetchData = async () => {
       if (currentUser) {
         try {

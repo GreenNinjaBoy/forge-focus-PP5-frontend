@@ -1,7 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
+/**
+ * NotAuthorized component for displaying an unauthorized access message.
+ * Provides buttons to navigate to the sign-in and sign-up pages.
+ */
+
 const NotAuthorized = () => {
+  // Get the navigate function from react-router-dom to programmatically navigate
   const navigate = useNavigate();
 
   return (
