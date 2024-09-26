@@ -3,6 +3,7 @@ abilitly to add a message and set the showGlobalSuccess
 function to be true. This will trigger a message that will
 display to the user with the given message. this called
 'SuccessMessage' which is nested within App.js */
+
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
 

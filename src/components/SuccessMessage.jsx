@@ -4,14 +4,27 @@ import {
   useGlobalSuccessMessage,
   useSetGlobalSuccessMessage,
   useSetShowGlobalSuccess,
-  useShowGlobalSuccess } from "../hooks/useGlobalSuccess";
+  useShowGlobalSuccess
+} from "../hooks/useGlobalSuccess";
 
+/**
+ * SuccessMessage component for displaying global success messages.
+ * Uses custom hooks to manage the visibility of messages to the user.
+ */
 const SuccessMessage = () => {
+  // Get the current state of whether the success message should be shown
   const showGlobalSuccess = useShowGlobalSuccess();
+  
+  // Get the function to set the visibility of the success message
   const setShowGlobalSuccess = useSetShowGlobalSuccess();
+  
+  // Get the current global success message
   const globalSuccessMessage = useGlobalSuccessMessage();
+  
+  // Get the function to set the global success message
   const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
 
+  // Function to handle hiding the success message
   const handleHide = () => {
     setShowGlobalSuccess(false);
     setGlobalSuccessMessage("");

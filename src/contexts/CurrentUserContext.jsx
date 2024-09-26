@@ -6,11 +6,21 @@ import { useNavigate } from "react-router";
 import { shouldRefreshToken } from "../utils/Utils";
 import { CurrentUserContext, SetCurrentUserContext } from "../hooks/useCurrentUser";
 
+/**
+ * CurrentUserProvider component for managing and providing the current user context.
+ */
+
 export const CurrentUserProvider = ({ children }) => {
+  // State to store the current user
   const [currentUser, setCurrentUser] = useState(null);
+  
+  // State to manage the loading state
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Get the navigate function from react-router to programmatically navigate
   const navigate = useNavigate();
 
+  // Function to handle component mount and fetch the current user
   const handleMount = async () => {
     try {
       const { data } = await axiosRes.get("dj-rest-auth/user/");
@@ -22,10 +32,12 @@ export const CurrentUserProvider = ({ children }) => {
     }
   };
 
+  // useEffect to run handleMount on component mount
   useEffect(() => {
     handleMount();
   }, []);
 
+  // useMemo to set up axios interceptors for request and response
   useMemo(() => {
     axiosReq.interceptors.request.use(
       async (config) => {
@@ -79,6 +91,8 @@ export const CurrentUserProvider = ({ children }) => {
   );
 };
 
+// Define prop types for the CurrentUserProvider component. 
+// This was to address the esLint error about props validation.
 CurrentUserProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
