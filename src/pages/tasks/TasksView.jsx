@@ -1,12 +1,20 @@
 import PropTypes from "prop-types";
 
+/**
+ * TasksView component for displaying a single task.
+ * Shows the task's title, details, deadline, and status.
+ * Provides buttons to edit or delete the task.
+ */
+
 const TasksView = ({ id, task_title, task_details, deadline, completed, setTasksState, setTaskId }) => {
 
+    // Function to handle task editing
     const handleEdit = () => {
         setTaskId(id);
         setTasksState('edit');
     };
 
+    // Function to handle task deletion
     const handleDelete = () => {
         setTaskId(id);
         setTasksState('delete');

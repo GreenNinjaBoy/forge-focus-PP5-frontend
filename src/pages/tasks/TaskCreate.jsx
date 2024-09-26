@@ -5,7 +5,14 @@ import { axiosReq } from "../../api/axiosDefaults";
 import { Form, Button, Alert, Container, Row, Col } from "react-bootstrap";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
+/**
+ * TaskCreate component for creating a new task.
+ * Manages form state, handles form submission, and displays validation errors.
+ * Shows a global success message upon successful creation and redirects to the appropriate page.
+ */
+
 const TaskCreate = ({ goalsId = "" }) => {
+    // State to manage the task form data
     const [taskData, setTaskData] = useState({
         task_title: "",
         task_details: "",
@@ -13,15 +20,27 @@ const TaskCreate = ({ goalsId = "" }) => {
         goals: goalsId,
         completed: false,
     });
+    
+    // State to store the list of goals
     const [goals, setGoals] = useState([]);
+    
+    // State to manage form validation errors
     const [errors, setErrors] = useState({});
+    
+    // Get the navigate function from react-router-dom to programmatically navigate
     const navigate = useNavigate();
+    
+    // Get the function to show the global success message from the custom hook
     const setShowGlobalSuccess = useSetShowGlobalSuccess();
+    
+    // Get the function to set the global success message from the custom hook
     const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
 
     useEffect(() => {
+        // Function to fetch goals from the API
         const fetchGoals = async () => {
             try {
+                // Make a GET request to fetch the goals data
                 const { data } = await axiosReq.get("/goals/");
                 setGoals(data.results);
             } catch (err) {
@@ -33,9 +52,11 @@ const TaskCreate = ({ goalsId = "" }) => {
             }
         };
 
+        // Call the fetchGoals function on component mount
         fetchGoals();
     }, []);
 
+    // Function to handle form input changes
     const handleChange = (event) => {
         const { name, value } = event.target;
         setTaskData((prevData) => ({
@@ -44,6 +65,7 @@ const TaskCreate = ({ goalsId = "" }) => {
         }));
     };
 
+    // Function to handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = {
@@ -52,10 +74,13 @@ const TaskCreate = ({ goalsId = "" }) => {
         };
 
         try {
+            // Make a POST request to create a new task with the form data
             const { data } = await axiosReq.post("/tasks/", formData);
+            // Set and show the global success message
             setGlobalSuccessMessage("Task created successfully");
             setShowGlobalSuccess(true);
             
+            // Navigate to the appropriate page based on the goal assignment
             if (data.goals) {
                 console.log("Navigating to goal details:", data.goals);
                 navigate(`/goaldetails/${data.goals}`);

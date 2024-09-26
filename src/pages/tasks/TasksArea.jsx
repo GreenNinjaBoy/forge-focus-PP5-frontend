@@ -4,9 +4,15 @@ import PropTypes from 'prop-types';
 import { axiosReq } from '../../api/axiosDefaults';
 import styles from '../../styles/TasksArea.module.css';
 
+/**
+ * TaskItem component for displaying a single task.
+ * Shows the task's title, details, and deadline.
+ * Provides buttons for various actions on the task.
+ */
 const TaskItem = ({ task, actions, className }) => {
   const [expanded, setExpanded] = useState(false);
 
+  // Function to toggle the expansion of the task details
   const toggleExpansion = () => {
     setExpanded(!expanded);
   };
@@ -51,6 +57,10 @@ TaskItem.propTypes = {
   className: PropTypes.string,
 };
 
+/**
+ * TaskList component for displaying a list of tasks.
+ * Maps over the tasks and renders a TaskItem for each task.
+ */
 const TaskList = ({ tasks, className, actions }) => (
   <div className={styles.taskList}>
     {tasks.map(task => (
@@ -75,12 +85,18 @@ TaskList.propTypes = {
   actions: PropTypes.func.isRequired,
 };
 
+/**
+ * TasksArea component for displaying and managing tasks.
+ * Fetches tasks from the API, manages search and task actions, and displays tasks in different categories.
+ */
+
 const TasksArea = () => {
   const [tasks, setTasks] = useState([]);
   const [hasLoaded, setHasLoaded] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
+  // Function to fetch tasks from the API
   const fetchTasks = useCallback(async () => {
     try {
       const { data } = await axiosReq.get('/tasks/');
@@ -101,10 +117,12 @@ const TasksArea = () => {
     fetchTasks();
   }, [fetchTasks]);
 
+  // Function to handle task editing
   const handleEditTask = (taskId) => {
     navigate(`/tasksedit/${taskId}`);
   };
 
+  // Function to handle task completion
   const handleCompleteTask = async (taskId) => {
     try {
       await axiosReq.patch(`/tasks/${taskId}/toggle-complete/`);
@@ -114,6 +132,7 @@ const TasksArea = () => {
     }
   };
 
+  // Function to handle task reset
   const handleResetTask = async (taskId) => {
     try {
       await axiosReq.patch(`/tasks/${taskId}/reset/`);
@@ -123,10 +142,12 @@ const TasksArea = () => {
     }
   };
 
+  // Function to handle task deletion
   const handleDeleteTask = (taskId) => {
     navigate(`/tasksdelete/${taskId}`);
   };
 
+  // Function to handle task reuse
   const handleReuseTask = async (taskId) => {
     try {
       await axiosReq.post(`/tasks/${taskId}/reuse/`);
@@ -136,14 +157,17 @@ const TasksArea = () => {
     }
   };
 
+  // Function to check if a task is expired
   const isExpired = (deadline) => {
     return new Date(deadline) < new Date();
   };
 
+  // Filter tasks based on the search term
   const filteredTasks = tasks.filter(task => 
     task.task_title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Component to display active tasks
   const ActiveTasks = () => (
     <TaskList
       tasks={filteredTasks.filter(task => !task.completed && !isExpired(task.deadline))}
@@ -156,6 +180,7 @@ const TasksArea = () => {
     />
   );
 
+  // Component to display completed tasks
   const CompletedTasks = () => (
     <TaskList
       tasks={filteredTasks.filter(task => task.completed)}
@@ -167,6 +192,7 @@ const TasksArea = () => {
     />
   );
 
+  // Component to display expired tasks
   const ExpiredTasks = () => (
     <TaskList
       tasks={filteredTasks.filter(task => !task.completed && isExpired(task.deadline))}

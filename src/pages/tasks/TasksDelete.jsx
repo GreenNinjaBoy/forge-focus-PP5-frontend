@@ -3,19 +3,33 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { axiosReq } from '../../api/axiosDefaults';
 import styles from '../../styles/GoalsAndTasks.module.css';
 
+/**
+ * TasksDelete component for deleting a specific task.
+ * Fetches task details, confirms deletion, and handles the deletion process.
+ */
+
 const TasksDelete = () => {
+  // Get the task ID from the URL parameters
   const { id } = useParams();
+  
+  // State to store the task details
   const [task, setTask] = useState(null);
+  
+  // State to manage error messages
   const [error, setError] = useState('');
+  
+  // Get the navigate function from react-router-dom to programmatically navigate
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Function to fetch task details from the API
     const fetchTask = async () => {
       try {
         if (!id) {
           setError('No task ID provided');
           return;
         }
+        // Make a GET request to fetch the task details
         const { data } = await axiosReq.get(`/tasks/${id}/`);
         setTask(data);
       } catch (err) {
@@ -23,16 +37,20 @@ const TasksDelete = () => {
         setError('Failed to fetch task details');
       }
     };
+    // Call the fetchTask function on component mount
     fetchTask();
   }, [id]);
 
+  // Function to handle task deletion
   const handleConfirmDelete = async () => {
     try {
       if (!id) {
         setError('No task ID provided');
         return;
       }
+      // Make a DELETE request to delete the task
       await axiosReq.delete(`/tasks/${id}/`);
+      // Navigate to the tasks area
       navigate('/tasksarea');
     } catch (err) {
       console.log(err);
@@ -40,6 +58,7 @@ const TasksDelete = () => {
     }
   };
 
+  // Function to handle cancellation of the deletion process
   const handleCancelDelete = () => {
     navigate('/tasksarea'); 
   };
