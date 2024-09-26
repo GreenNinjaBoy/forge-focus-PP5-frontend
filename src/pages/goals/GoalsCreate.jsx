@@ -4,11 +4,23 @@ import { axiosReq } from '../../api/axiosDefaults';
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from '../../hooks/useGlobalSuccess';
 import styles from '../../styles/GoalsAndTasks.module.css';
 
+/**
+ * GoalsCreate component for creating a new goal.
+ * Manages form state, handles form submission, and displays a preview of the selected image.
+ * Shows a global success message upon successful creation and redirects to the goals area.
+ */
+
 const GoalsCreate = () => {
+  // Get the function to show the global success message from the custom hook
   const setShowGlobalSuccess = useSetShowGlobalSuccess();
+  
+  // Get the function to set the global success message from the custom hook
   const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
 
+  // Default image to display if no image is selected
   const defaultImage = 'path/to/default/image.jpg';
+  
+  // State to manage the goal form data
   const [goalData, setGoalData] = useState({
     name: '',
     reason: '',
@@ -16,9 +28,14 @@ const GoalsCreate = () => {
   });
 
   const { name, reason, image } = goalData;
+  
+  // Reference to the image input element
   const imageInput = useRef(null);
+  
+  // Get the navigate function from react-router-dom to programmatically navigate
   const navigate = useNavigate();
 
+  // Function to handle form input changes
   const handleChange = (event) => {
     setGoalData({
       ...goalData,
@@ -26,6 +43,7 @@ const GoalsCreate = () => {
     });
   };
 
+  // Function to handle image input changes
   const handleChangeImage = (event) => {
     if (event.target.files.length) {
       setGoalData({
@@ -35,6 +53,7 @@ const GoalsCreate = () => {
     }
   };
 
+  // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -45,10 +64,13 @@ const GoalsCreate = () => {
     }
 
     try {
+      // Make a POST request to create a new goal with the form data
       const { data } = await axiosReq.post('/goals/', formData);
       console.log(data);
-      setGlobalSuccessMessage("You have created a new goal!")
+      // Set and show the global success message
+      setGlobalSuccessMessage("You have created a new goal!");
       setShowGlobalSuccess(true);
+      // Navigate to the goals area
       navigate(`/goalsarea`);
     } catch (err) {
       if (err.response?.status !== 401) {

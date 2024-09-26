@@ -2,9 +2,17 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/GoalsArea.module.css";
 
+/**
+ * GoalsView component for displaying a single goal card.
+ * Shows the goal's image, name, and the number of associated tasks.
+ * Provides a button to navigate to the goal details page.
+ */
+
 const GoalsView = ({ id, name, image, tasksCount }) => {
+  // Get the navigate function from react-router-dom to programmatically navigate
   const navigate = useNavigate();
 
+  // Function to handle navigation to the goal details page
   const handleViewGoal = () => {
     navigate(`/goaldetails/${id}`); 
   };

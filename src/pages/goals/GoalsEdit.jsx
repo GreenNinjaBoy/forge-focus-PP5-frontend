@@ -5,22 +5,40 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 import styles from '../../styles/GoalsAndTasks.module.css';
 
+/**
+ * GoalsEdit component for editing an existing goal.
+ * Fetches goal details, manages form state, handles form submission, and displays validation errors.
+ * Shows a global success message upon successful edit and redirects to the goals area.
+ */
+
 const GoalsEdit = ({ setGoalData, setGoalState }) => {
+  // Get the goal ID from the URL parameters
   const { id } = useParams();
+  
+  // State to manage the goal form data
   const [goalData, setGoalDataState] = useState({
     name: '',
     reason: '',
     image: null,
   });
 
+  // State to manage form validation errors
   const [errors, setErrors] = useState({});
+  
+  // State to manage the loading status
   const [isLoading, setIsLoading] = useState(true);
 
+  // Get the navigate function from react-router-dom to programmatically navigate
   const navigate = useNavigate();
+  
+  // Get the function to show the global success message from the custom hook
   const setShowGlobalSuccess = useSetShowGlobalSuccess();
+  
+  // Get the function to set the global success message from the custom hook
   const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
 
   useEffect(() => {
+    // Function to fetch goal details from the API
     const fetchGoal = async () => {
       if (!id) {
         setIsLoading(false);
@@ -28,7 +46,9 @@ const GoalsEdit = ({ setGoalData, setGoalState }) => {
       }
 
       try {
+        // Make a GET request to fetch the goal details
         const { data } = await axiosReq.get(`/goals/${id}`);
+        // Set the goal details in the state
         setGoalDataState({
           name: data.name || '',
           reason: data.reason || '',
@@ -46,9 +66,11 @@ const GoalsEdit = ({ setGoalData, setGoalState }) => {
       }
     };
 
+    // Call the fetchGoal function on component mount
     fetchGoal();
   }, [id, navigate]);
 
+  // Function to handle form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
     setGoalDataState(prevState => ({
@@ -57,6 +79,7 @@ const GoalsEdit = ({ setGoalData, setGoalState }) => {
     }));
   };
 
+  // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -64,7 +87,9 @@ const GoalsEdit = ({ setGoalData, setGoalState }) => {
     formData.append('reason', goalData.reason);
 
     try {
+      // Make a PUT request to update the goal with the form data
       const { data } = await axiosReq.put(`/goals/${id}`, formData);
+      // Set and show the global success message
       setGlobalSuccessMessage("You have edited your Goal");
       setShowGlobalSuccess(true);
       if (typeof setGoalData === 'function') {
@@ -73,6 +98,7 @@ const GoalsEdit = ({ setGoalData, setGoalState }) => {
       if (typeof setGoalState === 'function') {
         setGoalState('view');
       }
+      // Navigate to the goals area
       navigate('/goalsarea');
     } catch (err) {
       console.error("Failed to save goal", err);
@@ -80,6 +106,7 @@ const GoalsEdit = ({ setGoalData, setGoalState }) => {
     }
   };
 
+  // Function to handle cancellation of the edit process
   const handleCancel = () => {
     navigate(`/goaldetails/${id}`);
   };

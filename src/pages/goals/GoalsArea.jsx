@@ -5,18 +5,38 @@ import { useNavigate } from "react-router-dom";
 import styles from "../../styles/GoalsArea.module.css";
 import { Button } from "react-bootstrap";
 
+/**
+ * GoalsArea component for displaying a list of goals.
+ * Fetches goals data from the API, manages search and pagination, and handles navigation.
+ */
+
 const GoalsArea = () => {
+  // State to store the fetched goals data
   const [goalsData, setGoalsData] = useState([]);
+  
+  // State to store the filtered goals based on the search term
   const [filteredGoals, setFilteredGoals] = useState([]);
+  
+  // State to manage the loading status
   const [hasLoaded, setHasLoaded] = useState(false);
+  
+  // State to manage the search term
   const [searchTerm, setSearchTerm] = useState("");
+  
+  // State to manage the current page for pagination
   const [currentPage, setCurrentPage] = useState(1);
+  
+  // Number of goals to display per page
   const goalsPerPage = 6;
+  
+  // Get the navigate function from react-router-dom to programmatically navigate
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Function to fetch goals data from the API
     const fetchGoals = async () => {
       try {
+        // Make a GET request to fetch the goals data
         const { data } = await axiosReq.get(`/goals/`);
         console.log("Fetched goals data:", data);
         if (data.results && Array.isArray(data.results)) {
@@ -37,10 +57,12 @@ const GoalsArea = () => {
       }
     };
 
+    // Call the fetchGoals function on component mount
     fetchGoals();
   }, [navigate]);
 
   useEffect(() => {
+    // Filter the goals based on the search term
     const results = goalsData.filter(goal =>
       goal.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -48,23 +70,28 @@ const GoalsArea = () => {
     setCurrentPage(1);
   }, [searchTerm, goalsData]);
 
+  // Function to handle navigation to the create goal page
   const handleCreateGoal = () => {
     navigate('/goalscreate');
   };
 
+  // Function to handle navigation to the home page
   const handleHome = () => {
     navigate('/home');
   };
 
+  // Calculate the indices for the current page's goals
   const indexOfLastGoal = currentPage * goalsPerPage;
   const indexOfFirstGoal = indexOfLastGoal - goalsPerPage;
   const currentGoals = filteredGoals.slice(indexOfFirstGoal, indexOfLastGoal);
   const totalPages = Math.ceil(filteredGoals.length / goalsPerPage);
 
+  // Function to navigate to the next page
   const nextPage = () => {
     setCurrentPage(prev => Math.min(prev + 1, totalPages));
   };
 
+  // Function to navigate to the previous page
   const prevPage = () => {
     setCurrentPage(prev => Math.max(prev - 1, 1));
   };
