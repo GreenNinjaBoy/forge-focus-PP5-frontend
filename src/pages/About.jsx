@@ -4,10 +4,19 @@ import { useNavigate } from "react-router-dom";
 import ExampleCarouselImage from "../assets/ExampleCarouselImage.jpg";
 import styles from "../styles/About.module.css";
 
-const About = () => {
-  const navigate = useNavigate();
-  const [index, setIndex] = useState(0);
+/**
+ * About component for displaying information about the Forge Focus application.
+ * Includes a carousel with informational slides and buttons for navigation to sign up or sign in.
+ */
 
+const About = () => {
+  // State to manage the active index of the carousel
+  const [index, setIndex] = useState(0);
+  
+  // Get the navigate function from react-router-dom to programmatically navigate
+  const navigate = useNavigate();
+
+  // Function to handle carousel slide selection
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
