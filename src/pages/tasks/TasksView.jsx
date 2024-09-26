@@ -1,8 +1,6 @@
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
 
 const TasksView = ({ id, task_title, task_details, deadline, completed, setTasksState, setTaskId }) => {
-    const navigate = useNavigate();
 
     const handleEdit = () => {
         setTaskId(id);

@@ -2,7 +2,20 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  height: calc(100vh - 100px); /* Adjust based on your layout */
+  height: calc(100vh - 40px); 
+  background-color: #e8f8ec;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  font-size: 2.5rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-family: 'Permanent Marker', cursive;
 }
 
 .header {
@@ -14,7 +27,7 @@
 
 .navButton {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #4299e1;
   color: white;
   border: none;
   border-radius: 5px;
@@ -23,7 +36,7 @@
 }
 
 .navButton:hover {
-  background-color: #0056b3;
+  background-color: #3182ce;
 }
 
 .searchContainer {
@@ -44,17 +57,29 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  height: calc(100% - 60px); /* Adjust based on your header height */
+  flex: 1;
+  overflow: hidden; 
 }
 
 .column {
   flex: 1;
   padding: 15px;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; 
+}
+
+.column h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.taskList {
+  overflow-y: auto; 
+  flex: 1;
 }
 
 .task {
@@ -84,11 +109,11 @@
 }
 
 .taskContent.expanded {
-  max-height: 500px; /* Adjust based on your needs */
+  max-height: 500px;
   padding: 15px;
 }
 
-.task button {
+.taskButton {
   margin-right: 8px;
   margin-bottom: 5px;
   padding: 8px 12px;
@@ -99,30 +124,35 @@
   transition: background-color 0.3s ease;
 }
 
-.task button:hover {
+.taskButton:hover {
   background-color: #d0d0d0;
 }
 
 .activeTask .taskHeader {
-  background-color: #f0f0f0; /* Light grey for active tasks */
+  background-color: #f0f0f0;
 }
 
 .completedTask .taskHeader {
-  background-color: #e6ffe6; /* Light green for completed tasks */
+  background-color: #e6ffe6;
 }
 
 .expiredTask .taskHeader {
-  background-color: #ffe6e6; /* Light red for expired tasks */
+  background-color: #ffe6e6;
 }
 
 @media (max-width: 768px) {
+  .container {
+    height: auto;
+    min-height: 100vh;
+  }
+
   .tasksArea {
     flex-direction: column;
+    overflow: visible;
   }
 
   .column {
     margin-bottom: 20px;
-    max-height: 400px; /* Limit height on mobile */
   }
 
   .header {

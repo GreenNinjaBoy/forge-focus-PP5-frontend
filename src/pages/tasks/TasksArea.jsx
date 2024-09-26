@@ -21,10 +21,14 @@ const TaskItem = ({ task, actions, className }) => {
         <p>{task.task_details}</p>
         <p>Expires: {new Date(task.deadline).toLocaleDateString()}</p>
         {actions.map((action, index) => (
-          <button key={index} onClick={(e) => {
-            e.stopPropagation();
-            action.handler();
-          }}>
+          <button 
+            key={index} 
+            onClick={(e) => {
+              e.stopPropagation();
+              action.handler();
+            }}
+            className={styles.taskButton}
+          >
             {action.label}
           </button>
         ))}
@@ -80,11 +84,7 @@ const TasksArea = () => {
   const fetchTasks = useCallback(async () => {
     try {
       const { data } = await axiosReq.get('/tasks/');
-      console.log("Fetched tasks:", data.results);
-
       const tasksWithoutGoals = data.results.filter(task => task.goals === null);
-      console.log("Tasks without goals:", tasksWithoutGoals);
-
       setTasks(tasksWithoutGoals);
       setHasLoaded(true);
     } catch (err) {
@@ -124,7 +124,6 @@ const TasksArea = () => {
   };
 
   const handleDeleteTask = (taskId) => {
-    console.log("Navigating to delete page for task:", taskId);
     navigate(`/tasksdelete/${taskId}`);
   };
 
@@ -181,6 +180,7 @@ const TasksArea = () => {
 
   return (
     <div className={styles.container}>
+      <h1 className={styles.heading}>Tasks Area</h1>
       <div className={styles.header}>
         <button onClick={() => navigate('/home')} className={styles.navButton}>Home</button>
         <div className={styles.searchContainer}>

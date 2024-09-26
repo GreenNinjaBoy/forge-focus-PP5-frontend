@@ -1,9 +1,8 @@
-import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useNavigate, useParams } from "react-router-dom";
-import { Form, Button, Alert } from "react-bootstrap";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
+import styles from '../../styles/GoalsAndTasks.module.css';
 
 const TasksEdit = () => {
     const [taskData, setTaskData] = useState({
@@ -19,6 +18,18 @@ const TasksEdit = () => {
     const setShowGlobalSuccess = useSetShowGlobalSuccess();
     const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
 
+    const formatDateForInput = (dateString) => {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        return date.toISOString().split('T')[0];
+    };
+
+    const formatDateForAPI = (dateString) => {
+        if (!dateString) return null;
+        const date = new Date(dateString);
+        return date.toISOString().split('.')[0] + "Z";
+    };
+
     useEffect(() => {
         const fetchTask = async () => {
             try {
@@ -26,7 +37,7 @@ const TasksEdit = () => {
                 setTaskData({
                     task_title: data.task_title,
                     task_details: data.task_details,
-                    deadline: data.deadline.split('T')[0], 
+                    deadline: formatDateForInput(data.deadline),
                     goals: data.goals,
                 });
             } catch (err) {
@@ -64,17 +75,22 @@ const TasksEdit = () => {
         event.preventDefault();
         const formattedData = {
             ...taskData,
-            deadline: taskData.deadline ? `${taskData.deadline}T00:00:00Z` : null,
+            deadline: formatDateForAPI(taskData.deadline),
             goals: taskData.goals === "" ? null : taskData.goals,
         };
         try {
-            await axiosReq.put(`/tasks/${id}/`, formattedData);
+            const { data } = await axiosReq.put(`/tasks/${id}/`, formattedData);
             setGlobalSuccessMessage("You have successfully edited your task");
             setShowGlobalSuccess(true);
-            navigate('/tasksarea');
+            
+            if (data.goals) {
+                navigate(`/goaldetails/${data.goals}`);
+            } else {
+                navigate('/tasksarea');
+            }
         } catch (err) {
             if (err.response?.status !== 401) {
-                setError(err.response?.data?.detail || "An error occurred while updating the task.");
+                setError(err.response?.data || "An error occurred while updating the task.");
                 console.error("Error response data:", err.response?.data);
             }
         }
@@ -85,42 +101,50 @@ const TasksEdit = () => {
     };
 
     return (
-        <div>
-            <h2>Edit Task</h2>
-            {error && <Alert variant="danger">{error}</Alert>}
-            <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="task-title">
-                    <Form.Label>Task Title:</Form.Label>
-                    <Form.Control
+        <div className={styles.container}>
+            <h1 className={styles.heading}>Edit Task</h1>
+            {error && <p className={styles.errorMessage}>
+                {typeof error === 'string' ? error : JSON.stringify(error)}
+            </p>}
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <div className={styles.formGroup}>
+                    <label htmlFor="task-title" className={styles.formLabel}>Task Title:</label>
+                    <input
+                        id="task-title"
+                        className={styles.formControl}
                         type="text"
                         name="task_title"
                         value={taskData.task_title}
                         onChange={handleChange}
                         required
                     />
-                </Form.Group>
-                <Form.Group controlId="task-details">
-                    <Form.Label>Task Details:</Form.Label>
-                    <Form.Control
-                        as="textarea"
+                </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="task-details" className={styles.formLabel}>Task Details:</label>
+                    <textarea
+                        id="task-details"
+                        className={styles.formControl}
                         name="task_details"
                         value={taskData.task_details}
                         onChange={handleChange}
                     />
-                </Form.Group>
-                <Form.Group controlId="task-deadline">
-                    <Form.Label>Task Deadline:</Form.Label>
-                    <Form.Control
+                </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="task-deadline" className={styles.formLabel}>Task Deadline:</label>
+                    <input
+                        id="task-deadline"
+                        className={styles.formControl}
                         type="date"
                         name="deadline"
                         value={taskData.deadline}
                         onChange={handleChange}
                     />
-                </Form.Group>
-                <Form.Group controlId="task-goals">
-                    <Form.Label>Assign to Goal:</Form.Label>
-                    <Form.Control
-                        as="select"
+                </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="task-goals" className={styles.formLabel}>Assign to Goal:</label>
+                    <select
+                        id="task-goals"
+                        className={styles.formControl}
                         name="goals"
                         value={taskData.goals || ""}
                         onChange={handleChange}
@@ -131,13 +155,24 @@ const TasksEdit = () => {
                                 {goal.name}
                             </option>
                         ))}
-                    </Form.Control>
-                </Form.Group>
-                <div>
-                    <Button onClick={handleCancel}>Cancel</Button>
-                    <Button type="submit">Save</Button>
+                    </select>
                 </div>
-            </Form>
+                <div className={styles.buttonGroup}>
+                    <button 
+                        type="button" 
+                        onClick={handleCancel}
+                        className={`${styles.button} ${styles.secondaryButton}`}
+                    >
+                        Cancel
+                    </button>
+                    <button 
+                        type="submit"
+                        className={`${styles.button} ${styles.primaryButton}`}
+                    >
+                        Save
+                    </button>
+                </div>
+            </form>
         </div>
     );
 };

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { axiosReq } from '../../api/axiosDefaults';
+import styles from '../../styles/GoalsAndTasks.module.css';
 
 const TasksDelete = () => {
   const { id } = useParams();
@@ -43,15 +44,27 @@ const TasksDelete = () => {
     navigate('/tasksarea'); 
   };
 
-  if (error) return <p>{error}</p>;
-  if (!task) return <p>Loading...</p>;
+  if (error) return <p className={styles.message}>{error}</p>;
+  if (!task) return <p className={styles.message}>Loading...</p>;
 
   return (
-    <div>
-      <h2>Confirm Deletion</h2>
-      <p>Are you sure you want to delete the task: {task.task_title}?</p>
-      <button onClick={handleConfirmDelete}>Yes, Delete</button>
-      <button onClick={handleCancelDelete}>No, Cancel</button>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Confirm Deletion</h1>
+      <p className={styles.message}>Are you sure you want to delete the task: {task.task_title}?</p>
+      <div className={styles.buttonGroup}>
+        <button 
+          onClick={handleCancelDelete}
+          className={`${styles.button} ${styles.secondaryButton}`}
+        >
+          No, Cancel
+        </button>
+        <button 
+          onClick={handleConfirmDelete}
+          className={`${styles.button} ${styles.dangerButton}`}
+        >
+          Yes, Delete
+        </button>
+      </div>
     </div>
   );
 };

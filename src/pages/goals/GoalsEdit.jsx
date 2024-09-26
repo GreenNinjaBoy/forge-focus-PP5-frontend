@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { Button, Form, Image, Alert } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
+import styles from '../../styles/GoalsAndTasks.module.css';
 
 const GoalsEdit = ({ setGoalData, setGoalState }) => {
   const { id } = useParams();
@@ -62,7 +62,6 @@ const GoalsEdit = ({ setGoalData, setGoalState }) => {
     const formData = new FormData();
     formData.append('name', goalData.name);
     formData.append('reason', goalData.reason);
-    // We're not appending a new image here
 
     try {
       const { data } = await axiosReq.put(`/goals/${id}`, formData);
@@ -82,58 +81,72 @@ const GoalsEdit = ({ setGoalData, setGoalState }) => {
   };
 
   const handleCancel = () => {
-    setGoalState('view');
+    navigate(`/goaldetails/${id}`);
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <p className={styles.message}>Loading...</p>;
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      {errors.name?.map((message, idx) => (
-        <Alert variant="danger" key={idx}>{message}</Alert>
-      ))}
-
-      <Form.Group controlId="goal-name">
-        <Form.Label>Name</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter goal name"
-          name="name"
-          value={goalData.name || ''}
-          onChange={handleChange}
-        />
-      </Form.Group>
-
-      {errors.reason?.map((message, idx) => (
-        <Alert variant="danger" key={idx}>{message}</Alert>
-      ))}
-      <Form.Group controlId="goal-reason">
-        <Form.Label>Reason</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Why is this goal important to you?"
-          name="reason"
-          value={goalData.reason || ''}
-          onChange={handleChange}
-        />
-      </Form.Group>
-
-      {goalData.image && (
-        <div>
-          <h5>Current Image:</h5>
-          <Image src={goalData.image} alt="Goal" style={{ width: '100px', height: '100px' }} />
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Edit Goal</h1>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
+          <label htmlFor="goal-name" className={styles.formLabel}>Name</label>
+          <input
+            id="goal-name"
+            className={styles.formControl}
+            type="text"
+            placeholder="Enter goal name"
+            name="name"
+            value={goalData.name || ''}
+            onChange={handleChange}
+          />
+          {errors.name?.map((message, idx) => (
+            <p key={idx} className={styles.errorMessage}>{message}</p>
+          ))}
         </div>
-      )}
 
-      <Button variant="secondary" onClick={handleCancel}>
-        Cancel
-      </Button>
-      <Button type="submit">
-        Save changes
-      </Button>
-    </Form>
+        <div className={styles.formGroup}>
+          <label htmlFor="goal-reason" className={styles.formLabel}>Reason</label>
+          <textarea
+            id="goal-reason"
+            className={styles.formControl}
+            placeholder="Why is this goal important to you?"
+            name="reason"
+            value={goalData.reason || ''}
+            onChange={handleChange}
+          />
+          {errors.reason?.map((message, idx) => (
+            <p key={idx} className={styles.errorMessage}>{message}</p>
+          ))}
+        </div>
+
+        {goalData.image && (
+          <div className={styles.formGroup}>
+            <h5 className={styles.formLabel}>Current Image:</h5>
+            <img src={goalData.image} alt="Goal" className={styles.imagePreview} />
+          </div>
+        )}
+
+        <div className={styles.buttonGroup}>
+          <button 
+            type="button" 
+            onClick={handleCancel}
+            className={`${styles.button} ${styles.secondaryButton}`}
+          >
+            Cancel
+          </button>
+          <button 
+            type="submit"
+            className={`${styles.button} ${styles.primaryButton}`}
+          >
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

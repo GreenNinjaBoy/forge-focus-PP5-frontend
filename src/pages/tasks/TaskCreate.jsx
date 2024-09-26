@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import { Form, Button, Alert, Container, Row, Col } from "react-bootstrap";
+import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
 const TaskCreate = ({ goalsId = "" }) => {
     const [taskData, setTaskData] = useState({
@@ -14,6 +16,8 @@ const TaskCreate = ({ goalsId = "" }) => {
     const [goals, setGoals] = useState([]);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
+    const setShowGlobalSuccess = useSetShowGlobalSuccess();
+    const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
 
     useEffect(() => {
         const fetchGoals = async () => {
@@ -36,16 +40,29 @@ const TaskCreate = ({ goalsId = "" }) => {
         const { name, value } = event.target;
         setTaskData((prevData) => ({
             ...prevData,
-            [name]: value,
+            [name]: name === "goals" ? (value === "" ? null : value) : value,
         }));
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const formData = {
+            ...taskData,
+            deadline: taskData.deadline ? `${taskData.deadline}T00:00:00Z` : null,
+        };
+
         try {
-            const { data } = await axiosReq.post("/tasks/", taskData);
-            console.log("Task created successfully:", data);
-            navigate(taskData.goals ? "/goalsarea" : "/tasksarea");
+            const { data } = await axiosReq.post("/tasks/", formData);
+            setGlobalSuccessMessage("Task created successfully");
+            setShowGlobalSuccess(true);
+            
+            if (data.goals) {
+                console.log("Navigating to goal details:", data.goals);
+                navigate(`/goaldetails/${data.goals}`);
+            } else {
+                console.log("No goal assigned, navigating to tasks area");
+                navigate("/tasksarea");
+            }
         } catch (err) {
             console.error("Failed to create task", err);
             setErrors(err.response?.data || {});
@@ -98,7 +115,7 @@ const TaskCreate = ({ goalsId = "" }) => {
                             <Form.Control
                                 as="select"
                                 name="goals"
-                                value={taskData.goals}
+                                value={taskData.goals || ""}
                                 onChange={handleChange}
                             >
                                 <option value="">None</option>
@@ -128,6 +145,17 @@ const TaskCreate = ({ goalsId = "" }) => {
             </Row>
         </Container>
     );
+};
+
+TaskCreate.propTypes = {
+    goalsId: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ])
+};
+
+TaskCreate.defaultProps = {
+    goalsId: ""
 };
 
 export default TaskCreate;

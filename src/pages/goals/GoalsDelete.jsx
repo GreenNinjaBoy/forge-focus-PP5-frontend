@@ -1,8 +1,8 @@
-import { Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
+import styles from '../../styles/GoalsAndTasks.module.css';
 
 const GoalsDelete = () => {
   const { id } = useParams();
@@ -42,12 +42,25 @@ const GoalsDelete = () => {
   };
 
   return (
-    <div>
-      <p>Are you sure you wish to delete {goalName}?</p>
-      <p>Warning! {tasksCount} associated task(s) will also be deleted.</p>
-      <div>
-        <Button onClick={handleCancel}>Cancel</Button>
-        <Button onClick={handleDelete}>Delete</Button>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Delete Goal</h1>
+      <p className={styles.message}>Are you sure you wish to delete {goalName}?</p>
+      <p className={`${styles.message} ${styles.warningMessage}`}>
+        Warning! {tasksCount} associated task(s) will also be deleted.
+      </p>
+      <div className={styles.buttonGroup}>
+        <button 
+          onClick={handleCancel}
+          className={`${styles.button} ${styles.secondaryButton}`}
+        >
+          Cancel
+        </button>
+        <button 
+          onClick={handleDelete}
+          className={`${styles.button} ${styles.dangerButton}`}
+        >
+          Delete
+        </button>
       </div>
     </div>
   );

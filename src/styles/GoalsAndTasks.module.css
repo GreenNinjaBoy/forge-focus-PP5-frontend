@@ -1,0 +1,103 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #e8f8ec;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .heading {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-family: 'Permanent Marker', cursive;
+  }
+  
+  .form {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .formGroup {
+    margin-bottom: 1.5rem;
+  }
+  
+  .formLabel {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  .formControl {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+  }
+  
+  .imagePreview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+  }
+  
+  .buttonGroup {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+  }
+  
+  .button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .primaryButton {
+    background-color: #4299e1;
+    color: white;
+  }
+  
+  .primaryButton:hover {
+    background-color: #3182ce;
+  }
+  
+  .secondaryButton {
+    background-color: #a0aec0;
+    color: white;
+  }
+  
+  .secondaryButton:hover {
+    background-color: #718096;
+  }
+  
+  .dangerButton {
+    background-color: #f56565;
+    color: white;
+  }
+  
+  .dangerButton:hover {
+    background-color: #e53e3e;
+  }
+  
+  .message {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .warningMessage {
+    color: #d69e2e;
+    font-weight: bold;
+  }

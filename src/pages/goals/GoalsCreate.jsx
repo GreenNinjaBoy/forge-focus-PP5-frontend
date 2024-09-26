@@ -1,11 +1,10 @@
 import { useState, useRef } from 'react';
-import { Button, Form } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { axiosReq } from '../../api/axiosDefaults';
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from '../../hooks/useGlobalSuccess';
+import styles from '../../styles/GoalsAndTasks.module.css';
 
 const GoalsCreate = () => {
-
   const setShowGlobalSuccess = useSetShowGlobalSuccess();
   const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
 
@@ -28,10 +27,12 @@ const GoalsCreate = () => {
   };
 
   const handleChangeImage = (event) => {
-    setGoalData({
-      ...goalData,
-      image: event.target.files[0],
-    });
+    if (event.target.files.length) {
+      setGoalData({
+        ...goalData,
+        image: URL.createObjectURL(event.target.files[0]),
+      });
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -57,58 +58,66 @@ const GoalsCreate = () => {
   };
 
   return (
-    <div>
-      <div>
-        <h1>Create a New Goal</h1>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="name">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter goal name"
-              name="name"
-              value={name}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="reason">
-            <Form.Label>Reason</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Why is this goal important to you?"
-              name="reason"
-              value={reason}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="image">
-            <Form.Label>Image</Form.Label>
-            <Form.Control
-              type="file"
-              name="image"
-              ref={imageInput}
-              onChange={handleChangeImage}
-            />
-          </Form.Group>
-          <div>
-            <img
-              src={image ? URL.createObjectURL(image) : defaultImage}
-              alt="Goal"
-              style={{ width: '100px', height: '100px' }}
-            />
-          </div>
-          <div>
-            <Button variant="secondary">
-              <Link to="/home" style={{ color: 'inherit', textDecoration: 'none' }}>
-                Cancel
-              </Link>
-            </Button>
-            <Button type="submit">
-              Save
-            </Button>
-          </div>
-        </Form>
-      </div>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Create a New Goal</h1>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
+          <label htmlFor="name" className={styles.formLabel}>Name</label>
+          <input
+            id="name"
+            className={styles.formControl}
+            type="text"
+            placeholder="Enter goal name"
+            name="name"
+            value={name}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="reason" className={styles.formLabel}>Reason</label>
+          <textarea
+            id="reason"
+            className={styles.formControl}
+            placeholder="Why is this goal important to you?"
+            name="reason"
+            value={reason}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="image" className={styles.formLabel}>Image</label>
+          <input
+            id="image"
+            className={styles.formControl}
+            type="file"
+            name="image"
+            ref={imageInput}
+            onChange={handleChangeImage}
+          />
+        </div>
+        <div>
+          <img
+            src={image || defaultImage}
+            alt="Goal"
+            className={styles.imagePreview}
+          />
+        </div>
+        <div className={styles.buttonGroup}>
+          <button 
+            type="button" 
+            className={`${styles.button} ${styles.secondaryButton}`}
+            onClick={() => navigate('/home')}
+          >
+            Cancel
+          </button>
+          <button 
+            type="submit"
+            className={`${styles.button} ${styles.primaryButton}`}
+          >
+            Save
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
