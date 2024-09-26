@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Form, Button, Alert } from "react-bootstrap";
 import { useSetGlobalSuccessMessage, useSetShowGlobalSuccess } from "../../hooks/useGlobalSuccess";
 
-const TasksEdit = ({ id, setTasksData, setTasksState }) => {
+const TasksEdit = () => {
     const [taskData, setTaskData] = useState({
         task_title: "",
         task_details: "",
@@ -15,6 +15,7 @@ const TasksEdit = ({ id, setTasksData, setTasksState }) => {
     const [goals, setGoals] = useState([]);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const { id } = useParams();
     const setShowGlobalSuccess = useSetShowGlobalSuccess();
     const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
 
@@ -25,7 +26,7 @@ const TasksEdit = ({ id, setTasksData, setTasksState }) => {
                 setTaskData({
                     task_title: data.task_title,
                     task_details: data.task_details,
-                    deadline: data.deadline.split('T')[0], // Ensure date is in yyyy-MM-dd format
+                    deadline: data.deadline.split('T')[0], 
                     goals: data.goals,
                 });
             } catch (err) {
@@ -63,14 +64,13 @@ const TasksEdit = ({ id, setTasksData, setTasksState }) => {
         event.preventDefault();
         const formattedData = {
             ...taskData,
-            deadline: taskData.deadline ? `${taskData.deadline}T00:00:00Z` : null, // Format deadline correctly
+            deadline: taskData.deadline ? `${taskData.deadline}T00:00:00Z` : null,
+            goals: taskData.goals === "" ? null : taskData.goals,
         };
         try {
-            const { data } = await axiosReq.put(`/tasks/${id}/`, formattedData);
-            setGlobalSuccessMessage("You have edited your task");
+            await axiosReq.put(`/tasks/${id}/`, formattedData);
+            setGlobalSuccessMessage("You have successfully edited your task");
             setShowGlobalSuccess(true);
-            setTasksData(prevTasks => prevTasks.map(task => task.id === id ? data : task)); // Update tasksData as an array
-            setTasksState('view');
             navigate('/tasksarea');
         } catch (err) {
             if (err.response?.status !== 401) {
@@ -81,7 +81,7 @@ const TasksEdit = ({ id, setTasksData, setTasksState }) => {
     };
 
     const handleCancel = () => {
-        setTasksState('view');
+        navigate('/tasksarea');
     };
 
     return (
@@ -140,12 +140,6 @@ const TasksEdit = ({ id, setTasksData, setTasksState }) => {
             </Form>
         </div>
     );
-};
-
-TasksEdit.propTypes = {
-    id: PropTypes.number.isRequired,
-    setTasksData: PropTypes.func.isRequired,
-    setTasksState: PropTypes.func.isRequired,
 };
 
 export default TasksEdit;
