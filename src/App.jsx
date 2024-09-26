@@ -14,6 +14,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import NotAuthorized from './pages/NotAuthorized';
 import GoalsEdit from './pages/goals/GoalsEdit';
 import TasksArea from './pages/tasks/TasksArea';
+import TasksDetails from './pages/tasks/TasksDetails';
 import TaskCreate from './pages/tasks/TaskCreate';
 import TasksDelete from './pages/tasks/TasksDelete';
 import Footer from './components/Footer';
@@ -41,6 +42,7 @@ function App() {
         <Route path="/goalsedit/:id" element={<ProtectedRoute><GoalsEditWrapper /></ProtectedRoute>} />
         <Route path="/goalsdelete/:id" element={<ProtectedRoute><GoalsDeleteWrapper /></ProtectedRoute>} />
         <Route path="/tasksarea" element={<ProtectedRoute><TasksArea /></ProtectedRoute>} />
+        <Route path="/tasksdetails" element={<ProtectedRoute><TasksDetails /></ProtectedRoute>} />
         <Route path="/taskcreate" element={<ProtectedRoute><TaskCreate /></ProtectedRoute>} />
         <Route path="/tasksdelete/:id" element={<ProtectedRoute><TasksDeleteWrapper /></ProtectedRoute>} />
         <Route path="/contact" element={<ContactForm />} />

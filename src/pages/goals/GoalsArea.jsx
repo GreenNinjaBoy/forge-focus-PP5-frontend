@@ -88,7 +88,8 @@ const GoalsArea = () => {
         {hasLoaded ? (
           currentGoals.length > 0 ? (
             currentGoals.map(goal => {
-              console.log("Goal image URL:", goal.image);
+              console.log("Goal data:", goal);
+              console.log("Image URL:", goal.image);
               return (
                 <GoalsView
                   key={goal.id}

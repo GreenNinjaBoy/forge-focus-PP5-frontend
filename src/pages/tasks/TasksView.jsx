@@ -1,9 +1,12 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-
 const TasksView = ({ id, task_title, task_details, deadline, completed, setTasksState, setTaskId }) => {
     const navigate = useNavigate();
+
+    const handleView = () => {
+        navigate(`/taskdetails/${id}`);
+    };
 
     const handleEdit = () => {
         setTaskId(id);
@@ -21,6 +24,7 @@ const TasksView = ({ id, task_title, task_details, deadline, completed, setTasks
             <p>{task_details}</p>
             <p>Achieve by: {deadline}</p>
             <p>Status: {completed ? "Completed" : "Active"}</p>
+            <button onClick={handleView}>View</button>
             <button onClick={handleEdit}>Edit</button>
             <button onClick={handleDelete}>Delete</button>
         </div>
