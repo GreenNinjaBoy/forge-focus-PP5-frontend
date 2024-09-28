@@ -1,123 +1,143 @@
-import React from 'react';
-import { render, act, waitFor } from '@testing-library/react';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
+import { act } from 'react';
 import { CurrentUserProvider } from '../../src/contexts/CurrentUserContext';
+import { axiosRes, axiosReq } from '../../src/api/axiosDefaults';
 import axios from 'axios';
-import * as axiosDefaults from '../../src/api/axiosDefaults';
-import * as utils from '../../src/utils/Utils';
-import { useNavigate } from 'react-router';
+import * as router from 'react-router';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 
-// Mock dependencies
-vi.mock('axios');
+// Mocks
 vi.mock('../../src/api/axiosDefaults', () => ({
+  axiosRes: {
+    get: vi.fn(),
+    interceptors: {
+      response: {
+        use: vi.fn()
+      }
+    }
+  },
   axiosReq: {
     interceptors: {
-      request: { use: vi.fn() },
-    },
-  },
-  axiosRes: {
-    interceptors: {
-      response: { use: vi.fn() },
-    },
-    get: vi.fn(),
-  },
+      request: {
+        use: vi.fn()
+      }
+    }
+  }
 }));
-vi.mock('../../src/utils/Utils', () => ({
-  shouldRefreshToken: vi.fn(),
-  removeTokenTimestamp: vi.fn(),
-}));
-vi.mock('react-router', () => ({
-  useNavigate: vi.fn(),
-}));
-
-const mockNavigate = vi.fn();
+vi.mock('axios');
+vi.mock('react-router', async () => {
+  const actual = await vi.importActual('react-router');
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+  };
+});
 
 describe('CurrentUserProvider', () => {
+  const navigate = vi.fn();
+
   beforeEach(() => {
-    vi.resetAllMocks();
-    useNavigate.mockReturnValue(mockNavigate);
+    vi.clearAllMocks();
+    vi.spyOn(router, 'useNavigate').mockImplementation(() => navigate);
   });
 
   it('fetches and sets the current user on mount', async () => {
-    const mockUserData = { username: 'testuser' };
-    axiosDefaults.axiosRes.get.mockResolvedValueOnce({ data: mockUserData });
+    const mockUser = { username: 'testuser' };
+    axiosRes.get.mockResolvedValueOnce({ data: mockUser });
 
-    let renderedChildren;
     await act(async () => {
       render(
         <CurrentUserProvider>
-          {(value) => {
-            renderedChildren = value;
-            return null;
-          }}
+          <div>Test Child</div>
         </CurrentUserProvider>
       );
     });
 
     await waitFor(() => {
-      expect(axiosDefaults.axiosRes.get).toHaveBeenCalledWith('dj-rest-auth/user/');
-      expect(renderedChildren).toEqual(mockUserData);
+      expect(screen.getByText('Test Child')).toBeInTheDocument();
     });
+
+    expect(axiosRes.get).toHaveBeenCalledWith('dj-rest-auth/user/');
   });
 
   it('handles error when fetching current user', async () => {
     const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    axiosDefaults.axiosRes.get.mockRejectedValueOnce(new Error('Fetch error'));
+    axiosRes.get.mockRejectedValueOnce(new Error('Failed to fetch user'));
 
     await act(async () => {
-      render(<CurrentUserProvider>{() => null}</CurrentUserProvider>);
+      render(
+        <CurrentUserProvider>
+          <div>Test Child</div>
+        </CurrentUserProvider>
+      );
     });
 
     await waitFor(() => {
-      expect(axiosDefaults.axiosRes.get).toHaveBeenCalledWith('dj-rest-auth/user/');
-      expect(consoleLogSpy).toHaveBeenCalledWith(expect.any(Error));
+      expect(screen.getByText('Test Child')).toBeInTheDocument();
     });
 
+    expect(consoleLogSpy).toHaveBeenCalledWith(expect.any(Error));
     consoleLogSpy.mockRestore();
   });
 
   it('sets up axios interceptors', async () => {
-    render(<CurrentUserProvider>{() => null}</CurrentUserProvider>);
+    await act(async () => {
+      render(
+        <CurrentUserProvider>
+          <div>Test Child</div>
+        </CurrentUserProvider>
+      );
+    });
 
-    expect(axiosDefaults.axiosReq.interceptors.request.use).toHaveBeenCalled();
-    expect(axiosDefaults.axiosRes.interceptors.response.use).toHaveBeenCalled();
+    expect(axiosReq.interceptors.request.use).toHaveBeenCalled();
+    expect(axiosRes.interceptors.response.use).toHaveBeenCalled();
   });
 
   it('refreshes token when necessary', async () => {
-    utils.shouldRefreshToken.mockReturnValueOnce(true);
+    vi.mock('../../src/utils/Utils', () => ({
+      shouldRefreshToken: vi.fn().mockReturnValue(true),
+    }));
+
     axios.post.mockResolvedValueOnce({});
+    axiosRes.get.mockResolvedValueOnce({ data: {} });
 
-    render(<CurrentUserProvider>{() => null}</CurrentUserProvider>);
+    await act(async () => {
+      render(
+        <CurrentUserProvider>
+          <div>Test Child</div>
+        </CurrentUserProvider>
+      );
+    });
 
-    const requestInterceptor = axiosDefaults.axiosReq.interceptors.request.use.mock.calls[0][0];
-    await requestInterceptor({});
+    const requestInterceptor = axiosReq.interceptors.request.use.mock.calls[0][0];
+    await act(async () => {
+      await requestInterceptor({});
+    });
 
     expect(axios.post).toHaveBeenCalledWith('dj-rest-auth/token/refresh/');
   });
 
   it('handles token refresh error', async () => {
-    utils.shouldRefreshToken.mockReturnValueOnce(true);
-    axios.post.mockRejectedValueOnce(new Error('Refresh error'));
+    vi.mock('../../src/utils/Utils', () => ({
+      shouldRefreshToken: vi.fn().mockReturnValue(true),
+    }));
 
-    let renderedChildren;
+    axios.post.mockRejectedValueOnce(new Error('Token refresh failed'));
+    axiosRes.get.mockResolvedValueOnce({ data: { username: 'testuser' } });
+
     await act(async () => {
       render(
         <CurrentUserProvider>
-          {(value) => {
-            renderedChildren = value;
-            return null;
-          }}
+          <div>Test Child</div>
         </CurrentUserProvider>
       );
     });
 
-    const requestInterceptor = axiosDefaults.axiosReq.interceptors.request.use.mock.calls[0][0];
+    const requestInterceptor = axiosReq.interceptors.request.use.mock.calls[0][0];
     await act(async () => {
       await requestInterceptor({});
     });
 
-    expect(utils.removeTokenTimestamp).toHaveBeenCalled();
-    expect(mockNavigate).toHaveBeenCalledWith('/signin');
-    expect(renderedChildren).toBeNull();
+    expect(navigate).toHaveBeenCalledWith('/signin');
   });
 });

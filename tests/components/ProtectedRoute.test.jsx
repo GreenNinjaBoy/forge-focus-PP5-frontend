@@ -1,53 +1,106 @@
-import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from '../../src/components/ProtectedRoute';
-import * as hooks from '../../src/hooks/useCurrentUser';
+import * as useCurrentUserModule from '../../src/hooks/useCurrentUser';
+import { axiosReq } from '../../src/api/axiosDefaults';
 
-// Mock child component
-const MockChildComponent = () => <div>Protected Content</div>;
-
-// Mock NotAuthorized component
-const NotAuthorizedComponent = () => <div>Not Authorized</div>;
+// Mock the custom hooks and axios request
+vi.mock('../../src/hooks/useCurrentUser');
+vi.mock('../../src/api/axiosDefaults', () => ({
+  axiosReq: {
+    get: vi.fn()
+  }
+}));
 
 describe('ProtectedRoute', () => {
-  const renderComponent = (initialRoute = '/') => {
-    return render(
-      <MemoryRouter initialEntries={[initialRoute]}>
+  beforeEach(() => {
+    vi.resetAllMocks();
+  });
+
+  it('shows loading when checking authorization', async () => {
+    vi.mocked(useCurrentUserModule.useCurrentUser).mockReturnValue({ username: 'testuser' });
+    axiosReq.get.mockResolvedValue({ data: { is_owner: true } });
+
+    render(
+      <MemoryRouter initialEntries={['/protected/1']}>
         <Routes>
-          <Route 
-            path="/" 
-            element={
-              <ProtectedRoute>
-                <MockChildComponent />
-              </ProtectedRoute>
-            } 
-          />
-          <Route path="/notauthorized" element={<NotAuthorizedComponent />} />
+          <Route path="/protected/:id" element={
+            <ProtectedRoute>
+              <div>Protected Content</div>
+            </ProtectedRoute>
+          } />
         </Routes>
       </MemoryRouter>
     );
-  };
 
-  beforeEach(() => {
-    vi.restoreAllMocks();
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Protected Content')).toBeInTheDocument();
+    });
   });
 
-  it('renders children when user is authenticated', () => {
-    vi.spyOn(hooks, 'useCurrentUser').mockReturnValue({ username: 'testuser' });
-    renderComponent();
-    expect(screen.getByText('Protected Content')).toBeDefined();
+  it('redirects to /notauthorized when user is not signed in', async () => {
+    vi.mocked(useCurrentUserModule.useCurrentUser).mockReturnValue(null);
+
+    render(
+      <MemoryRouter initialEntries={['/protected/1']}>
+        <Routes>
+          <Route path="/protected/:id" element={
+            <ProtectedRoute>
+              <div>Protected Content</div>
+            </ProtectedRoute>
+          } />
+          <Route path="/notauthorized" element={<div>Not Authorized</div>} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Not Authorized')).toBeInTheDocument();
+    });
   });
 
-  it('redirects to /notauthorized when user is not authenticated', () => {
-    vi.spyOn(hooks, 'useCurrentUser').mockReturnValue(false);
-    renderComponent();
-    expect(screen.getByText('Not Authorized')).toBeDefined();
+  it('redirects to /notauthorized when user is not authorized', async () => {
+    vi.mocked(useCurrentUserModule.useCurrentUser).mockReturnValue({ username: 'testuser' });
+    axiosReq.get.mockResolvedValue({ data: { is_owner: false } });
+
+    render(
+      <MemoryRouter initialEntries={['/protected/1']}>
+        <Routes>
+          <Route path="/protected/:id" element={
+            <ProtectedRoute>
+              <div>Protected Content</div>
+            </ProtectedRoute>
+          } />
+          <Route path="/notauthorized" element={<div>Not Authorized</div>} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Not Authorized')).toBeInTheDocument();
+    });
   });
 
-  it('returns null when currentUser is null (loading state)', () => {
-    vi.spyOn(hooks, 'useCurrentUser').mockReturnValue(null);
-    const { container } = renderComponent();
-    expect(container.firstChild).toBe(null);
+  it('renders children when user is authorized', async () => {
+    vi.mocked(useCurrentUserModule.useCurrentUser).mockReturnValue({ username: 'testuser' });
+    axiosReq.get.mockResolvedValue({ data: { is_owner: true } });
+
+    render(
+      <MemoryRouter initialEntries={['/protected/1']}>
+        <Routes>
+          <Route path="/protected/:id" element={
+            <ProtectedRoute>
+              <div>Protected Content</div>
+            </ProtectedRoute>
+          } />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Protected Content')).toBeInTheDocument();
+    });
   });
 });
