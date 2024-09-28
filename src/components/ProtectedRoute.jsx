@@ -7,10 +7,17 @@ import { useEffect, useState } from 'react';
 const ProtectedRoute = ({ children }) => {
   const currentUser = useCurrentUser();
   const [isAuthorized, setIsAuthorized] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
 
   useEffect(() => {
     const checkAuthorization = async () => {
+      if (currentUser === null) {
+        setIsAuthorized(false);
+        setIsLoading(false);
+        return;
+      }
+
       if (currentUser && id) {
         try {
           const response = await axiosReq.get(`/goals/${id}/`);
@@ -22,20 +29,17 @@ const ProtectedRoute = ({ children }) => {
       } else {
         setIsAuthorized(true);
       }
+      setIsLoading(false);
     };
 
     checkAuthorization();
   }, [currentUser, id]);
 
-  if (currentUser === null || isAuthorized === null) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (!currentUser) {
-    return <Navigate to="/signin" />;
-  }
-
-  if (!isAuthorized) {
+  if (!currentUser || !isAuthorized) {
     return <Navigate to="/notauthorized" />;
   }
 
