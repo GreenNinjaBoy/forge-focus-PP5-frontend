@@ -1,27 +1,47 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { useCurrentUser } from '../hooks/useCurrentUser';
+import { axiosReq } from '../api/axiosDefaults';
 import PropTypes from 'prop-types';
-
-/**
- * ProtectedRoute component for guarding routes that require
- * the user to be authenticated.
- */
+import { useEffect, useState } from 'react';
 
 const ProtectedRoute = ({ children }) => {
-  // Get the current user from the custom hook
   const currentUser = useCurrentUser();
-  console.log('ProtectedRoute: currentUser', currentUser);
+  const [isAuthorized, setIsAuthorized] = useState(null);
+  const { id } = useParams();
 
-  // If the current user is null, display a loading message
-  if (currentUser === null) {
+  useEffect(() => {
+    const checkAuthorization = async () => {
+      if (currentUser && id) {
+        try {
+          const response = await axiosReq.get(`/goals/${id}/`);
+          setIsAuthorized(response.data.is_owner);
+        } catch (err) {
+          console.error("Error checking authorization:", err);
+          setIsAuthorized(false);
+        }
+      } else {
+        setIsAuthorized(true);
+      }
+    };
+
+    checkAuthorization();
+  }, [currentUser, id]);
+
+  if (currentUser === null || isAuthorized === null) {
+    return <div>Loading...</div>;
+  }
+
+  if (!currentUser) {
+    return <Navigate to="/signin" />;
+  }
+
+  if (!isAuthorized) {
     return <Navigate to="/notauthorized" />;
   }
 
-  // If the user is authenticated, render the children components; otherwise, redirect to the sign-in page
-  return currentUser ? children : <Navigate to="/notauthorized" />;
+  return children;
 };
 
-// Define prop types for the ProtectedRoute component
 ProtectedRoute.propTypes = {
   children: PropTypes.node.isRequired,
 };
