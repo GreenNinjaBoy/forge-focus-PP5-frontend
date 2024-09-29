@@ -21,6 +21,7 @@ import Footer from './components/Footer';
 import SuccessMessage from './components/SuccessMessage';
 import GoalDetails from './pages/goals/GoalDetails';
 import ContactForm from './pages/contact/ContactForm';
+import ContactList from './pages/contact/ContactList';
 
 function App() {
   const currentUser = useCurrentUser();
@@ -46,6 +47,7 @@ function App() {
         <Route path="/tasksdelete/:id" element={<ProtectedRoute><TasksDeleteWrapper /></ProtectedRoute>} />
         <Route path="/tasksedit/:id" element={<ProtectedRoute><TasksEditWrapper /></ProtectedRoute>} />
         <Route path="/contact" element={<ContactForm />} />
+        <Route path='/contact-list' element={<ContactList />} />
         <Route path="*" element={<Navigate to={currentUser ? "/home" : "/about"} replace />} />
       </Routes>
       <Footer />
