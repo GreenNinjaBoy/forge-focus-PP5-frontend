@@ -149,7 +149,9 @@ below images are how the navbar displays depending on userstate:
 
 **You will notice that there is an extra nav link for the superuser**
 
-Key features of the navbar include:
+<details>
+
+<summary>Key features of the navbar include:</summary>
 
 1. Responsive Design:
 - Utilizes React Bootstrap for a mobile-friendly, collapsible menu
@@ -181,8 +183,14 @@ This NavBar component ensures a seamless and intuitive navigation experience,
 adapting to the user's authentication status and providing easy access 
 to key features of the Forge Focus application.
 
+</details>
+
 
 ## AboutPage
+
+The About page serves as the landing page for Forge Focus.
+
+Images of the about page can be found below
 
 <details>
 
@@ -192,8 +200,8 @@ to key features of the Forge Focus application.
 
 </details>
 
-  The About page serves as the landing page for Forge Focus.
-  Key Features of the About Page Include:
+<details>
+<summary>Key Features of the About Page Include:</summary>
 
   1. **Interactive Carousel**: A visually engaging carousel that introduces user to the
   core concepts of the Forge Focus application:
@@ -219,6 +227,7 @@ to key features of the Forge Focus application.
 
 </details>
 
+
 ## HomePage
 
 The Home component serves as the main dashboard for the Forge Focus application. 
@@ -235,7 +244,9 @@ An Image of the home page can be seen below:
 
 </details>
 
-Key aspects of this component include:
+<details>
+
+<summary>Key aspects of this component include:</summary>
 
 1. Authentication-based Content:
 - Displays personalized content for logged-in users
@@ -275,13 +286,26 @@ This Home component provides users with a clear overview of their progress and
 easy access to the main features of Forge Focus, 
 encouraging engagement with goal-setting and task management functionalities.
 
-**Add Picture When Ready**
+</details>
 
 ## User Authentication/ Not Authorized Page
 
 Forge Focus implements an authentication and authorization system 
-to ensure secure access to user-specific content. 
-The system comprises several key components:
+to ensure secure access to user-specific content.
+
+An image of the Not Authorized page can be found below:
+
+<details>
+
+<summary>Not Authorized Image</summary>
+
+![Not-Authorized-image](src/assets/documentation/README-images/not-authorized-page.png)
+
+</details>
+
+<details>
+
+<summary>The system comprises several key components:</summary>
 
 **ProtectedRoute Component**
 - Acts as a wrapper for routes that require authentication
@@ -330,7 +354,7 @@ This authentication system ensures that Forge Focus maintains a secure environme
 where users can safely interact with their personal goal and task data, 
 while providing a smooth user experience throughout the authentication process.
 
-**Add in picture When Ready**
+</details>
 
 
 ## Signup Page
@@ -338,7 +362,27 @@ while providing a smooth user experience throughout the authentication process.
 The SignUp component provides a user-friendly interface for new users to create an account on Forge Focus. 
 This component is essential for user onboarding and expanding the application's user base.
 
-**Key features and functionalities:**
+An Image of the signin page can be found below
+
+<details>
+
+<summary>Signup Page</summary>
+
+![Signup-page](src/assets/documentation/README-images/signup-page.png)
+
+</details>
+
+<details>
+
+<summary>Signup Page with errors</summary>
+
+![Signup-page-with-errors](src/assets/documentation/README-images/signup-page-2.png)
+
+</details>
+
+<details>
+
+<summary>Key features and functionalities:</summary>
 
 1. User Input Collection:
 - Captures username, email, password, and password confirmation
@@ -377,14 +421,41 @@ This SignUp component ensures a smooth and secure registration process for new F
 integrating with the application's authentication system and providing 
 a positive first interaction/experience with the application.
 
-**Insert Image When Ready**
+</details>
 
 ## Signin Page
 The SignIn component provides a user interface for existing users to authenticate 
 and access their Forge Focus account. This component is crucial 
 for the application's security and user experience.
 
-**Key features and functionalities:**
+**Images of the signin page can be found below**
+
+<details>
+
+<summary>Signin Page</summary>
+
+![signin-page](src/assets/documentation/README-images/signin-page.png)
+
+</details>
+
+<details>
+
+<summary>Signin Page with blank field</summary>
+
+![signin-page-with-blank-field](src/assets/documentation/README-images/signin-page-2.png)
+
+</details>
+
+<details>
+<summary>Signin Page with wrong credentials</summary>
+
+![signin-page-with-wrong-credentials](src/assets/documentation/README-images/signin-page-2.png)
+
+</details>
+
+<details>
+
+<summary>Key features and functionalities:</summary>
 
 1. User Input Handling:
 - Collects username and password from the user
@@ -421,7 +492,7 @@ for the application's security and user experience.
 This SignIn component ensures a smooth and secure authentication process for Forge Focus users, 
 integrating with the application's overall authentication and authorization system.
 
-**Insert Image When Ready**
+</details>
 
 ## Main Goals Area
 
@@ -429,7 +500,22 @@ The Main Goals Area is a crucial part of the Forge Focus application,
 providing users with a comprehensive view and management interface for their goals. 
 This component offers a rich set of features to enhance user interaction with their goal data.
 
-**Some of the Key Features of the Main Goals Area are as follows:**
+An Image of the Main Goals Area can be found below
+
+Please Note That at the time of screenshot the image feature wasn't working
+This should have been fixed by time of submission
+
+<details>
+
+<summary>Main Goals Area</summary>
+
+![main-goals-area](src/assets/documentation/README-images/main-goals-area.png)
+
+</details>
+
+<details>
+
+<summary>Some of the Key Features of the Main Goals Area are as follows:</summary>
 
 1. **Goal Fetching and Display**
    - Automatically fetches and displays the user's goals upon component mount
@@ -466,12 +552,28 @@ This component offers a rich set of features to enhance user interaction with th
 This component forms a core part of the user interface, 
 allowing users to effectively manage and interact with their goals.
 
+</details>
+
 ## Goal Details Page
 
 The Goals Details component provides users with a detailed view of a specific goal and its associated tasks. 
 This component offers a comprehensive interface for users to view and manage individual goal information.
 
-**Some of the Key Features of the Main Goals Area are as follows:**
+An image of the goals details page can be found below
+Again at the time of snip taken the image wasn't working correctly
+This Should of been fixed by the time of deployment
+
+<details>
+
+<summary>Goals Details Page</summary>
+
+![goals-details-poage](src/assets/documentation/README-images/goal-details.png)
+
+</details>
+
+<details>
+
+<summary>Some of the Key Features of the Main Goals Area are as follows:</summary>
 
 1. **Dynamic Goal Fetching**
    - Automatically fetches goal details based on the goal ID from the URL parameters
@@ -497,6 +599,8 @@ This component offers a comprehensive interface for users to view and manage ind
 
 This component aids in the user interface, allowing users to dive deep into the details of each goal, view associated tasks, and take actions like editing or deleting the goal. It supports the core functionality of goal management within the application.
 
+</details>
+
 
 ## Create New Goal
 
@@ -504,7 +608,17 @@ The GoalsCreate component allows users to create new goals.
 This component provides an intuitive interface for users to input goal details 
 and upload an associated image.
 
-**Some of the Key Features of the Main Goals Area are as follows:**
+<details>
+
+<summary>Create Goals Page</summary>
+
+![create-goals-page](src/assets/documentation/README-images/create-new-goal.png)
+
+</details>
+
+<details>
+
+<summary>Some of the Key Features of the Main Goals Area are as follows:</summary>
 
 1. **Goal Information Input**
 - Allows users to enter a name for their goal
@@ -532,11 +646,24 @@ and upload an associated image.
 This component aids in the goal-setting process, allowing users to easily create and define new goals, 
 supporting the application's core functionality of personal development and task management.
 
+</details>
+
 ## Edit Goal
 
-The GoalsEdit component allows users to modify existing goals. This component provides an intuitive interface for users to update goal details and view the associated image.
+The GoalsEdit component allows users to modify existing goals. 
+This component provides an intuitive interface for users to update goal details and view the associated image.
 
-**Some of the Key Features of the Main Goals Area are as follows:**
+<details>
+
+<summary>Edit Goals Page</summary>
+
+![edit-goals-page](src/assets/documentation/README-images/edit-goal-page.png)
+
+</details>
+
+<details>
+
+<summary>Some of the Key Features of the Main Goals Area are as follows:</summary>
 
 1. **Dynamic Goal Data Fetching**
    - Automatically fetches the current goal data based on the goal ID from URL parameters
@@ -569,11 +696,24 @@ The GoalsEdit component allows users to modify existing goals. This component pr
 This component aids in the goal management process, allowing users to easily update and 
 refine their goals as their needs and aspirations evolve.
 
+</details>
+
 ## Delete Goal
 
 The GoalsDelete component provides users with a secure and informative interface for deleting existing goals. This component ensures users are fully aware of the consequences of their actions before proceeding with goal deletion.
 
-**Some of the Key Features of the Main Goals Area are as follows:**
+
+<details>
+
+<summary>Delete Goals Page</summary>
+
+![delete-goals-page](src/assets/documentation/README-images/delete-goals-page.png)
+
+</details>
+
+<details>
+
+<summary>Some of the Key Features of the Delete Goals Area are as follows:</summary>
 
 1. **Goal Information Retrieval**
    - Automatically fetches the goal's name and associated tasks count based on the goal ID from URL parameters
@@ -608,6 +748,9 @@ The GoalsDelete component provides users with a secure and informative interface
 - Displays the goal name in the confirmation message to ensure users are deleting the correct goal
 
 This component aids in the goal management process, allowing users to safely remove goals that are no longer relevant while being fully informed of the consequences.
+
+</details>
+
 
 ## Main Tasks Area
 ## Task Details Page
@@ -716,34 +859,36 @@ enhancing user engagement and support capabilities of the platform.
 Some Future features that I have considered for the development of the 
 Forge Focus Application are as follows.
 
-## Implement task creation directly from goal details page.
-## Include goal progress tracking or completion status on goal details page.
+**Implement task creation directly from goal details page.**
+**Include goal progress tracking or completion status on goal details page.**
 
-## Add User Profiles
+**Add User Profiles:**
+
 Allow users to create detailed profiles, showcasing their goals, achievements, and personal information. 
 This feature will enhance user engagement and personalization within the platform.
 
-## Edit/Delete User Profiles
+**Edit/Delete User Profiles:**
+
 Provide users with the ability to modify or remove their profile information, 
 ensuring they have full control over their personal data and online presence within the application.
 
-## Improved User Navigation
+**Improved User Navigation:**
 Enhance the user interface with more intuitive navigation options, making it easier for users 
 to move between different sections of the application and access their goals and tasks more efficiently.
 
-## Rank Goals
+**Rank Goals:**
 Implement a system for users to prioritize their goals, helping them focus on what's most important. 
 This feature will include options to set high, medium, and low priority levels for each goal.
 
-## Connect with other Users
+**Connect with other Users:**
 Introduce some form of social networking capabilities, allowing users to connect with like-minded individuals, 
 share their progress, and offer mutual support in achieving their goals.
 
-## Team Goals With Other Users
+**Team Goals With Other Users:**
 Enable collaborative goal-setting, where users can create shared goals with friends, 
 family, or colleagues. This feature will promote teamwork and mutual accountability.
 
-## Message System to communicate to other users
+**Message System to communicate to other users:**
 Develop an in-app messaging system, facilitating direct communication between users. 
 This will support collaboration on shared goals and foster a community of mutual support and motivation.
 
