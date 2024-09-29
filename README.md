@@ -753,11 +753,54 @@ This component aids in the goal management process, allowing users to safely rem
 
 
 ## Main Tasks Area
-## Task Details Page
-## Search Goals
+
+The TasksArea component allows users to view, create, edit, complete, and delete tasks. 
+It provides a user-friendly interface for managing tasks 
+in different categories: Active, Completed, and Expired.
+
+An image of the Main Tasks Area can be found below
+
+<details>
+
+<summary>Main Tasks Area</summary>
+
+</details>
+
+<details>
+
+<summary>Features</summary>
+
+1. Display tasks in three categories: Active, Completed, and Expired
+2. Search functionality to filter tasks
+3. Create new tasks
+4. Edit existing tasks
+5. Mark tasks as complete
+6. Reset expired tasks
+7. Delete tasks
+8. Reuse completed tasks
+
+</details>
+
 ## Create New Task
+
+The TaskCreate component allows the user to create new tasks. 
+It allows users to input task details, set deadlines, and optionally link tasks to existing goals.
+
+
+Features
+
+Create new tasks with title, details, and deadline
+Option to link tasks to existing goals
+Form validation and error handling
+Responsive design using React Bootstrap
+Integration with a global success message system
+Automatic navigation after successful task creation
+
 ## Edit Task
+
+
 ## Delete Task
+
 
 ## User Messages
 
