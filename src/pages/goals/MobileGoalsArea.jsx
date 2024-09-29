@@ -7,6 +7,7 @@ import btnStyles from "../../styles/Button.module.css";
 import { Button } from "react-bootstrap";
 
 const MobileGoalsArea = () => {
+    console.log('Rendering MobileGoalsArea');
     const [goalsData, setGoalsData] = useState([]);
     const [filteredGoals, setFilteredGoals] = useState([]);
     const [hasLoaded, setHasLoaded] = useState(false);

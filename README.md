@@ -122,7 +122,34 @@ The details of the scope of this project from a users point of view can be liste
 ## NavBar
 
 The MainNavbar component is a crucial part of the Forge Focus application, 
-providing intuitive navigation and user-specific actions. Key features include:
+providing intuitive navigation and user-specific actions. 
+
+below images are how the navbar displays depending on userstate:
+
+<details>
+
+<summary>Navbar when user not signed in</summary>
+
+![navbar-when-user-not-signed-in](src/assets/documentation/README-images/navbar-not-signed-in.png)
+</details>
+
+<details>
+
+<summary>Navbar when regular user is signed in</summary>
+
+![navbar-when-regular-user-signed-in](src/assets/documentation/README-images/navbar-regular-user.png)
+</details>
+
+<details>
+
+<summary>Navbar when superuser is signed in</summary>
+
+![navbar-when-super-user-signed-in](src/assets/documentation/README-images/navbar-superuser.png)
+</details>
+
+**You will notice that there is an extra nav link for the superuser**
+
+Key features of the navbar include:
 
 1. Responsive Design:
 - Utilizes React Bootstrap for a mobile-friendly, collapsible menu
@@ -154,16 +181,16 @@ This NavBar component ensures a seamless and intuitive navigation experience,
 adapting to the user's authentication status and providing easy access 
 to key features of the Forge Focus application.
 
-**Insert Image When Ready**
 
 ## AboutPage
 
 <details>
-  <summary>About Page Details</summary>
 
-  <p align="center">
-    <img src="https://github.com/GreenNinjaBoy/forge-focus-pp5-frontend/blob/main/documentation/features/aboutpage.webp.png" alt="image of about page" width="300">
-  </p>
+<summary>About Page Details</summary>
+
+![about-page](src/assets/documentation/README-images/about-page.webp.png)
+
+</details>
 
   The About page serves as the landing page for Forge Focus.
   Key Features of the About Page Include:
@@ -193,9 +220,22 @@ to key features of the Forge Focus application.
 </details>
 
 ## HomePage
+
 The Home component serves as the main dashboard for the Forge Focus application. 
 It provides users with an overview of their goals and tasks, 
-as well as quick access to key features. Key aspects of this component include:
+as well as quick access to key features. 
+
+An Image of the home page can be seen below:
+
+<details>
+
+<summary>Home Page Desktop view</summary>
+
+![Home-Page-Destop-View](src/assets/documentation/README-images/homepage-desktop-view.png)
+
+</details>
+
+Key aspects of this component include:
 
 1. Authentication-based Content:
 - Displays personalized content for logged-in users

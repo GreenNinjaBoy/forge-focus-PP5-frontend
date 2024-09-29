@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Carousel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import GoalDetails from "../assets/GoalDetails.png";
+import GoalDetails from "../assets/documentation/README-images/goal-details.png";
 import styles from "../styles/About.module.css";
 
 /**
