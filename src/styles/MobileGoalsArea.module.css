@@ -1,0 +1,120 @@
+.MainContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: #e8f8ec;
+    padding: 1rem;
+}
+
+.TopBar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.TopBarButton {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #4299e1;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.TopBarButton:hover {
+    background-color: #3182ce;
+}
+
+.SearchContainer {
+    width: 100%;
+}
+
+.SearchInput {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.GoalsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.GoalCard {
+    background-color: #d1f3dc;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.GoalCard:hover {
+    transform: translateY(-5px);
+}
+
+.NoGoalsMessage,
+.LoadingMessage {
+    text-align: center;
+    padding: 1rem;
+    color: #333;
+    background-color: #d1f3dc;
+    border-radius: 4px;
+}
+
+.PaginationContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.PaginationContainer button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #4299e1;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.PaginationContainer button:hover:not(:disabled) {
+    background-color: #3182ce;
+}
+
+.PaginationContainer button:disabled {
+    background-color: #a0aec0;
+    cursor: not-allowed;
+}
+
+.PaginationContainer span {
+    font-size: 1rem;
+    color: #333;
+}
+
+.MobileGoalsArea_Container {
+    display: flex !important;
+    flex-direction: column !important;
+    background-color: #e8f8ec !important;
+    padding: 1rem !important;
+  }
+  
+  .MobileGoalsArea_TopBar {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }

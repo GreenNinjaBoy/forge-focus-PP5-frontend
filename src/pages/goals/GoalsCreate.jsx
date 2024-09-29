@@ -18,7 +18,7 @@ const GoalsCreate = () => {
   const setGlobalSuccessMessage = useSetGlobalSuccessMessage();
 
   // Default image to display if no image is selected
-  const defaultImage = 'path/to/default/image.jpg';
+  // const defaultImage = 'path/to/default/image.jpg';
   
   // State to manage the goal form data
   const [goalData, setGoalData] = useState({
@@ -119,7 +119,7 @@ const GoalsCreate = () => {
         </div>
         <div>
           <img
-            src={image || defaultImage}
+            src={image}
             alt="Goal"
             className={styles.imagePreview}
           />

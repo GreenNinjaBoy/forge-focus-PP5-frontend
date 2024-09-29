@@ -9,6 +9,7 @@ import styles from "../../styles/GoalsArea.module.css";
  */
 
 const GoalsView = ({ id, name, image, tasksCount }) => {
+  console.log("image URL 1:", image);
   // Get the navigate function from react-router-dom to programmatically navigate
   const navigate = useNavigate();
 

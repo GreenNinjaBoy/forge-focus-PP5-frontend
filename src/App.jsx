@@ -8,7 +8,7 @@ import GoalsCreate from './pages/goals/GoalsCreate';
 import { useCurrentUser } from './hooks/useCurrentUser';
 import './App.css';
 import MainNavBar from './components/NavBar';
-import GoalsArea from './pages/goals/GoalsArea';
+import GoalsArea from './pages/goals/DesktopGoalsArea';
 import GoalsDelete from './pages/goals/GoalsDelete';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotAuthorized from './pages/NotAuthorized';
