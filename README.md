@@ -1,11 +1,18 @@
+<div align="center">
+	
 # Forge Focus
-## Created By Jamie Connell 
-## Student of CodeInstitute 2024
+**Created By Jamie Connell**
+**Student Of Code Institute 2024**
+</div>
 
-### Insert Responsivie image when ready
+![am-i-responsive-image](src/assets/documentation/README-images/am-i-responsive-image.png)
 
 Forge Focus is a task management application that allows users to creatre, manage and orgasnise goals that they wish to acieve.
 These goals can be everyday goals, or more spesific to a certain apect of the users live.
+
+[Forge Focus Live App](https://forge-focus-pp5-467431862e16.herokuapp.com/)
+[Forge Focus Live API](https://forge-focus-api-backend-83543ef108af.herokuapp.com/)
+[Forge Focus API Repository](https://github.com/GreenNinjaBoy/forge-focus-backend-api)
 
 ## Contents
 
@@ -113,8 +120,108 @@ The details of the scope of this project from a users point of view can be liste
 - As an authenticated user, I receive a confirmation message when an action will result in form input updates remaining unsaved, so that I don’t accidentally lose data I meant to save.
 
 ## The Structure Plane
+
+A number of wireframes have been created to plan out how and where everything will be displayed. Any changes made during development have been noted underneath the corresponding wireframe. Further information on these changes can be found in the  [features]  section.
+
+#### Landing/About Page
+
+This is the page that users who are not signed in will be taken to.
+
+-   The explanation of the application and how it is displayed has been greatly improved. Screenshots of the application in action have also been included.
+-   There is no find out more page, with everything being covered on the landing page.
+
+#### Home Page
+
+This is the page where signed in users are directed to when signed in.
+
+#### Goals Pages
+
+These are the main goals pages that displays to the user any goals that they are currently working on.
+
+#### Tasks Pages
+
+These are the main task pages that display to the user any tasks they are currently working on.
+
+#### Contact 
+
+This is the page the user can access so they can message the admin. 
+
+
 ## The Skeleton Plane
+
+The inital planning of this project did involve using wireframes and the images of the few pages that were created can be seeen below.
+
+<details>
+
+<summary>Wireframe images</summary>
+
+</details>
+
+**Please note that these were inital designs and the final product is vastly different**
+
 ## The Surface Plane
+
+#### Aims
+
+The aim for the surface plane is to provide a clean, relaxed and professional space.
+
+There will often be a lot on the screen, the vast majority of which will be text and so white space, clearly defined containers and use of color will be key to helping the user navigate around the information.
+
+The application contains a lot of interaction through which the user will manipulate their data. Common icons will be used helping to maintain a clean and uncluttered site. Only well-known icons will be used, aiding intuitive navigation of the site, aria-labels and hover labels will also be added to make these accessible to all. Where buttons are used, they will follow consistent styling.
+
+The application needs to provide a great user experience on both mobile and desktop, so that it can be used will the user is working on a desktop as well as throughout the day via mobile.
+
+#### Accessibility
+
+The following will be utilized to increase the accessibility of this application:
+
+-   Semantic html to pass on clear meaning at a base level.
+-   High text color contrast throughout. With all text passing both WCAG AA and WCAG AAA for their text size.
+-   Aria labels, alt text and aria-hidden to ensure visual information will be correctly passed on for those who cannot access it.
+-   Space around clickable elements on mobile, so that it is easy for users to activate the correct functionality when using a touch screen.
+
+#### Frameworks and libraries to support styling
+
+[React bootstrap](https://react-bootstrap-v4.netlify.app/)  will be used to speed up styling and allow time to be focused on functionality. The following components will be used and modified as needed:
+
+-   Alerts (for form error messages)
+-   Accordion (for mobile views)
+-   Buttons (for form submission etc.)
+-   Cards (for focus cards)
+-   Dropdowns (for mobile nav and task choices)
+-   Forms (for create and edit functionality)
+-   NavBar and Nav (for main navigation)
+-   Overlay/Popovers/tooltips (for hover info on functional items) 
+
+[React drop and drag](https://react-dnd.github.io/react-dnd/about)  will be considered for improving user experience by allowing users to drag tasks from backlog to today and then from today to completed, rather than a more clunky toggle system. It will also then be used for ordering of today tasks and ranking focuses. This is something that will be implemented in future iterations of the project.
+
+#### Color Scheme
+
+below shows some of the colors that were used for the application
+
+![color-pallette](src/assets/documentation/README-images/color-pallette.png)
+
+
+The main sections of the page will be given different background colors to help differentiate them as different:
+
+-   Header 
+-   Main background
+-   Page component
+-   Footer 
+-   Alert messages (light blue) This color did not end up being used, with a default color from bootstrap being utilized instead.
+
+The main text will be black with color being used for the following to aid navigation and page scanning:
+
+-   Section titles
+-   Page title and current page in nav bar 
+-   Clickable elements
+-   Clickable elements on hover
+
+Please see  [TESTING.md]()  for contrast level tests.
+
+#### Font choices
+
+The Nav bar, page headers will be using the font 'Permanent Marker' all other aspects will use the standard font format.
 ## Agile Methodology
 
 # Features
@@ -798,8 +905,101 @@ Automatic navigation after successful task creation
 
 ## Edit Task
 
+The TasksEdit component is a React-based form for editing existing tasks in a task management system. It allows users to modify task details, update deadlines, and reassign tasks to different goals.
+
+An image of the Task Edit Form can be found below
+
+<details>
+
+  
+
+<summary>Tasks Edit Area</summary>
+
+  
+
+</details>
+
+  
+<details>
+
+<summary>Features</summary>
+
+-   Edit existing tasks (title, details, deadline)
+-   Option to reassign tasks to different goals
+-   Fetch and display current task data
+-   Fetch and display available goals for reassignment
+-   Form validation and error handling
+-   Integration with a global success message system
+-   Automatic navigation after successful task update
+
+### Key Functions
+
+-   `handleChange`: Manages form input changes
+-   `handleSubmit`: Handles form submission, including API interaction and navigation
+-   `handleCancel`: Handles cancellation of the edit process
+-   `fetchTask`: Fetches the current task data from the API
+-   `fetchGoals`: Fetches the list of available goals from the API
+-   `formatDateForInput`: Formats date strings for input fields
+-   `formatDateForAPI`: Formats date strings for API requests
+
+## Success Handling
+
+Upon successful task update, the component:
+
+1.  Sets a global success message
+2.  Navigates to the appropriate page (goal details if a goal was selected, otherwise to the tasks area)
+
+</details>
 
 ## Delete Task
+
+The TasksDelete component confirms and executes the deletion of a specific task in a task management system. It fetches the details of the task to be deleted, presents a confirmation dialog to the user, and handles the deletion process.
+
+An Image of the delete page can be found below
+
+ <details>
+
+  
+
+<summary>Tasks Delete Area</summary>
+
+  
+
+</details>
+
+<details>
+
+<summary>Features</summary>
+
+-   Fetch and display details of the task to be deleted
+-   Confirmation dialog to prevent accidental deletions
+-   Error handling for various scenarios (missing task ID, fetch failures, deletion failures)
+-   Integration with React Router for navigation
+-   Styled using CSS modules
+
+### Key Functions
+
+-   `fetchTask`: Fetches the details of the task to be deleted from the API
+-   `handleConfirmDelete`: Handles the confirmation and execution of the task deletion
+-   `handleCancelDelete`: Handles the cancellation of the deletion process
+
+**Error Handling**
+
+The component includes error handling for various scenarios:
+
+-   Missing task ID
+-   Failure to fetch task details
+-   Failure to delete the task
+
+**User Interface**
+
+The component presents a simple interface with:
+
+-   A heading "Confirm Deletion"
+-   A message asking for confirmation, including the task title
+-   Two buttons: "No, Cancel" and "Yes, Delete"
+
+</details>
 
 
 ## User Messages
@@ -980,61 +1180,23 @@ UI components, and testing tools. All of which are listed below.
 ## Bugs/fixes
 
 The bugs below were identified during the development of The Forge Focus application.
-For ease of reading I have attempted to split the bugs into their associated features.
 
 ### HomePage
-<details>
-<summary>Click Arrow to see bugs related to HomePage</summary>
-| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
-</details>
 
-### NavBar
-<details>
-<summary>Click Arrow to see bugs related to NavBar</summary>
-| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
-| NavBar attempting to fetch user data without usersigned in | current error code displayed on developer console - GET 403 (Forbidden) | I was able to fix the issue as i noticed that i did not make sure that the "FetchUserData" function was only called when the "currentUser" was not null. By making this change the error/bug was resolved | bug now fixed |
-|when user is signed in nav bar items do not change| nav items not change | to fill in| error to be fixed|
-</details>
+<summary>Click Arrow to see bugs that were identified</summary>
 
-### User Authentication
-<details>
-<summary>Click Arrow to see bugs related to User Authentication</summary>
-| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
-</details>
-
-### Signup Page
-<details>
-<summary>Click Arrow to see bugs related to SignUp Page</summary>
 | Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
 |--|--|--|--|
+| NavBar attempting to fetch user data without usersigned in | current error code displayed on developer console - GET 403 (Forbidden) | I was able to fix the issue as i noticed that i did not make sure that the "FetchUserData" function was only called when the "currentUser" was not null. By making this change the error/bug was resolved | bug now fixed |
+|when user is signed in nav bar items do not change| nav items not change | I altered the navbar component to ensure it was calling the current user and now the navbar items do change| bug now fixed|
 | When attempting to signup as a user, a 500 internal error would display in the console but when API Checked within backend the user has been created. | 500 (Internal Server Error) handleSubmit@ Signup.jsx:30  | with the help with the following link from stack overflow, the issue has now been resolved and the error now does not display | Bug is now fixed|
+| When attempting to sign in, the developer console displayed an error and the page did not redirect as intended, however when refreshed showed user as logged in | Access token is missing in the response | with help from the slack community this was resolved | bug now fixed |
+| When creating new goals console retunrs CORS Error | has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. | Will have to do a bit more research into CORS to try resolve the issue. Turns out issue was backend related | Bug is now fixed |
+| image is not rendering from backend | any pictures associated with goals are not rendering properly | I believe that this is mainly a backend issue and linking with cloudinary but due to the time constraints i could not rectify this bug | bug not fixed |
+
+To my knowledge the only bug that remains is the image render from the backend API in connection with cloudinary. To my Knowledge there are no other bugs present within the application.
+
 </details>
-
-### Signin Page
-<summary>Click Arrow to see bugs related to SignIn Page</summary>
-| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
-| When attempting to sign in, the developer console displayed an error and the page did not redirect as intended, however when refreshed showed user as logged in | Access token is missing in the response | Still attempting to fix | bug not fixed |
-
-### Goals
-<summary>Click Arrow to see bugs related to Goals</summary>
-| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
-| When creating new goals console retunrs CORS Error | has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. | Will have to do a bit more research into CORS to try resolve the issue | Bug to be fixed |
-
-### Steps
-<summary>Click Arrow to see bugs related to Steps</summary>
-| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
-
-### User Messages
-<summary>Click Arrow to see bugs related to User Messages</summary>
-| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
-
-### Search Goals
-<summary>Click Arrow to see bugs related to Search Goals</summary>
-| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
-
-### Contact Form
-<summary>Click Arrow to see bugs related to Contact Form</summary>
-| Bug Description | Errors displayed | Steps Taken to Fix | Is bug Fixed (Y/N) |
 
 # Creating/Deployment
 
@@ -1100,23 +1262,137 @@ Please Note that the images used for CodeAnywhere were images used in a previous
 # Please Note
 If for what ever reason you find yourself switching between CodeAnywhere or Gitpod please make sure that the first command in your terminal is "git pull" as this will pull any changes that you have made using other IDE's.
 
-## Forking Repository
+#### **Forking The Repository**
+
+- Github can also be used to fork a repository. - This can create a copy of the repository which can be edited without effecting the main repository branch. - The steps to fork the repository can be done as follows: - When in the " Forge-Focus-Backend-API" repository click on the "Fork" tab located at the top right hand corner. - Click on "create a new fork" - You will be sent to another page to name your forked repository. - Once Named click create fork and you will have a copy of the repository that you can now access and change without affecting the original main repository.
+<details>
+<summary> Fork Image 1 </Summary>
+
+![Fork Image 1](https://github.com/GreenNinjaBoy/Star-Wars-Trivia-PP2/blob/main/assets/readme-images/fork-image-1.png?raw=true)
+
+</details>
+<details>
+<summary>Fork Image 2 </summary>
+
+![Fork Image 2](https://github.com/GreenNinjaBoy/Star-Wars-Trivia-PP2/blob/main/assets/readme-images/fork-image-2.png?raw=true)
+\*Please note that the images taken were from a friends Github repository who consented to the use of these images for educational purposes.
+
+</details>
 
 ## Creating React Application
+
+The following steps were taken to create the application using vite.
+
+1. Open your terminal and run the following command:
+- npm create vite@latest forge-focus-pp5-frontend --template react
+
+2. Navigate to the Project Directory Change into the newly created project directory:
+- cd forge-focus-pp5-frontend
+
+3. Install Dependencies Install the necessary dependencies:
+- npm install
+
+4. Running the Development Server
+- Start the development server with:
+
+5. npm run dev
+- You can view your application at http://localhost:5173 in your web browser.
 
 
 ## Connecting to backend API
 
-## CodeInstitute SQL
+The Following Steps were taken to ensure that the application connects to the back end application.
+
+- Head over to your front end application 
+- Within your Axios.Defaults.js file ensure you have the following
+    - axios.defaults.baseURL = "URL-for-your-backend-application";
+    - ensure to replace URL-for-your-backend-application with your actual URL.
+- Within your backend Heroku application, head over to the settings tab.
+- Click on config variables
+- Click add vairable
+- Name Variable "CLIENT_ORIGIN"
+- Within the key insert the URL from you front end application
+- ensure this has saved
+- Double check settings and ensure the following is in place
+  - CORS_ALLOWED_ORIGINS = [
+    os.environ.get('CLIENT_ORIGIN'), ]
+- Ensure to save eveything and push your changes to your repository.
+- again ensure to save everything and push any changes to both repositories.
+
+Once you have done this then you have successfully connected both your repositories.
 
 ## Deploying Using Heroku
 
+
+The [forge-focus-pp5-frontend](https://github.com/GreenNinjaBoy/forge-focus-pp5-frontend) repository was deployed using [Heroku.](https://id.heroku.com/login)
+
+The following steps were used:
+
+- Login or create an account with [Heroku](https://id.heroku.com/login)
+- On the dashboard click on the "Create new app."
+- Write a name for the app being deployed and choose your region and click "Create App".
+- Add build pack scripts, the one used for this project was:
+  - Nodejs
+- Then at the bottom of the deployed tab, you can either choose to deploy your repository manually or have the system do it for you automatically.
+
+#### Note: 
+As I created the app using vite there was a few extra steps I had to take to allow my application to run through Heroku.
+
+The steps are as follows.
+- Within the package.json file I had to change the **"start"** from **"vite"** to **"serve -s dist"**.
+- Also within the package.json file I hade to change the **"dev"** to **"vite"**. This allowed me to run the following **npm run ev** which then allowed me to continue running my front end application when in development.
+- Within the package.json file the following also had to be added **"heroku-postbuild": "npm run build"**
+- I also had to create a  **"vite.config.js" ** file and add the following code to it 
+
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './tests/setup.js', 
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: "https://forge-focus-api-backend-83543ef108af.herokuapp.com", 
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      },
+    }
+  }
+})
+
+Once I completed these steps, saved and pushed to the main repository branch I was able to deploy to Heroku without any issue.
+
 ## Creating Django backend API
+
+Please refere to [Forge-focus-backend-api]() for details on how I created the backend.
 
 # Credits
 
-## Content
+Code - The "Moments Walkthrough" provided guidance through out this project.
 
-## Code
+the following was copied from the "Moments WalkThrough"
+
+- useClickOutsideToggle custom hook.
+- axiosDefault file.
+- CurrentUserContext which includes currentUser and axios token refreshing.
+- utils file.
+
+Fonts - The fonts were taken from google fonts
 
 # Acknowledgements
+
+This is my fith and final project that was created and developed for portfolio as a student of [Code Institute](https://codeinstitute.net/) currently undertaking their course in Full Stack Software Development. This as been a great achievement and I am proud to be a student of CodeInstitute.
+
+I would like to thank the following for all of the support throughout the development phase.
+
+- The Code Institute community, including fellow students and staff.
+- My family, My friends and peers - There was a time where i was in a really difficult place which resulted in a leave of absence but with the help of my Wife, daughter and friends i was able to return an focus on my final project.
+- My Mentor lauren-nicole Popich for her continuing advice and support during the development process. I can honestly say without her knowledge and guidence I would not be at the stage I am at now and her on going support especially during my difficult time earlier in this project has been nothing short of amazing.
+
+Jamie Connell Code Institute Student 2024
