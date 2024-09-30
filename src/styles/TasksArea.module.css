@@ -1,17 +1,13 @@
+/* Base styles (Mobile First) */
 .container {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  /* height: calc(100vh - 40px);  */
+  padding: 10px;
   background-color: #e8f8ec;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
 }
 
 .heading {
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   color: #333;
   text-align: center;
   margin-bottom: 1rem;
@@ -20,19 +16,20 @@
 
 .header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   margin-bottom: 20px;
 }
 
 .navButton {
-  padding: 10px 20px;
+  padding: 10px;
   background-color: #4299e1;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin-bottom: 10px;
 }
 
 .navButton:hover {
@@ -40,50 +37,55 @@
 }
 
 .searchContainer {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  margin: 0 20px;
+  width: 100%;
+  margin: 10px 0;
 }
 
 .searchInput {
+  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 300px;
 }
 
 .tasksArea {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 20px;
-  flex: 1;
-  overflow: hidden; 
 }
 
 .column {
-  flex: 1;
-  padding: 15px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .column h2 {
-  margin-top: 0;
-  margin-bottom: 15px;
+  padding: 15px;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+
+.expandIcon {
+  font-size: 0.8em;
 }
 
 .taskList {
-  overflow-y: auto; 
-  flex: 1;
+  padding: 15px;
+  display: none;
+}
+
+.column.expanded .taskList {
+  display: block;
 }
 
 .task {
-  background-color: white;
+  background-color: #f8f8f8;
   margin-bottom: 15px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -95,10 +97,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.taskHeader h3 {
-  margin: 0;
 }
 
 .taskContent {
@@ -129,7 +127,7 @@
 }
 
 .activeTask .taskHeader {
-  background-color: #f0f0f0;
+  background-color: #e6f7ff;
 }
 
 .completedTask .taskHeader {
@@ -140,36 +138,65 @@
   background-color: #ffe6e6;
 }
 
-@media (max-width: 768px) {
+/* Tablet styles */
+@media (min-width: 768px) {
   .container {
-    height: auto;
-    min-height: 100vh;
+    padding: 15px;
   }
 
-  .tasksArea {
-    flex-direction: column;
-    overflow: visible;
-  }
-
-  .column {
-    margin-bottom: 20px;
+  .heading {
+    font-size: 2.2rem;
   }
 
   .header {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .searchContainer {
-    margin: 10px 0;
-  }
-
-  .searchInput {
-    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .navButton {
-    width: 100%;
-    margin-top: 10px;
+    margin-bottom: 0;
+  }
+
+  .searchContainer {
+    width: auto;
+    margin: 0 15px;
+  }
+
+  .searchInput {
+    width: 250px;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .heading {
+    font-size: 2.5rem;
+  }
+
+  .tasksArea {
+    flex-direction: row;
+  }
+
+  .column {
+    flex: 1;
+  }
+
+  .taskList {
+    display: block;
+  }
+
+  .expandIcon {
+    display: none;
+  }
+
+  .column h2 {
+    cursor: default;
   }
 }
