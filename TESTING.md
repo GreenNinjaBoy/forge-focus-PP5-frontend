@@ -217,4 +217,7 @@ When The application was run through the WCAG Contrast checker.
 
 # Responsive Testing 
 
+Unfortunately due to timing constrants there was no time to do final Responsivity testing
+
+Some pages shrink when in mobile view and again due to timing constrants this could not be fixed.
 
