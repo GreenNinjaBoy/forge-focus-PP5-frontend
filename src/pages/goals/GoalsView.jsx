@@ -2,25 +2,28 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/GoalsArea.module.css";
 
-/**
- * GoalsView component for displaying a single goal card.
- * Shows the goal's image, name, and the number of associated tasks.
- * Provides a button to navigate to the goal details page.
- */
-
 const GoalsView = ({ id, name, image, tasksCount }) => {
-  console.log("image URL 1:", image);
-  // Get the navigate function from react-router-dom to programmatically navigate
+  console.log("image URL:", image);
   const navigate = useNavigate();
 
-  // Function to handle navigation to the goal details page
   const handleViewGoal = () => {
     navigate(`/goaldetails/${id}`); 
   };
 
+  // Default image URL in case the provided image is undefined or an empty string
+  const defaultImageUrl = 'https://res.cloudinary.com/dcnhbmqy4/image/upload/v1713429424/media/images/default_post_pdrfdn.jpg';
+
   return (
     <div className={styles.GoalCard}>
-      <img src={image} alt={name} className={styles.Image} />
+      <img 
+        src={image || defaultImageUrl} 
+        alt={name} 
+        className={styles.Image} 
+        onError={(e) => {
+          e.target.onerror = null; 
+          e.target.src = defaultImageUrl;
+        }}
+      />
       <h3>{name}</h3>
       <p>
         {tasksCount > 0 
@@ -37,7 +40,7 @@ const GoalsView = ({ id, name, image, tasksCount }) => {
 GoalsView.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.string,
   tasksCount: PropTypes.number.isRequired,
 };
 

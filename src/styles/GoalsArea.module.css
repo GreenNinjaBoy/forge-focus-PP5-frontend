@@ -60,10 +60,32 @@
   width: 100%;
   max-width: 300px;
   transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .GoalCard:hover {
   transform: translateY(-5px);
+}
+
+.GoalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.GoalImageContainer {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.GoalImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .PaginationContainer {
@@ -154,70 +176,8 @@
     margin-top: -10px;
   }
 
-  .GoalImage {
-    width: 100%;
-    max-height: 200px;
-    object-fit: cover;
-    border-radius: 5px;
-    margin-bottom: 1rem;
-  }
-
-  .PaginationContainer {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .PaginationContainer button {
-    width: 100%;
-    margin: 0;
-  }
-}
-
-@media (max-width: 767px) {
-  .Container {
-    padding: 1rem;
-  }
-
-  .TopBar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-  }
-
-  .SearchContainer {
-    order: -1;
-    margin: 0;
-  }
-
-  .TopBarButton {
-    width: 100%;
-  }
-
-  .GoalsContainer {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .GoalCard {
-    max-width: 100%;
-    margin-bottom: 1rem;
-  }
-
-  .GoalHeader {
-    background-color: #d1f3dc;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    border-radius: 10px;
-  }
-
-  .GoalContent {
-    background-color: #e8f8ec;
-    padding: 1rem;
-    border-radius: 0 0 10px 10px;
-    margin-top: -10px;
+  .GoalImageContainer {
+    height: 150px;
   }
 
   .PaginationContainer {

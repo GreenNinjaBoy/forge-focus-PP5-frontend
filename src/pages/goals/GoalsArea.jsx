@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/GoalsArea.module.css";
@@ -22,7 +22,9 @@ const GoalCard = ({ goal, isMobile, isTablet }) => {
             </div>
             {(!isMobile && !isTablet) || expanded ? (
                 <div className={styles.GoalContent}>
-                    <img src={goal.image} alt={goal.name} className={styles.GoalImage} />
+                    <div className={styles.GoalImageContainer}>
+                        <img src={goal.image} alt={goal.name} className={styles.GoalImage} />
+                    </div>
                     <p>Tasks: {goal.tasks ? goal.tasks.length : 0}</p>
                     <Button onClick={() => navigate(`/goaldetails/${goal.id}`)}>View Goal</Button>
                 </div>
